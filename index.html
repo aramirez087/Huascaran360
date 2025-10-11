@@ -1,50 +1,432 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Huascarán 360 MTB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Huascarán 360 MTB | Desafía la Cordillera Blanca</title>
+    <meta name="description" content="Huascarán 360 MTB es la carrera de ciclismo de montaña que rodea el nevado más alto del Perú. Vive 5 días de aventura, cultura andina y paisajes únicos.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Huascarán 360 MTB</h1>
-        <p class="subtitle">Carrera de Ciclismo de Alta Montaña</p>
+    <header class="top-bar" id="inicio">
+        <div class="wrapper">
+            <a class="brand" href="#inicio">
+                <span class="brand__accent">Huascarán</span>
+                <span class="brand__name">360 MTB</span>
+            </a>
+            <nav class="main-nav" aria-label="Navegación principal">
+                <button class="main-nav__toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+                    <span class="sr-only">Abrir menú</span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="main-nav__list" id="nav-links">
+                    <li><a href="#info">La carrera</a></li>
+                    <li><a href="#programa">Programa</a></li>
+                    <li><a href="#inscripciones">Inscripciones</a></li>
+                    <li><a href="#recorrido">Recorrido</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#categorias">Categorías</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    <nav>
-        <a href="#info">Información</a>
-        <a href="#inscripcion">Inscripción</a>
-        <a href="#recorrido">Recorrido</a>
-        <a href="#contacto">Contacto</a>
-    </nav>
+
     <main>
-        <section id="info">
-            <h2>Información General</h2>
-            <p>Vive la experiencia única de recorrer los paisajes más impresionantes de la Cordillera Blanca en la carrera Huascarán 360 MTB. Un desafío de alta montaña para ciclistas apasionados por la aventura y la naturaleza.</p>
-            <ul>
-                <li><strong>Fecha:</strong> 15 de junio de 2026</li>
-                <li><strong>Distancia:</strong> 120 km</li>
-                <li><strong>Desnivel positivo:</strong> 3,800 m</li>
-                <li><strong>Ubicación:</strong> Parque Nacional Huascarán, Perú</li>
-            </ul>
+        <section class="hero">
+            <div class="wrapper hero__layout">
+                <div class="hero__content">
+                    <p class="hero__badge">12 - 16 mayo 2026 · Perú</p>
+                    <h1>Desafía tu cuerpo y mente en la Cordillera Blanca</h1>
+                    <p class="hero__lead">Descubre la magia de Conchucos con Huascarán 360 MTB, la carrera que te lleva a través de paisajes espectaculares y culturas ancestrales mientras rodeas el nevado Huascarán a 6,768 m s. n. m.</p>
+                    <div class="hero__actions">
+                        <a class="btn btn--primary" href="#inscripciones">Inscríbete hoy</a>
+                        <a class="btn btn--ghost" href="#programa">Descubre el programa</a>
+                    </div>
+                    <ul class="hero__stats">
+                        <li><span>245 km</span>Distancia total</li>
+                        <li><span>6,200 m</span>Desnivel acumulado</li>
+                        <li><span>4,750 m</span>Altitud máxima</li>
+                    </ul>
+                </div>
+                <figure class="hero__media" aria-label="Video oficial Huascarán 360 MTB">
+                    <div class="media-frame media-frame--video" data-animate="fade">
+                        <span class="media-frame__badge">Video oficial 2026</span>
+                        <div class="video-embed" data-video-src="https://www.youtube.com/embed/U9AnEaC1J8k">
+                            <iframe src="https://www.youtube.com/embed/U9AnEaC1J8k?rel=0&modestbranding=1&showinfo=0"
+                                    title="Huascarán 360 MTB · Video oficial"
+                                    loading="lazy"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen></iframe>
+                            <button class="video-embed__play" type="button" data-video-trigger aria-label="Reproducir video oficial">
+                                <span class="video-embed__pulse"></span>
+                                <span class="video-embed__icon">▶</span>
+                            </button>
+                        </div>
+                        <div class="media-frame__caption">
+                            <p>Sumérgete en la Cordillera Blanca: una invitación a vivir los 360° del Huascarán.</p>
+                        </div>
+                    </div>
+                </figure>
+            </div>
         </section>
-        <section id="inscripcion">
-            <h2>Inscripción</h2>
-            <p>Las inscripciones están abiertas hasta el 1 de junio de 2026. Cupos limitados.</p>
-            <a class="btn" href="#">Inscríbete aquí</a>
+
+        <section class="event-highlights" id="info">
+            <div class="wrapper">
+                <header class="section-heading">
+                    <p class="eyebrow">Por qué vivirlo</p>
+                    <h2>Una experiencia andina que conquista a ciclistas y aventureros</h2>
+                </header>
+                <div class="highlight-grid">
+                    <article>
+                        <h3>Escenarios legendarios</h3>
+                        <p>Pedalea alrededor del Parque Nacional Huascarán, Patrimonio de la Humanidad, con vistas a glaciares, lagunas turquesas y pueblos milenarios.</p>
+                    </article>
+                    <article>
+                        <h3>Cultura viva</h3>
+                        <p>Convive con comunidades de la zona de Conchucos y disfruta de gastronomía local, música y tradiciones en cada etapa.</p>
+                    </article>
+                    <article>
+                        <h3>Organización 360°</h3>
+                        <p>Equipo médico, asistencia mecánica, logística de equipaje y masajes post etapa incluidos para que solo te concentres en rendir.</p>
+                    </article>
+                    <article>
+                        <h3>Competencia y camaradería</h3>
+                        <p>Premiación a los cinco primeros lugares y jersey exclusivo para cada categoría: siente la energía de una comunidad que celebra cada logro.</p>
+                    </article>
+                </div>
+            </div>
         </section>
-        <section id="recorrido">
-            <h2>Recorrido</h2>
-            <p>El circuito rodea el majestuoso nevado Huascarán, atravesando senderos, caminos rurales y pasos de alta montaña. Consulta el mapa y el perfil de altimetría para más detalles.</p>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Huascaran_map.png" alt="Mapa del recorrido Huascarán 360 MTB" class="mapa">
+
+        <section class="about">
+            <div class="wrapper about__layout">
+                <div>
+                    <p class="eyebrow">Espíritu de aventura</p>
+                    <h2>Rodea el gigantesco Huascarán con seguridad y mística andina</h2>
+                    <p>Huascarán 360 MTB combina etapas técnicas, momentos de contemplación y hospitalidad única. Te guiamos por senderos desafiantes en la Cordillera Blanca y Negra, con apoyo integral para que vivas cada kilómetro al máximo.</p>
+                </div>
+                <div class="about__details">
+                    <ul>
+                        <li><span>Conchucos</span>Explora pueblos como Carhuaz, Yanama y Chacas en un circuito inolvidable.</li>
+                        <li><span>5 días</span>Programa completo de bienvenida, 4 etapas y ceremonia de clausura.</li>
+                        <li><span>Equipos y solistas</span>Modalidades para riders con o sin pareja competitiva.</li>
+                        <li><span>Bienestar total</span>Alimentación, traslados y alojamiento incluidos en tu inscripción.</li>
+                    </ul>
+                </div>
+            </div>
         </section>
-        <section id="contacto">
-            <h2>Contacto</h2>
-            <p>¿Tienes preguntas? Escríbenos a <a href="mailto:info@huascaran360.com">info@huascaran360.com</a></p>
+
+        <section class="schedule" id="programa">
+            <div class="wrapper">
+                <header class="section-heading">
+                    <p class="eyebrow">Programa oficial</p>
+                    <h2>Cinco días de pura Cordillera Blanca</h2>
+                    <p>Del 12 al 16 de mayo vive el itinerario que lo tiene todo: preparación, montaña y celebración.</p>
+                </header>
+                <div class="schedule__timeline" role="list">
+                    <article class="schedule__item" role="listitem">
+                        <div class="schedule__date">
+                            <span>Martes</span>
+                            <strong>12 mayo</strong>
+                        </div>
+                        <div class="schedule__content">
+                            <h3>Bienvenida en Carhuaz</h3>
+                            <ul>
+                                <li>08:00 Recepción y desayuno de bienvenida.</li>
+                                <li>09:00 - 13:00 Revisión técnica de bicicletas, equipos obligatorios y fichas médicas.</li>
+                                <li>13:00 - 15:00 Almuerzo.</li>
+                                <li>18:00 Charla técnica, brindis de bienvenida y cena.</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="schedule__item" role="listitem">
+                        <div class="schedule__date">
+                            <span>Miércoles</span>
+                            <strong>13 mayo</strong>
+                        </div>
+                        <div class="schedule__content">
+                            <h3>Etapa 1 · Carhuaz - Vista Alegre - Purhuay</h3>
+                            <ul>
+                                <li>06:30 Desayuno.</li>
+                                <li>08:00 Largada desde la plaza de Carhuaz.</li>
+                                <li>60 km · 1,200 m+ entre la Cordillera Blanca y Negra bajo los nevados Huálcan y Copa.</li>
+                                <li>Almuerzo y cena incluidos.</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="schedule__item" role="listitem">
+                        <div class="schedule__date">
+                            <span>Jueves</span>
+                            <strong>14 mayo</strong>
+                        </div>
+                        <div class="schedule__content">
+                            <h3>Etapa 2 · Portachuelo de Llanganuco - Yanama</h3>
+                            <ul>
+                                <li>06:00 Desayuno y traslado al control del Parque Nacional Huascarán.</li>
+                                <li>08:30 Partida en la puerta del parque.</li>
+                                <li>60 km · 1,500 m+ superando el Paso Portachuelo (4,750 m) y descenso épico a Yanama.</li>
+                                <li>Almuerzo, cena y noche en campamento.</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="schedule__item" role="listitem">
+                        <div class="schedule__date">
+                            <span>Viernes</span>
+                            <strong>15 mayo</strong>
+                        </div>
+                        <div class="schedule__content">
+                            <h3>Etapa 3 · Yanama - Pupash - Chacas</h3>
+                            <ul>
+                                <li>06:00 Desayuno.</li>
+                                <li>08:00 Inicio en Yanama.</li>
+                                <li>55 km · 1,500 m+ con ascensión al paso de Pupash y descenso veloz hacia Chacas.</li>
+                                <li>Almuerzo, visita guiada a Chacas y cena.</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="schedule__item" role="listitem">
+                        <div class="schedule__date">
+                            <span>Sábado</span>
+                            <strong>16 mayo</strong>
+                        </div>
+                        <div class="schedule__content">
+                            <h3>Etapa 4 · Chacas - Túnel de Olímpica - Carhuaz</h3>
+                            <ul>
+                                <li>Salida por single track y uno de los ascensos más fuertes del evento.</li>
+                                <li>70 km · 2,000 m+ coronando la Cordillera Blanca y descenso triunfal a Carhuaz.</li>
+                                <li>16:00 Almuerzo, premiación a los 5 primeros y brindis de cierre.</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing" id="inscripciones">
+            <div class="wrapper">
+                <header class="section-heading">
+                    <p class="eyebrow">Inscripciones 2026</p>
+                    <h2>Asegura tu lugar en la aventura</h2>
+                    <p>Reserva con USD 100 y completa el pago antes del 30 de abril de 2026.</p>
+                </header>
+                <div class="table-wrapper" role="region" aria-labelledby="tabla-precios" tabindex="0">
+                    <table id="tabla-precios">
+                        <caption class="sr-only">Tabla de precios por etapas de inscripción</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Fase</th>
+                                <th scope="col">Disponible hasta</th>
+                                <th scope="col">Tarifa (USD)</th>
+                                <th scope="col">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Early Bird · 25% off</th>
+                                <td>Hasta agotar 50 cupos</td>
+                                <td>450</td>
+                                <td><span class="badge badge--limited">Cupos limitados</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Etapa 2 · 10% off</th>
+                                <td>31 marzo 2026</td>
+                                <td>540</td>
+                                <td><span class="badge badge--active">Disponible</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Tarifa regular</th>
+                                <td>30 abril 2026</td>
+                                <td>600</td>
+                                <td><span class="badge">Abierto</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pricing__cta">
+                    <a class="btn btn--primary" href="https://forms.gle/" target="_blank" rel="noopener">Reserva tu cupo</a>
+                    <p class="note">La reserva inicial de USD 100 asegura tu spot y se descuenta del total. Cupos limitados por categoría.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="package" id="servicios">
+            <div class="wrapper package__layout">
+                <article class="package__content">
+                    <p class="eyebrow">Paquete de inscripción</p>
+                    <h2>Todo incluido por la organización oficial</h2>
+                    <p>Nos encargamos de cada detalle para que vivas la carrera en plenitud, desde tu llegada a Carhuaz hasta el brindis final.</p>
+                    <ul>
+                        <li>Hospedaje el día de la charla técnica con cena de bienvenida.</li>
+                        <li>Alojamiento con desayunos, almuerzos y cenas durante las etapas 1, 2 y 3.</li>
+                        <li>Día 4 con desayuno, almuerzo y ceremonia de cierre.</li>
+                        <li>Camiseta polo y jersey oficial para ganadores por categoría.</li>
+                        <li>Asistencia médica, puestos de hidratación y soporte mecánico completo.</li>
+                        <li>Masajes post etapa, fotografía, video y placa de corredor.</li>
+                        <li>Transporte de equipajes y logística general garantizada.</li>
+                        <li>Programa turístico y de transporte para acompañantes.</li>
+                    </ul>
+                    <a class="link-arrow" href="#contacto">Solicita el dossier completo</a>
+                </article>
+                <aside class="package__card">
+                    <h3>Tarifa Oficial 2026</h3>
+                    <p class="package__price">USD 600 <span>por participante</span></p>
+                    <p class="package__disclaimer">Reserva con USD 100 y completa tu pago en cuotas hasta el 30 de abril.</p>
+                    <button class="btn btn--secondary" type="button">Quiero reservar</button>
+                    <p class="package__note">Incluye premiación para los 5 primeros lugares de cada categoría.</p>
+                </aside>
+            </div>
+        </section>
+
+        <section class="route" id="recorrido">
+            <div class="wrapper route__layout">
+                <div class="route__content">
+                    <p class="eyebrow">Recorrido 360°</p>
+                    <h2>Un looping completo al gigante de los Andes</h2>
+                    <p>Conecta la Cordillera Blanca y la Cordillera Negra en cuatro etapas con terrenos mixtos: single tracks, carreteras de montaña y descensos vertiginosos.</p>
+                    <ul class="route__list">
+                        <li>Etapas balanceadas: dos jornadas maratón XCM y dos con tramos técnicos de alta montaña.</li>
+                        <li>Segmentos cronometrados para premios de montaña y velocidad.</li>
+                        <li>Zonas de asistencia oficiales cada 20 km con hidratación y alimentos calientes.</li>
+                        <li>Escenarios icónicos: lagunas de Llanganuco, Paso Portachuelo y el mirador de Pupash.</li>
+                    </ul>
+                    <a class="btn btn--ghost btn--small" href="#categorias">Revisa categorías y requisitos</a>
+                </div>
+                <figure class="route__map">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Huascaran_map.png" alt="Mapa referencial del recorrido Huascarán 360 MTB">
+                    <figcaption>Mapa referencial. Pronto publicaremos el mapa interactivo y el perfil completo de altimetría.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="categories" id="categorias">
+            <div class="wrapper">
+                <header class="section-heading">
+                    <p class="eyebrow">Categorías 2026</p>
+                    <h2>Elige tu formato ideal de competencia</h2>
+                </header>
+                <div class="accordion" role="region" aria-label="Categorías de competencia">
+                    <div class="accordion__item is-open">
+                        <button type="button" aria-expanded="true">Élite UCI</button>
+                        <div class="accordion__panel">
+                            <p>Corredores con licencia UCI vigente al 2026. Recomendamos experiencia previa en eventos XCM internacionales debido a la altitud extrema.</p>
+                        </div>
+                    </div>
+                    <div class="accordion__item">
+                        <button type="button" aria-expanded="false">Open Masculino / Femenino</button>
+                        <div class="accordion__panel" hidden>
+                            <p>Participantes mayores de 18 años al 31 de diciembre de 2026. Ideal para ciclistas con experiencia en maratones nacionales y regionales.</p>
+                        </div>
+                    </div>
+                    <div class="accordion__item">
+                        <button type="button" aria-expanded="false">Mixto</button>
+                        <div class="accordion__panel" hidden>
+                            <p>Equipos conformados por un corredor y una corredora. Se premia el trabajo en conjunto y la consistencia durante las cuatro etapas.</p>
+                        </div>
+                    </div>
+                    <div class="accordion__item">
+                        <button type="button" aria-expanded="false">Masters 40+</button>
+                        <div class="accordion__panel" hidden>
+                            <p>Riders de 40 años a más con plan de aclimatación recomendado. Se exige certificado médico actualizado y seguro personal.</p>
+                        </div>
+                    </div>
+                    <div class="accordion__item">
+                        <button type="button" aria-expanded="false">E-Bikes</button>
+                        <div class="accordion__panel" hidden>
+                            <p>Categoría recreativa con horarios controlados y regulaciones de batería según normas del Parque Nacional Huascarán.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services" id="servicios-especiales">
+            <div class="wrapper services__layout">
+                <div>
+                    <p class="eyebrow">Servicios para riders</p>
+                    <h2>Nos enfocamos en tu rendimiento y recuperación</h2>
+                    <ul class="services__list">
+                        <li><strong>Centro de control 24/7:</strong> monitoreo satelital y equipos en ruta conectados con el staff en todo momento.</li>
+                        <li><strong>Plan de pagos flexible:</strong> separa con USD 100 y divide el saldo en cuotas hasta abril.</li>
+                        <li><strong>Programa para acompañantes:</strong> transporte y guía turístico para vivir la Cordillera Blanca mientras tú compites.</li>
+                    </ul>
+                </div>
+                <div class="services__cta">
+                    <p class="services__quote">“Creamos Huascarán 360 MTB para quienes creen que la montaña transforma. Te esperamos en los Andes peruanos.”</p>
+                    <p class="services__quote-author">— Equipo Huascarán 360 MTB</p>
+                    <a class="btn btn--secondary" href="#contacto">Habla con un asesor</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-final" id="contacto">
+            <div class="wrapper cta-final__layout">
+                <div>
+                    <p class="eyebrow">¿Listo para la aventura?</p>
+                    <h2>Reserva tu cupo y entrena con nosotros</h2>
+                    <p>Escríbenos para recibir el dossier oficial, planes de entrenamiento y recomendaciones de aclimatación.</p>
+                </div>
+                <form class="cta-final__form" action="https://formsubmit.co/info@huascaran360.com" method="POST">
+                    <label>
+                        Nombre completo
+                        <input type="text" name="Nombre" placeholder="Tu nombre y apellido" required>
+                    </label>
+                    <label>
+                        Email
+                        <input type="email" name="Email" placeholder="tucorreo@ejemplo.com" required>
+                    </label>
+                    <label>
+                        Teléfono
+                        <input type="tel" name="Telefono" placeholder="+51 974 840 988" required>
+                    </label>
+                    <label>
+                        Mensaje
+                        <textarea name="Mensaje" rows="3" placeholder="Cuéntanos qué información necesitas"></textarea>
+                    </label>
+                    <button class="btn btn--primary" type="submit">Solicitar información</button>
+                </form>
+            </div>
         </section>
     </main>
-    <footer>
-        <p>&copy; 2025 Huascarán 360 MTB. Todos los derechos reservados.</p>
+
+    <div class="video-modal" data-video-modal aria-hidden="true">
+        <div class="video-modal__backdrop" data-video-close></div>
+        <div class="video-modal__dialog" role="dialog" aria-modal="true" aria-label="Video oficial Huascarán 360 MTB" tabindex="-1">
+            <button class="video-modal__close" type="button" data-video-close aria-label="Cerrar video">×</button>
+            <div class="video-modal__frame">
+                <iframe src="" title="Reproductor video Huascarán 360 MTB" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="wrapper site-footer__layout">
+            <div>
+                <a class="brand brand--footer" href="#inicio">
+                    <span class="brand__accent">Huascarán</span>
+                    <span class="brand__name">360 MTB</span>
+                </a>
+                <p>La carrera de montaña que rodea el gigante de los Andes y celebra el espíritu aventurero del Perú.</p>
+            </div>
+            <div>
+                <p class="footer-label">Contacto directo</p>
+                <a href="mailto:info@huascaran360.com">info@huascaran360.com</a>
+                <a href="https://wa.me/51974840988" target="_blank" rel="noopener">+51 974 840 988</a>
+                <a href="https://wa.me/50687734888" target="_blank" rel="noopener">+506 8773 4888</a>
+            </div>
+            <div>
+                <p class="footer-label">Síguenos</p>
+                <a href="https://www.facebook.com/Huascaran360MTB" target="_blank" rel="noopener">FB · Huascarán360MTB</a>
+                <a href="https://www.instagram.com/Huscaran360MTB" target="_blank" rel="noopener">IG · Huscaran360MTB</a>
+            </div>
+        </div>
+        <p class="site-footer__legal">&copy; 2026 Huascarán 360 MTB. Todos los derechos reservados.</p>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
+
