@@ -1,0 +1,91 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f8f9fa;
+    color: #222;
+}
+header {
+    background: #fff;
+    padding: 2rem 1rem 1rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+}
+.subtitle {
+    color: #888;
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+}
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    background: #e9ecef;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid #ddd;
+}
+nav a {
+    color: #007b5e;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+nav a:hover {
+    color: #005a3c;
+}
+main {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+section {
+    margin-bottom: 2.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    padding: 1.5rem 1.2rem;
+}
+section h2 {
+    margin-top: 0;
+    color: #007b5e;
+    font-size: 1.5rem;
+}
+ul {
+    padding-left: 1.2rem;
+}
+.btn {
+    display: inline-block;
+    background: #007b5e;
+    color: #fff;
+    padding: 0.7rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 1rem;
+    transition: background 0.2s;
+}
+.btn:hover {
+    background: #005a3c;
+}
+.mapa {
+    width: 100%;
+    max-width: 500px;
+    display: block;
+    margin: 1.2rem auto 0 auto;
+    border-radius: 6px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+}
+footer {
+    text-align: center;
+    padding: 1.2rem 0;
+    background: #e9ecef;
+    color: #666;
+    font-size: 0.95rem;
+    border-top: 1px solid #ddd;
+    margin-top: 2rem;
+}
