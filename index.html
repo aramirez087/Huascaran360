@@ -210,7 +210,7 @@
                 <header class="section-heading">
                     <p class="eyebrow">Inscripciones 2026</p>
                     <h2>Asegura tu lugar en la aventura</h2>
-                    <p>Reserva con USD 100 y completa el pago antes del 30 de abril de 2026.</p>
+                    <p><strong>Reserva con USD 100</strong> y completa el pago antes del 30 de abril de 2026.</p>
                 </header>
                 <div class="table-wrapper" role="region" aria-labelledby="tabla-precios" tabindex="0">
                     <table id="tabla-precios">
@@ -232,7 +232,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Etapa 2 · 10% off</th>
-                                <td>31 marzo 2026</td>
+                                <td>31 diciembre 2025</td>
                                 <td>540</td>
                                 <td><span class="badge badge--active">Disponible</span></td>
                             </tr>
@@ -247,7 +247,7 @@
                 </div>
                 <div class="pricing__cta">
                     <a class="btn btn--primary" href="https://forms.gle/" target="_blank" rel="noopener">Reserva tu cupo</a>
-                    <p class="note">La reserva inicial de USD 100 asegura tu spot y se descuenta del total. Cupos limitados por categoría.</p>
+                    <p class="note">La reserva inicial de <strong>USD 100</strong> asegura tu spot y se descuenta del total. Cupos limitados por categoría.</p>
                 </div>
             </div>
         </section>
@@ -273,8 +273,8 @@
                 <aside class="package__card">
                     <h3>Tarifa Oficial 2026</h3>
                     <p class="package__price">USD 600 <span>por participante</span></p>
-                    <p class="package__disclaimer">Reserva con USD 100 y completa tu pago en cuotas hasta el 30 de abril.</p>
-                    <button class="btn btn--secondary" type="button">Quiero reservar</button>
+                    <p class="package__disclaimer"><strong>Reserva con USD 100</strong> y completa tu pago en cuotas hasta el 30 de abril.</p>
+                    <button class="btn btn--secondary" type="button">Reserva</button>
                     <p class="package__note">Incluye premiación para los 5 primeros lugares de cada categoría.</p>
                 </aside>
             </div>
@@ -288,7 +288,6 @@
                     <p>Conecta la Cordillera Blanca y la Cordillera Negra en cuatro etapas con terrenos mixtos: single tracks, carreteras de montaña y descensos vertiginosos.</p>
                     <ul class="route__list">
                         <li>Etapas balanceadas: dos jornadas maratón XCM y dos con tramos técnicos de alta montaña.</li>
-                        <li>Segmentos cronometrados para premios de montaña y velocidad.</li>
                         <li>Zonas de asistencia oficiales cada 20 km con hidratación y alimentos calientes.</li>
                         <li>Escenarios icónicos: lagunas de Llanganuco, Paso Portachuelo y el mirador de Pupash.</li>
                     </ul>
@@ -321,15 +320,21 @@
                         </div>
                     </div>
                     <div class="accordion__item">
-                        <button type="button" aria-expanded="false">Mixto</button>
+                        <button type="button" aria-expanded="false">Masters A (40-49)</button>
                         <div class="accordion__panel" hidden>
-                            <p>Equipos conformados por un corredor y una corredora. Se premia el trabajo en conjunto y la consistencia durante las cuatro etapas.</p>
+                            <p>Corredores entre 40 y 49 años con certificado médico actualizado y experiencia previa en altura. Recomendamos llegar con al menos 72 horas de aclimatación.</p>
                         </div>
                     </div>
                     <div class="accordion__item">
-                        <button type="button" aria-expanded="false">Masters 40+</button>
+                        <button type="button" aria-expanded="false">Masters B (50-59)</button>
                         <div class="accordion__panel" hidden>
-                            <p>Riders de 40 años a más con plan de aclimatación recomendado. Se exige certificado médico actualizado y seguro personal.</p>
+                            <p>Categoría diseñada para quienes superan los 50 años y buscan un reto seguro. Incluye controles médicos adicionales y soporte específico de recuperación.</p>
+                        </div>
+                    </div>
+                    <div class="accordion__item">
+                        <button type="button" aria-expanded="false">Masters C (60+)</button>
+                        <div class="accordion__panel" hidden>
+                            <p>Para ciclistas de 60 años en adelante que cuentan con historial deportivo y autorización médica especializada. Ofrecemos monitoreo constante durante cada etapa.</p>
                         </div>
                     </div>
                     <div class="accordion__item">
@@ -349,7 +354,7 @@
                     <h2>Nos enfocamos en tu rendimiento y recuperación</h2>
                     <ul class="services__list">
                         <li><strong>Centro de control 24/7:</strong> monitoreo satelital y equipos en ruta conectados con el staff en todo momento.</li>
-                        <li><strong>Plan de pagos flexible:</strong> separa con USD 100 y divide el saldo en cuotas hasta abril.</li>
+                        <li><strong>Plan de pagos flexible:</strong> separa con <strong>USD 100</strong> y divide el saldo en cuotas hasta abril.</li>
                         <li><strong>Programa para acompañantes:</strong> transporte y guía turístico para vivir la Cordillera Blanca mientras tú compites.</li>
                     </ul>
                 </div>
@@ -368,24 +373,25 @@
                     <h2>Reserva tu cupo y entrena con nosotros</h2>
                     <p>Escríbenos para recibir el dossier oficial, planes de entrenamiento y recomendaciones de aclimatación.</p>
                 </div>
-                <form class="cta-final__form" action="https://formsubmit.co/info@huascaran360.com" method="POST">
+                <form class="cta-final__form" id="contactForm">
                     <label>
                         Nombre completo
-                        <input type="text" name="Nombre" placeholder="Tu nombre y apellido" required>
+                        <input type="text" name="nombre" placeholder="Tu nombre y apellido" required>
                     </label>
                     <label>
                         Email
-                        <input type="email" name="Email" placeholder="tucorreo@ejemplo.com" required>
+                        <input type="email" name="email" placeholder="tucorreo@ejemplo.com" required>
                     </label>
                     <label>
                         Teléfono
-                        <input type="tel" name="Telefono" placeholder="+51 974 840 988" required>
+                        <input type="tel" name="telefono" placeholder="+51 974 840 988" required>
                     </label>
                     <label>
                         Mensaje
-                        <textarea name="Mensaje" rows="3" placeholder="Cuéntanos qué información necesitas"></textarea>
+                        <textarea name="mensaje" rows="3" placeholder="Cuéntanos qué información necesitas"></textarea>
                     </label>
                     <button class="btn btn--primary" type="submit">Solicitar información</button>
+                    <p class="form-message" style="display:none; margin-top: 1rem;"></p>
                 </form>
             </div>
         </section>
@@ -415,6 +421,7 @@
                 <a href="mailto:info@huascaran360.com">info@huascaran360.com</a>
                 <a href="https://wa.me/51974840988" target="_blank" rel="noopener">+51 974 840 988</a>
                 <a href="https://wa.me/50687734888" target="_blank" rel="noopener">+506 8773 4888</a>
+                <a href="https://wa.me/59899225729" target="_blank" rel="noopener">Ruben Servetto · +598 99 225 729</a>
             </div>
             <div>
                 <p class="footer-label">Síguenos</p>
@@ -428,5 +435,9 @@
     <script src="script.js"></script>
 </body>
 </html>
+
+
+
+
 
 

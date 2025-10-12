@@ -131,4 +131,63 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Contact form submission to n8n
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formMessage = contactForm.querySelector('.form-message');
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+
+            // Disable button and show loading state
+            submitButton.disabled = true;
+            submitButton.textContent = 'Enviando...';
+
+            // Get form data
+            const formData = new FormData(contactForm);
+            const data = {
+                fecha: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
+                nombre: formData.get('nombre'),
+                email: formData.get('email'),
+                telefono: formData.get('telefono'),
+                mensaje: formData.get('mensaje') || ''
+            };
+
+            try {
+                const response = await fetch('https://n8n.automationbeast.win/webhook/914b6381-87d1-4b9b-a86e-391341abfaca', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    formMessage.textContent = '¡Gracias! Tu mensaje ha sido enviado correctamente.';
+                    formMessage.style.color = '#22c55e';
+                    formMessage.style.display = 'block';
+                    contactForm.reset();
+                } else {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+            } catch (error) {
+                formMessage.textContent = 'Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.';
+                formMessage.style.color = '#ef4444';
+                formMessage.style.display = 'block';
+                console.error('Error:', error);
+            } finally {
+                // Re-enable button
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                }, 5000);
+            }
+        });
+    }
 });
