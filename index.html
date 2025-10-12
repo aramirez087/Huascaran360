@@ -47,68 +47,120 @@
 
     <main>
         <section class="hero">
-            <div class="wrapper hero__layout">
-                <div class="hero__content">
-                    <p class="hero__badge">12 - 16 mayo 2026 · Perú</p>
-                    <h1>Desafía tu cuerpo y mente en la Cordillera Blanca</h1>
-                    <p class="hero__lead">Descubre la magia de culturas ancestrales en la zona de Conchucos con Huascarán 360 MTB, la carrera que te lleva a través de paisajes espectaculares, lagunas e impresionantes glaciares con el nevado Huascarán a 6,780 m s. n. m.</p>
+            <div class="wrapper">
+                <div class="hero__main">
+                    <div class="hero__content">
+                        <p class="hero__badge">
+                            <svg class="hero__badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            12 - 16 mayo 2026 · Perú
+                        </p>
+                        <h1>Desafía tu cuerpo y mente en la Cordillera Blanca</h1>
+                        <p class="hero__lead">Descubre la magia de culturas ancestrales en la zona de Conchucos con Huascarán 360 MTB, la carrera que te lleva a través de paisajes espectaculares, lagunas e impresionantes glaciares con el nevado Huascarán a 6,780 m s. n. m.</p>
 
-                    <div class="hero__social-proof">
-                        <div class="hero__social-proof-item">
-                            <span class="hero__social-proof-icon">👥</span>
-                            <div>
-                                <strong>+500</strong>
-                                <span>Participantes desde 2019</span>
-                            </div>
-                        </div>
-                        <div class="hero__social-proof-item">
-                            <span class="hero__social-proof-icon">🌍</span>
-                            <div>
-                                <strong>15 países</strong>
-                                <span>Ciclistas de todo el mundo</span>
-                            </div>
-                        </div>
-                        <div class="hero__social-proof-item">
-                            <span class="hero__social-proof-icon">⭐</span>
-                            <div>
-                                <strong>4.9/5</strong>
-                                <span>Satisfacción promedio</span>
-                            </div>
+                        <div class="hero__actions">
+                            <a class="btn btn--primary btn--pulse" href="#inscripciones">
+                                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 6v6l4 2"/>
+                                </svg>
+                                <span class="btn__content">
+                                    <span class="btn__text">Asegura tu cupo Early Bird</span>
+                                    <small class="btn__subtext">Desde USD 450 · Cupos limitados</small>
+                                </span>
+                            </a>
+                            <a class="btn btn--ghost" href="#programa">
+                                <span>Ver programa completo</span>
+                                <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </a>
                         </div>
                     </div>
-
-                    <div class="hero__actions">
-                        <a class="btn btn--primary btn--pulse" href="#inscripciones">
-                            <span>Asegura tu cupo Early Bird</span>
-                            <small>Desde USD 450 · Cupos limitados</small>
-                        </a>
-                        <a class="btn btn--ghost" href="#programa">Ver programa completo</a>
-                    </div>
-                    <ul class="hero__stats">
-                        <li><span>270 km</span>Distancia total</li>
-                        <li><span>6,200 m</span>Desnivel acumulado</li>
-                        <li><span>4,750 m</span>Altitud máxima</li>
-                    </ul>
+                    <figure class="hero__media" aria-label="Video oficial Huascarán 360 MTB">
+                        <div class="media-frame media-frame--video" data-animate="fade">
+                            <span class="media-frame__badge">Video oficial 2026</span>
+                            <div class="video-embed" data-video-src="https://www.youtube.com/embed/U9AnEaC1J8k">
+                                <iframe src="https://www.youtube.com/embed/U9AnEaC1J8k?rel=0&modestbranding=1&showinfo=0"
+                                        title="Huascarán 360 MTB · Video oficial"
+                                        loading="lazy"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen></iframe>
+                                <button class="video-embed__play" type="button" data-video-trigger aria-label="Reproducir video oficial">
+                                    <span class="video-embed__pulse"></span>
+                                    <span class="video-embed__icon" aria-hidden="true">&#9658;</span>
+                                </button>
+                            </div>
+                            <div class="media-frame__caption">
+                                <p>Sumérgete en la Cordillera Blanca: una invitación a vivir los 360° del Huascarán.</p>
+                            </div>
+                        </div>
+                    </figure>
                 </div>
-                <figure class="hero__media" aria-label="Video oficial Huascarán 360 MTB">
-                    <div class="media-frame media-frame--video" data-animate="fade">
-                        <span class="media-frame__badge">Video oficial 2026</span>
-                        <div class="video-embed" data-video-src="https://www.youtube.com/embed/U9AnEaC1J8k">
-                            <iframe src="https://www.youtube.com/embed/U9AnEaC1J8k?rel=0&modestbranding=1&showinfo=0"
-                                    title="Huascarán 360 MTB · Video oficial"
-                                    loading="lazy"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    allowfullscreen></iframe>
-                            <button class="video-embed__play" type="button" data-video-trigger aria-label="Reproducir video oficial">
-                                <span class="video-embed__pulse"></span>
-                                <span class="video-embed__icon" aria-hidden="true">&#9658;</span>
-                            </button>
+
+                <div class="hero__stats-grid">
+                    <div class="hero__stat-card">
+                        <div class="hero__stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 21h18M4 18h16M6 18V9l6-6 6 6v9"/>
+                            </svg>
                         </div>
-                        <div class="media-frame__caption">
-                            <p>Sumérgete en la Cordillera Blanca: una invitación a vivir los 360° del Huascarán.</p>
+                        <div class="hero__stat-content">
+                            <strong>270 km</strong>
+                            <span>Distancia total</span>
                         </div>
                     </div>
-                </figure>
+                    <div class="hero__stat-card">
+                        <div class="hero__stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                                <polyline points="17 6 23 6 23 12"/>
+                            </svg>
+                        </div>
+                        <div class="hero__stat-content">
+                            <strong>6,200 m</strong>
+                            <span>Desnivel acumulado</span>
+                        </div>
+                    </div>
+                    <div class="hero__stat-card">
+                        <div class="hero__stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <div class="hero__stat-content">
+                            <strong>4,750 m</strong>
+                            <span>Altitud máxima</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero__social-proof">
+                    <div class="hero__social-proof-item">
+                        <span class="hero__social-proof-icon">👥</span>
+                        <div>
+                            <strong>+500</strong>
+                            <span>Participantes desde 2019</span>
+                        </div>
+                    </div>
+                    <div class="hero__social-proof-item">
+                        <span class="hero__social-proof-icon">🌍</span>
+                        <div>
+                            <strong>15 países</strong>
+                            <span>Ciclistas de todo el mundo</span>
+                        </div>
+                    </div>
+                    <div class="hero__social-proof-item">
+                        <span class="hero__social-proof-icon">⭐</span>
+                        <div>
+                            <strong>4.9/5</strong>
+                            <span>Satisfacción promedio</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
