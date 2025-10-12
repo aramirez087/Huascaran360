@@ -13,9 +13,17 @@
 <body>
     <header class="top-bar" id="inicio">
         <div class="wrapper">
-            <a class="brand" href="#inicio">
-                <span class="brand__accent">Huascarán</span>
-                <span class="brand__name">360 MTB</span>
+            <a class="brand" href="#inicio" aria-label="Huascarán 360 MTB">
+                <span class="brand__icon" aria-hidden="true">
+                    <svg viewBox="0 0 64 48" focusable="false">
+                        <path d="M4 40l20-26 8 12 10-18 18 32z" fill="currentColor"></path>
+                        <path d="M4 40h56" stroke="currentColor" stroke-width="4" stroke-linecap="round"></path>
+                    </svg>
+                </span>
+                <span class="brand__text">
+                    <span class="brand__accent">Huascarán</span>
+                    <span class="brand__name">360 MTB</span>
+                </span>
             </a>
             <nav class="main-nav" aria-label="Navegación principal">
                 <button class="main-nav__toggle" type="button" aria-expanded="false" aria-controls="nav-links">
@@ -64,7 +72,7 @@
                                     allowfullscreen></iframe>
                             <button class="video-embed__play" type="button" data-video-trigger aria-label="Reproducir video oficial">
                                 <span class="video-embed__pulse"></span>
-                                <span class="video-embed__icon">▶</span>
+                                <span class="video-embed__icon" aria-hidden="true">&#9658;</span>
                             </button>
                         </div>
                         <div class="media-frame__caption">
@@ -135,7 +143,6 @@
                         <div class="schedule__content">
                             <h3>Bienvenida en Carhuaz</h3>
                             <ul>
-                                <li>08:00 Recepción y desayuno de bienvenida.</li>
                                 <li>09:00 - 13:00 Revisión técnica de bicicletas, equipos obligatorios y fichas médicas.</li>
                                 <li>13:00 - 15:00 Almuerzo.</li>
                                 <li>18:00 Charla técnica, cena y brindis de bienvenida.</li>
@@ -409,24 +416,55 @@
 
     <footer class="site-footer">
         <div class="wrapper site-footer__layout">
-            <div>
-                <a class="brand brand--footer" href="#inicio">
-                    <span class="brand__accent">Huascarán</span>
-                    <span class="brand__name">360 MTB</span>
+            <div class="site-footer__column site-footer__column--brand">
+                <a class="brand brand--footer" href="#inicio" aria-label="Huascarán 360 MTB">
+                    <span class="brand__icon" aria-hidden="true">
+                        <svg viewBox="0 0 64 48" focusable="false">
+                            <path d="M4 40l20-26 8 12 10-18 18 32z" fill="currentColor"></path>
+                            <path d="M4 40h56" stroke="currentColor" stroke-width="4" stroke-linecap="round"></path>
+                        </svg>
+                    </span>
+                    <span class="brand__text">
+                        <span class="brand__accent">Huascarán</span>
+                        <span class="brand__name">360 MTB</span>
+                    </span>
                 </a>
-                <p>La carrera de montaña que rodea el gigante de los Andes y celebra el espíritu aventurero del Perú.</p>
+                <p class="site-footer__tagline">La carrera de montaña que rodea el gigante de los Andes y celebra el espíritu aventurero del Perú.</p>
+                <p class="site-footer__tagline">12&nbsp;-&nbsp;16 mayo 2026 · Huaraz, Perú</p>
             </div>
-            <div>
+            <div class="site-footer__column">
                 <p class="footer-label">Contacto directo</p>
-                <a href="mailto:info@huascaran360.com">info@huascaran360.com</a>
-                <a href="https://wa.me/51974840988" target="_blank" rel="noopener">+51 974 840 988</a>
-                <a href="https://wa.me/50687734888" target="_blank" rel="noopener">+506 8773 4888</a>
-                <a href="https://wa.me/59899225729" target="_blank" rel="noopener">Ruben Servetto · +598 99 225 729</a>
+                <ul class="footer-links">
+                    <li><a href="mailto:huascaran360mtb@gmail.com">huascaran360mtb@gmail.com</a></li>
+                    <li><a href="https://wa.me/51974840988" target="_blank" rel="noopener">Frank Rocha · +51 974 840 988</a></li>
+                    <li><a href="https://wa.me/50687734888" target="_blank" rel="noopener">Mauricio Cabrera · +506 8773 4888</a></li>
+                    <li><a href="https://wa.me/59899225729" target="_blank" rel="noopener">Ruben Servetto · +598 99 225 729</a></li>
+                </ul>
             </div>
-            <div>
+            <div class="site-footer__column">
                 <p class="footer-label">Síguenos</p>
-                <a href="https://www.facebook.com/Huascaran360MTB" target="_blank" rel="noopener">FB · Huascarán360MTB</a>
-                <a href="https://www.instagram.com/Huscaran360MTB" target="_blank" rel="noopener">IG · Huscaran360MTB</a>
+                <ul class="footer-social">
+                    <li>
+                        <a class="footer-social__link" href="https://www.facebook.com/Huascaran360MTB" target="_blank" rel="noopener" aria-label="Huascarán 360 MTB en Facebook">
+                            <span class="footer-social__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" focusable="false">
+                                    <path d="M13.5 8h2.5V4.5h-2.5c-2.5 0-4 1.5-4 4v1.5H7v3.5h2.5V20h3.5v-6.5h2.8l0.4-3.5H13.5V9c0-0.7 0.2-1 1-1z" fill="currentColor"></path>
+                                </svg>
+                            </span>
+                            <span class="footer-social__label">Facebook</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="footer-social__link" href="https://www.instagram.com/Huascaran360MTB" target="_blank" rel="noopener" aria-label="Huascarán 360 MTB en Instagram">
+                            <span class="footer-social__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" focusable="false">
+                                    <path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zm5 5a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 2.5A1.5 1.5 0 1 1 10.5 12 1.5 1.5 0 0 1 12 10.5zm5.25-4.25a1.25 1.25 0 1 0 1.25 1.25 1.25 1.25 0 0 0-1.25-1.25z" fill="currentColor"></path>
+                                </svg>
+                            </span>
+                            <span class="footer-social__label">Instagram</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
         <p class="site-footer__legal">&copy; 2026 Huascarán 360 MTB. Todos los derechos reservados.</p>
