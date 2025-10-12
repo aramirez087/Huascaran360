@@ -319,7 +319,6 @@ main {
     border: none;
     transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
     font-size: 0.98rem;
-    position: relative;
 }
 
 .btn--primary {
@@ -328,30 +327,11 @@ main {
     box-shadow: 0 15px 30px rgba(217, 37, 50, 0.33);
 }
 
-.btn--primary::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(135deg, #ff4455 0%, #d92532 100%);
-    opacity: 0;
-    transition: opacity var(--transition);
-}
-
 .btn--primary:hover,
 .btn--primary:focus-visible {
+    background: linear-gradient(135deg, #ff4455 0%, #d92532 100%);
     transform: translateY(-3px) scale(1.02);
     box-shadow: 0 20px 40px rgba(217, 37, 50, 0.45);
-}
-
-.btn--primary:hover::before,
-.btn--primary:focus-visible::before {
-    opacity: 1;
-}
-
-.btn--primary > * {
-    position: relative;
-    z-index: 1;
 }
 
 .btn--secondary {
