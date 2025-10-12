@@ -52,9 +52,37 @@
                     <p class="hero__badge">12 - 16 mayo 2026 · Perú</p>
                     <h1>Desafía tu cuerpo y mente en la Cordillera Blanca</h1>
                     <p class="hero__lead">Descubre la magia de culturas ancestrales en la zona de Conchucos con Huascarán 360 MTB, la carrera que te lleva a través de paisajes espectaculares, lagunas e impresionantes glaciares con el nevado Huascarán a 6,780 m s. n. m.</p>
+
+                    <div class="hero__social-proof">
+                        <div class="hero__social-proof-item">
+                            <span class="hero__social-proof-icon">👥</span>
+                            <div>
+                                <strong>+500</strong>
+                                <span>Participantes desde 2019</span>
+                            </div>
+                        </div>
+                        <div class="hero__social-proof-item">
+                            <span class="hero__social-proof-icon">🌍</span>
+                            <div>
+                                <strong>15 países</strong>
+                                <span>Ciclistas de todo el mundo</span>
+                            </div>
+                        </div>
+                        <div class="hero__social-proof-item">
+                            <span class="hero__social-proof-icon">⭐</span>
+                            <div>
+                                <strong>4.9/5</strong>
+                                <span>Satisfacción promedio</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="hero__actions">
-                        <a class="btn btn--primary" href="#inscripciones">Inscríbete hoy</a>
-                        <a class="btn btn--ghost" href="#programa">Descubre el programa</a>
+                        <a class="btn btn--primary btn--pulse" href="#inscripciones">
+                            <span>Asegura tu cupo Early Bird</span>
+                            <small>Desde USD 450 · Cupos limitados</small>
+                        </a>
+                        <a class="btn btn--ghost" href="#programa">Ver programa completo</a>
                     </div>
                     <ul class="hero__stats">
                         <li><span>270 km</span>Distancia total</li>
@@ -269,7 +297,6 @@
                             <h3>Bienvenida en Carhuaz</h3>
                             <ul>
                                 <li>09:00 - 13:00 Revisión técnica de bicicletas, equipos obligatorios y fichas médicas.</li>
-                                <li>13:00 - 15:00 Almuerzo.</li>
                                 <li>18:00 Charla técnica, cena y brindis de bienvenida.</li>
                             </ul>
                         </div>
@@ -339,11 +366,33 @@
 
         <section class="pricing" id="inscripciones">
             <div class="wrapper">
-                <header class="section-heading">
+                <header class="section-heading section-heading--center">
                     <p class="eyebrow">Inscripciones 2026</p>
                     <h2>Asegura tu lugar en la aventura</h2>
                     <p><strong>Reserva con USD 100</strong> y completa el pago antes del 30 de abril de 2026.</p>
                 </header>
+
+                <div class="pricing__highlight">
+                    <div class="pricing__highlight-badge">
+                        <span class="pricing__highlight-icon">⚡</span>
+                        <strong>Oferta Early Bird</strong>
+                    </div>
+                    <div class="pricing__highlight-content">
+                        <div class="pricing__highlight-main">
+                            <span class="pricing__highlight-label">Ahorra USD 150</span>
+                            <span class="pricing__highlight-price">USD 450</span>
+                            <span class="pricing__highlight-regular">Regular: USD 600</span>
+                        </div>
+                        <div class="pricing__highlight-info">
+                            <p><strong>Solo quedan 23 cupos</strong> a este precio especial</p>
+                            <p class="pricing__highlight-benefits">✓ Incluye todo el paquete completo ✓ Pago en cuotas ✓ Reserva con solo USD 100</p>
+                        </div>
+                    </div>
+                    <a class="btn btn--primary btn--large" href="#contacto">
+                        Reservar cupo Early Bird
+                    </a>
+                </div>
+
                 <div class="table-wrapper" role="region" aria-labelledby="tabla-precios" tabindex="0">
                     <table id="tabla-precios">
                         <caption class="sr-only">Tabla de precios por etapas de inscripción</caption>
@@ -352,33 +401,36 @@
                                 <th scope="col">Fase</th>
                                 <th scope="col">Disponible hasta</th>
                                 <th scope="col">Tarifa (USD)</th>
+                                <th scope="col">Ahorro</th>
                                 <th scope="col">Estado</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">Early Bird · 25% off</th>
-                                <td>Cupos limitados</td>
-                                <td>450</td>
-                                <td><span class="badge badge--limited">Cupos limitados</span></td>
+                            <tr class="pricing-row--highlight">
+                                <th scope="row"><span class="pricing-badge-hot">🔥</span> Early Bird · 25% off</th>
+                                <td>Solo 23 cupos</td>
+                                <td><strong>450</strong></td>
+                                <td><span class="savings-badge">Ahorras USD 150</span></td>
+                                <td><span class="badge badge--limited">Limitado</span></td>
                             </tr>
                             <tr>
                                 <th scope="row">Etapa 2 · 10% off</th>
                                 <td>31 diciembre 2025</td>
                                 <td>540</td>
+                                <td><span class="savings-badge savings-badge--small">Ahorras USD 60</span></td>
                                 <td><span class="badge badge--active">Disponible</span></td>
                             </tr>
                             <tr>
                                 <th scope="row">Tarifa regular</th>
                                 <td>30 abril 2026</td>
                                 <td>600</td>
+                                <td>—</td>
                                 <td><span class="badge">Abierto</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="pricing__cta">
-                    <a class="btn btn--primary" href="#contacto">Reserva tu cupo</a>
                     <p class="note">La reserva inicial de <strong>USD 100</strong> asegura tu spot y se descuenta del total. Cupos limitados por categoría.</p>
                 </div>
             </div>
@@ -441,9 +493,9 @@
                 </header>
                 <div class="accordion" role="region" aria-label="Categorías de competencia">
                     <div class="accordion__item is-open">
-                        <button type="button" aria-expanded="true">Élite UCI</button>
+                        <button type="button" aria-expanded="true">Élite</button>
                         <div class="accordion__panel">
-                            <p>Corredores con licencia UCI vigente al 2026. Recomendamos experiencia previa en eventos XCM internacionales debido a la altitud extrema.</p>
+                            <p>Corredores de alto rendimiento. Recomendamos experiencia previa en eventos XCM internacionales debido a la altitud extrema.</p>
                         </div>
                     </div>
                     <div class="accordion__item">
@@ -453,21 +505,21 @@
                         </div>
                     </div>
                     <div class="accordion__item">
-                        <button type="button" aria-expanded="false">Masters A (40-49)</button>
+                        <button type="button" aria-expanded="false">Masters A (30-39)</button>
                         <div class="accordion__panel" hidden>
-                            <p>Corredores entre 40 y 49 años con certificado médico actualizado y experiencia previa en altura. Recomendamos llegar con al menos 72 horas de aclimatación.</p>
+                            <p>Corredores entre 30 y 39 años con certificado médico actualizado y experiencia previa en altura. Recomendamos llegar con al menos 72 horas de aclimatación.</p>
                         </div>
                     </div>
                     <div class="accordion__item">
-                        <button type="button" aria-expanded="false">Masters B (50-59)</button>
+                        <button type="button" aria-expanded="false">Masters B (40-49)</button>
                         <div class="accordion__panel" hidden>
-                            <p>Categoría diseñada para quienes superan los 50 años y buscan un reto seguro. Incluye controles médicos adicionales y soporte específico de recuperación.</p>
+                            <p>Categoría diseñada para ciclistas entre 40 y 49 años que buscan un reto seguro. Incluye controles médicos adicionales y soporte específico de recuperación.</p>
                         </div>
                     </div>
                     <div class="accordion__item">
-                        <button type="button" aria-expanded="false">Masters C (60+)</button>
+                        <button type="button" aria-expanded="false">Masters C (50+)</button>
                         <div class="accordion__panel" hidden>
-                            <p>Para ciclistas de 60 años en adelante que cuentan con historial deportivo y autorización médica especializada. Ofrecemos monitoreo constante durante cada etapa.</p>
+                            <p>Para ciclistas de 50 años en adelante que cuentan con historial deportivo y autorización médica especializada. Ofrecemos monitoreo constante durante cada etapa.</p>
                         </div>
                     </div>
                     <div class="accordion__item">
@@ -595,6 +647,16 @@
         </div>
         <p class="site-footer__legal">&copy; 2026 Huascarán 360 MTB. Todos los derechos reservados.</p>
     </footer>
+
+    <div class="sticky-cta" data-sticky-cta aria-hidden="true">
+        <div class="wrapper sticky-cta__content">
+            <div class="sticky-cta__text">
+                <strong>Huascarán 360 MTB 2026</strong>
+                <span>Solo quedan 23 cupos Early Bird · Desde USD 450</span>
+            </div>
+            <a class="btn btn--primary btn--compact" href="#inscripciones">Reserva ahora</a>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

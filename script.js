@@ -352,4 +352,37 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Sticky CTA bar on scroll
+    const stickyCta = document.querySelector('[data-sticky-cta]');
+    if (stickyCta) {
+        let lastScrollY = window.scrollY;
+        let ticking = false;
+
+        const updateStickyCta = () => {
+            const scrollY = window.scrollY;
+            const heroHeight = 800; // Show after scrolling past hero
+
+            if (scrollY > heroHeight) {
+                stickyCta.classList.add('is-visible');
+                stickyCta.setAttribute('aria-hidden', 'false');
+            } else {
+                stickyCta.classList.remove('is-visible');
+                stickyCta.setAttribute('aria-hidden', 'true');
+            }
+
+            lastScrollY = scrollY;
+            ticking = false;
+        };
+
+        const requestTick = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateStickyCta);
+                ticking = true;
+            }
+        };
+
+        window.addEventListener('scroll', requestTick, { passive: true });
+        updateStickyCta(); // Check initial state
+    }
 });
