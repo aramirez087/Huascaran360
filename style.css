@@ -1711,6 +1711,137 @@ tbody tr:last-child th {
     font-size: 0.95rem;
 }
 
+.pricing__payments {
+    margin-top: 2.5rem;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 2.5rem clamp(1.5rem, 4vw, 3rem);
+    box-shadow: 0 30px 60px rgba(12, 20, 44, 0.08);
+    text-align: left;
+}
+
+.pricing__payments h3 {
+    text-align: center;
+    font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+    margin-bottom: 0.75rem;
+}
+
+.pricing__payments-intro {
+    text-align: center;
+    color: var(--color-muted);
+    max-width: 52ch;
+    margin: 0 auto 2rem;
+}
+
+.pricing__payments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.pricing__payments-card {
+    background: linear-gradient(180deg, #f9fafc 0%, #eef1f8 100%);
+    border-radius: 20px;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: 0 20px 40px rgba(16, 18, 24, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.pricing__payments-card h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-dark);
+}
+
+.pricing__payments-card p {
+    margin: 0;
+    color: #2d3040;
+}
+
+.pricing__code-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.pricing__code-input {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.pricing__code-input input {
+    flex: 1;
+    border: 1px solid rgba(16, 18, 24, 0.12);
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pricing__code-input input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(217, 37, 50, 0.15);
+    outline: none;
+}
+
+.pricing__code-feedback {
+    font-size: 0.88rem;
+    color: var(--color-muted);
+}
+
+.pricing__code-feedback.is-error {
+    color: #d92532;
+}
+
+.pricing__code-feedback.is-success {
+    color: #15803d;
+}
+
+.pricing__payments-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.btn--paypal {
+    background: #ffc439;
+    color: #1a1a1a;
+    border: none;
+    min-width: 220px;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    box-shadow: 0 12px 24px rgba(255, 196, 57, 0.35);
+}
+
+.btn--paypal:hover,
+.btn--paypal:focus {
+    background: #f7b600;
+    color: #0f0f0f;
+    box-shadow: 0 16px 32px rgba(247, 182, 0, 0.3);
+}
+
+.btn[aria-disabled="true"] {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.pricing__payments-note {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+}
+
+.pricing__payments-disclaimer {
+    margin: 2rem auto 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    max-width: 58ch;
+}
+
 .package {
     background: var(--color-surface);
 }

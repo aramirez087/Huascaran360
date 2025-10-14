@@ -385,4 +385,117 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('scroll', requestTick, { passive: true });
         updateStickyCta(); // Check initial state
     }
+
+    // PayPal code validation
+    const paypalCodeForm = document.querySelector('[data-paypal-code-form]');
+    const paypalButton = document.querySelector('[data-paypal-button]');
+    if (paypalCodeForm && paypalButton) {
+        const codeInput = paypalCodeForm.querySelector('[data-paypal-code-input]');
+        const feedback = paypalCodeForm.querySelector('[data-paypal-code-feedback]');
+        const paypalNote = document.querySelector('[data-paypal-note]');
+        const defaultNote = paypalNote?.textContent || '';
+        const defaultHref = paypalButton.getAttribute('href');
+        const codeDataScript = document.getElementById('paypalCodeData');
+        let paymentCodes = [];
+
+        if (codeDataScript) {
+            try {
+                const parsed = JSON.parse(codeDataScript.textContent);
+                paymentCodes = Array.isArray(parsed?.codes) ? parsed.codes : [];
+            } catch (error) {
+                console.error('No se pudo interpretar la configuración de códigos PayPal.', error);
+            }
+        }
+
+        const normalizeCode = (value) => value.trim().toUpperCase();
+
+        const buildPayPalUrl = (amount, label, code) => {
+            const url = new URL('https://www.paypal.com/cgi-bin/webscr');
+            url.searchParams.set('cmd', '_xclick');
+            url.searchParams.set('business', 'alexramirez.cr@gmail.com');
+            url.searchParams.set('currency_code', 'USD');
+            if (label) {
+                url.searchParams.set('item_name', label);
+            }
+            if (amount) {
+                url.searchParams.set('amount', amount);
+            }
+            if (code) {
+                url.searchParams.set('custom', code);
+            }
+            return url.toString();
+        };
+
+        const setButtonState = ({ enabled, href }) => {
+            if (enabled) {
+                paypalButton.setAttribute('href', href);
+                paypalButton.removeAttribute('aria-disabled');
+            } else {
+                paypalButton.setAttribute('href', href || defaultHref);
+                paypalButton.setAttribute('aria-disabled', 'true');
+            }
+        };
+
+        const showFeedback = (message, type) => {
+            if (!feedback) return;
+            feedback.textContent = message;
+            feedback.hidden = !message;
+            feedback.classList.remove('is-error', 'is-success');
+            if (type) {
+                feedback.classList.add(type);
+            }
+        };
+
+        paypalCodeForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            if (!codeInput) return;
+
+            const rawCode = codeInput.value;
+            const userCode = normalizeCode(rawCode);
+
+            if (!userCode) {
+                showFeedback('Ingresa el código que recibiste por correo.', 'is-error');
+                setButtonState({ enabled: false, href: defaultHref });
+                if (paypalNote) {
+                    paypalNote.textContent = defaultNote;
+                }
+                return;
+            }
+
+            const match = paymentCodes.find(
+                (entry) => normalizeCode(entry.code || '') === userCode,
+            );
+
+            if (!match) {
+                showFeedback('Código no reconocido. Verifica que esté bien escrito o solicita uno nuevo al equipo.', 'is-error');
+                setButtonState({ enabled: false, href: defaultHref });
+                if (paypalNote) {
+                    paypalNote.textContent = defaultNote;
+                }
+                return;
+            }
+
+            const amount = match.amount ?? match.value;
+            const label = match.label || `Pago Huascarán 360 MTB (${userCode})`;
+            const noteMessage = match.note || `Se registrará un pago por USD ${amount}.`;
+            const paypalUrl = buildPayPalUrl(amount, label, userCode);
+
+            setButtonState({ enabled: true, href: paypalUrl });
+            showFeedback(`Código válido. Se configuró el pago como: ${label}.`, 'is-success');
+
+            if (paypalNote) {
+                paypalNote.textContent = noteMessage;
+            }
+        });
+
+        if (codeInput) {
+            codeInput.addEventListener('input', () => {
+                showFeedback('', null);
+                setButtonState({ enabled: false, href: defaultHref });
+                if (paypalNote) {
+                    paypalNote.textContent = defaultNote;
+                }
+            });
+        }
+    }
 });

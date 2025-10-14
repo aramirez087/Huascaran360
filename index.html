@@ -83,7 +83,7 @@
                     <figure class="hero__media" aria-label="Video oficial Huascarán 360 MTB">
                         <div class="media-frame media-frame--video" data-animate="fade">
                             <span class="media-frame__badge">Video oficial 2026</span>
-                            <div class="video-embed" data-video-src="https://www.youtube.com/embed/U9AnEaC1J8k">
+                            <div class="video-embed" data-video-src="https://www.youtube.com/watch?v=pgd1Tk28C7U">
                                 <iframe src="https://www.youtube.com/embed/U9AnEaC1J8k?rel=0&modestbranding=1&showinfo=0"
                                         title="Huascarán 360 MTB · Video oficial"
                                         loading="lazy"
@@ -483,8 +483,43 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="pricing__cta">
+                <div class="pricing__cta" id="pagos">
                     <p class="note">La reserva inicial de <strong>USD 100</strong> asegura tu spot y se descuenta del total. Cupos limitados por categoría.</p>
+                    <div class="pricing__payments" aria-labelledby="pagos-paypal-heading">
+                        <h3 id="pagos-paypal-heading">Paga de forma segura con PayPal</h3>
+                        <p class="pricing__payments-intro">Solicita a la organización tu código de pago personalizado y úsalo al completar el proceso en PayPal. Así definimos el monto exacto de tu reserva o inscripción completa.</p>
+                        <div class="pricing__payments-grid">
+                            <article class="pricing__payments-card">
+                                <h4>Reserva tu cupo</h4>
+                                <p>Pide tu código de reserva al equipo de Huascarán 360 MTB y úsalo para definir el monto a pagar. Una vez acreditado, te confirmaremos tu spot.</p>
+                                <div class="pricing__payments-actions">
+                                    <a class="btn btn--ghost" href="mailto:huascaran360mtb@gmail.com">
+                                        Solicitar código de reserva
+                                    </a>
+                                </div>
+                                <p class="pricing__payments-note">El código indica el importe exacto que debes ingresar en PayPal.</p>
+                            </article>
+                            <article class="pricing__payments-card">
+                                <h4>Pagar en PayPal</h4>
+                                <p>Cuando tengas tu código, ingrésalo a continuación para que el sistema cargue el monto correcto. Después serás redirigido a PayPal con los datos listos.</p>
+                                <form class="pricing__code-form" data-paypal-code-form novalidate>
+                                    <label class="sr-only" for="paypalCode">Código de pago</label>
+                                    <div class="pricing__code-input">
+                                        <input id="paypalCode" type="text" name="paypalCode" placeholder="Ej. EARLY450" autocomplete="off" data-paypal-code-input required>
+                                        <button type="submit" class="btn btn--compact">Validar código</button>
+                                    </div>
+                                    <p class="pricing__code-feedback" data-paypal-code-feedback hidden></p>
+                                </form>
+                                <div class="pricing__payments-actions">
+                                    <a class="btn btn--paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=alexramirez.cr@gmail.com&currency_code=USD" target="_blank" rel="noopener" data-paypal-button aria-disabled="true">
+                                        Ir a PayPal
+                                    </a>
+                                </div>
+                                <p class="pricing__payments-note" data-paypal-note>PayPal te solicitará iniciar sesión y registrar manualmente el monto de tu código.</p>
+                            </article>
+                        </div>
+                        <p class="pricing__payments-disclaimer">Si necesitas un monto distinto o pago grupal, escríbenos a <a href="mailto:huascaran360mtb@gmail.com">huascaran360mtb@gmail.com</a> para generar un enlace personalizado.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -733,9 +768,30 @@
         </div>
     </div>
 
+    <script type="application/json" id="paypalCodeData">
+        {
+            "codes": [
+                {
+                    "code": "RESERVA100",
+                    "amount": 100,
+                    "label": "Reserva Huascar\u00e1n 360 MTB",
+                    "note": "Corresponde al abono de reserva. Recibir\u00e1s confirmaci\u00f3n una vez acreditado."
+                },
+                {
+                    "code": "EARLY450",
+                    "amount": 450,
+                    "label": "Pago Early Bird Huascar\u00e1n 360 MTB",
+                    "note": "Liquida tu inscripci\u00f3n completa con la tarifa Early Bird."
+                },
+                {
+                    "code": "REGULAR600",
+                    "amount": 600,
+                    "label": "Pago tarifa regular Huascar\u00e1n 360 MTB",
+                    "note": "Tarifa regular disponible hasta el 30 de abril de 2026."
+                }
+            ]
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
