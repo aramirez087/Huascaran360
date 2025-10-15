@@ -1733,6 +1733,164 @@ tbody tr:last-child th {
     margin: 0 auto 2rem;
 }
 
+.pricing__registration-form {
+    display: grid;
+    gap: clamp(1.25rem, 3vw, 1.75rem);
+    max-width: 880px;
+    margin: 0 auto;
+}
+
+.pricing__registration-form .btn {
+    justify-self: center;
+    width: min(100%, 320px);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.form-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-dark);
+}
+
+.required {
+    color: var(--color-primary);
+}
+
+.pricing__registration-form input,
+.pricing__registration-form select,
+.pricing__registration-form textarea {
+    width: 100%;
+    border: 1px solid rgba(16, 18, 24, 0.12);
+    border-radius: 14px;
+    padding: 0.9rem 1rem;
+    font: inherit;
+    line-height: 1.4;
+    background: linear-gradient(180deg, #f9fafc 0%, #eef1f8 100%);
+    color: var(--color-dark);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.pricing__registration-form select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 2.75rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'%3E%3Cpath fill='%23595c6a' d='M8 9.5a1 1 0 0 1-.71-.29l-7-7a1 1 0 1 1 1.42-1.42L8 7.09l6.29-6.3a1 1 0 0 1 1.42 1.42l-7 7A1 1 0 0 1 8 9.5Z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.1rem center;
+    background-size: 14px;
+}
+
+.pricing__registration-form textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.pricing__registration-form input::placeholder,
+.pricing__registration-form textarea::placeholder {
+    color: rgba(16, 18, 24, 0.45);
+}
+
+.pricing__registration-form input:focus-visible,
+.pricing__registration-form select:focus-visible,
+.pricing__registration-form textarea:focus-visible {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(217, 37, 50, 0.15);
+    outline: none;
+    background: #ffffff;
+}
+
+.pricing__registration-form input:disabled,
+.pricing__registration-form select:disabled,
+.pricing__registration-form textarea:disabled {
+    background: #f3f4f8;
+    color: rgba(16, 18, 24, 0.5);
+    cursor: not-allowed;
+}
+
+.pricing__registration-info {
+    display: none;
+    padding: 1.1rem 1.4rem;
+    border-radius: 16px;
+    border: 1px solid rgba(16, 18, 24, 0.12);
+    background: linear-gradient(180deg, #f8f9fc 0%, #edf1f8 100%);
+    box-shadow: 0 14px 30px rgba(12, 20, 44, 0.08);
+}
+
+.pricing__registration-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.pricing__registration-label {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+}
+
+.pricing__registration-amount {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.form-message {
+    display: none;
+    padding: 0.95rem 1.1rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    background: rgba(16, 18, 24, 0.05);
+}
+
+[data-registration-button][disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 12px 28px rgba(217, 37, 50, 0.25);
+}
+
+.btn__loader {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.btn__loader::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 .pricing__payments-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -2441,6 +2599,15 @@ tbody tr:last-child th {
 
     .btn--compact {
         width: 100%;
+    }
+
+    .pricing__registration-form .btn {
+        width: 100%;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
 }
 

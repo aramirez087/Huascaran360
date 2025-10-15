@@ -484,41 +484,59 @@
                     </table>
                 </div>
                 <div class="pricing__cta" id="pagos">
-                    <p class="note">La reserva inicial de <strong>USD 100</strong> asegura tu spot y se descuenta del total. Cupos limitados por categoría.</p>
+                    <p class="note">Completa el formulario a continuación para proceder con el pago seguro a través de PayPal. El sistema calculará automáticamente tu tarifa según disponibilidad y fecha.</p>
                     <div class="pricing__payments" aria-labelledby="pagos-paypal-heading">
-                        <h3 id="pagos-paypal-heading">Paga de forma segura con PayPal</h3>
-                        <p class="pricing__payments-intro">Solicita a la organización tu código de pago personalizado y úsalo al completar el proceso en PayPal. Así definimos el monto exacto de tu reserva o inscripción completa.</p>
-                        <div class="pricing__payments-grid">
-                            <article class="pricing__payments-card">
-                                <h4>Reserva tu cupo</h4>
-                                <p>Pide tu código de reserva al equipo de Huascarán 360 MTB y úsalo para definir el monto a pagar. Una vez acreditado, te confirmaremos tu spot.</p>
-                                <div class="pricing__payments-actions">
-                                    <a class="btn btn--ghost" href="mailto:huascaran360mtb@gmail.com">
-                                        Solicitar código de reserva
-                                    </a>
+                        <h3 id="pagos-paypal-heading">Inscríbete y paga de forma segura</h3>
+                        <p class="pricing__payments-intro">Ingresa tus datos y serás redirigido automáticamente a PayPal con el monto correcto según la disponibilidad de cupos Early Bird y la fecha actual.</p>
+                        <form class="pricing__registration-form" id="registrationForm" novalidate>
+                            <div class="form-grid">
+                                <label class="form-field">
+                                    <span class="form-label">Nombre completo <span class="required">*</span></span>
+                                    <input type="text" name="nombre" placeholder="Tu nombre y apellido" required>
+                                </label>
+                                <label class="form-field">
+                                    <span class="form-label">Email <span class="required">*</span></span>
+                                    <input type="email" name="email" placeholder="tucorreo@ejemplo.com" required>
+                                </label>
+                                <label class="form-field">
+                                    <span class="form-label">Teléfono <span class="required">*</span></span>
+                                    <input type="tel" name="telefono" placeholder="+51 974 840 988" required>
+                                </label>
+                                <label class="form-field">
+                                    <span class="form-label">Categoría <span class="required">*</span></span>
+                                    <select name="categoria" required>
+                                        <option value="">Selecciona tu categoría</option>
+                                        <option value="elite">Élite</option>
+                                        <option value="open-masculino">Open Masculino</option>
+                                        <option value="open-femenino">Open Femenino</option>
+                                        <option value="masters-a">Masters A (30-39)</option>
+                                        <option value="masters-b">Masters B (40-49)</option>
+                                        <option value="masters-c">Masters C (50+)</option>
+                                        <option value="ebikes">E-Bikes</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="form-field">
+                                <span class="form-label">Comentarios adicionales (opcional)</span>
+                                <textarea name="mensaje" rows="3" placeholder="Requerimientos especiales, preguntas, etc."></textarea>
+                            </div>
+                            <div class="pricing__registration-info" data-pricing-info style="display: none;">
+                                <div class="pricing__registration-summary">
+                                    <span class="pricing__registration-label">Tarifa aplicable:</span>
+                                    <span class="pricing__registration-amount" data-price-display></span>
                                 </div>
-                                <p class="pricing__payments-note">El código indica el importe exacto que debes ingresar en PayPal.</p>
-                            </article>
-                            <article class="pricing__payments-card">
-                                <h4>Pagar en PayPal</h4>
-                                <p>Cuando tengas tu código, ingrésalo a continuación para que el sistema cargue el monto correcto. Después serás redirigido a PayPal con los datos listos.</p>
-                                <form class="pricing__code-form" data-paypal-code-form novalidate>
-                                    <label class="sr-only" for="paypalCode">Código de pago</label>
-                                    <div class="pricing__code-input">
-                                        <input id="paypalCode" type="text" name="paypalCode" placeholder="Ej. EARLY450" autocomplete="off" data-paypal-code-input required>
-                                        <button type="submit" class="btn btn--compact">Validar código</button>
-                                    </div>
-                                    <p class="pricing__code-feedback" data-paypal-code-feedback hidden></p>
-                                </form>
-                                <div class="pricing__payments-actions">
-                                    <a class="btn btn--paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=alexramirez.cr@gmail.com&currency_code=USD" target="_blank" rel="noopener" data-paypal-button aria-disabled="true">
-                                        Ir a PayPal
-                                    </a>
-                                </div>
-                                <p class="pricing__payments-note" data-paypal-note>PayPal te solicitará iniciar sesión y registrar manualmente el monto de tu código.</p>
-                            </article>
-                        </div>
-                        <p class="pricing__payments-disclaimer">Si necesitas un monto distinto o pago grupal, escríbenos a <a href="mailto:huascaran360mtb@gmail.com">huascaran360mtb@gmail.com</a> para generar un enlace personalizado.</p>
+                            </div>
+                            <button class="btn btn--primary btn--large" type="submit" data-registration-button>
+                                <span data-button-text>Continuar al pago con PayPal</span>
+                                <span class="btn__loader" data-button-loader style="display: none;">Procesando...</span>
+                            </button>
+                            <p class="form-message" data-form-message style="display:none;"></p>
+                        </form>
+                        <p class="pricing__payments-disclaimer">
+                            ✓ Pago 100% seguro con PayPal<br>
+                            ✓ El precio se calcula automáticamente según disponibilidad<br>
+                            ✓ Recibirás confirmación por email una vez completado el pago
+                        </p>
                     </div>
                 </div>
             </div>
@@ -768,29 +786,9 @@
         </div>
     </div>
 
-    <script type="application/json" id="paypalCodeData">
-        {
-            "codes": [
-                {
-                    "code": "RESERVA100",
-                    "amount": 100,
-                    "label": "Reserva Huascar\u00e1n 360 MTB",
-                    "note": "Corresponde al abono de reserva. Recibir\u00e1s confirmaci\u00f3n una vez acreditado."
-                },
-                {
-                    "code": "EARLY450",
-                    "amount": 450,
-                    "label": "Pago Early Bird Huascar\u00e1n 360 MTB",
-                    "note": "Liquida tu inscripci\u00f3n completa con la tarifa Early Bird."
-                },
-                {
-                    "code": "REGULAR600",
-                    "amount": 600,
-                    "label": "Pago tarifa regular Huascar\u00e1n 360 MTB",
-                    "note": "Tarifa regular disponible hasta el 30 de abril de 2026."
-                }
-            ]
-        }
+    <script>
+        // n8n Webhook Configuration
+        const N8N_WEBHOOK_URL = 'https://YOUR_N8N_INSTANCE.com/webhook/huascaran-registration';
     </script>
     <script src="script.js"></script>
 </body>

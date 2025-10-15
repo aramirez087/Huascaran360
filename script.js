@@ -386,116 +386,92 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStickyCta(); // Check initial state
     }
 
-    // PayPal code validation
-    const paypalCodeForm = document.querySelector('[data-paypal-code-form]');
-    const paypalButton = document.querySelector('[data-paypal-button]');
-    if (paypalCodeForm && paypalButton) {
-        const codeInput = paypalCodeForm.querySelector('[data-paypal-code-input]');
-        const feedback = paypalCodeForm.querySelector('[data-paypal-code-feedback]');
-        const paypalNote = document.querySelector('[data-paypal-note]');
-        const defaultNote = paypalNote?.textContent || '';
-        const defaultHref = paypalButton.getAttribute('href');
-        const codeDataScript = document.getElementById('paypalCodeData');
-        let paymentCodes = [];
+    // Registration form submission with automatic PayPal redirection
+    const registrationForm = document.getElementById('registrationForm');
+    if (registrationForm) {
+        const formMessage = registrationForm.querySelector('[data-form-message]');
+        const submitButton = registrationForm.querySelector('[data-registration-button]');
+        const buttonText = submitButton.querySelector('[data-button-text]');
+        const buttonLoader = submitButton.querySelector('[data-button-loader]');
+        const pricingInfo = registrationForm.querySelector('[data-pricing-info]');
+        const priceDisplay = registrationForm.querySelector('[data-price-display]');
 
-        if (codeDataScript) {
-            try {
-                const parsed = JSON.parse(codeDataScript.textContent);
-                paymentCodes = Array.isArray(parsed?.codes) ? parsed.codes : [];
-            } catch (error) {
-                console.error('No se pudo interpretar la configuración de códigos PayPal.', error);
-            }
-        }
-
-        const normalizeCode = (value) => value.trim().toUpperCase();
-
-        const buildPayPalUrl = (amount, label, code) => {
-            const url = new URL('https://www.paypal.com/cgi-bin/webscr');
-            url.searchParams.set('cmd', '_xclick');
-            url.searchParams.set('business', 'alexramirez.cr@gmail.com');
-            url.searchParams.set('currency_code', 'USD');
-            if (label) {
-                url.searchParams.set('item_name', label);
-            }
-            if (amount) {
-                url.searchParams.set('amount', amount);
-            }
-            if (code) {
-                url.searchParams.set('custom', code);
-            }
-            return url.toString();
-        };
-
-        const setButtonState = ({ enabled, href }) => {
-            if (enabled) {
-                paypalButton.setAttribute('href', href);
-                paypalButton.removeAttribute('aria-disabled');
-            } else {
-                paypalButton.setAttribute('href', href || defaultHref);
-                paypalButton.setAttribute('aria-disabled', 'true');
-            }
-        };
-
-        const showFeedback = (message, type) => {
-            if (!feedback) return;
-            feedback.textContent = message;
-            feedback.hidden = !message;
-            feedback.classList.remove('is-error', 'is-success');
-            if (type) {
-                feedback.classList.add(type);
-            }
-        };
-
-        paypalCodeForm.addEventListener('submit', (event) => {
+        registrationForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            if (!codeInput) return;
 
-            const rawCode = codeInput.value;
-            const userCode = normalizeCode(rawCode);
-
-            if (!userCode) {
-                showFeedback('Ingresa el código que recibiste por correo.', 'is-error');
-                setButtonState({ enabled: false, href: defaultHref });
-                if (paypalNote) {
-                    paypalNote.textContent = defaultNote;
-                }
+            // Validate form
+            if (!registrationForm.checkValidity()) {
+                registrationForm.reportValidity();
                 return;
             }
 
-            const match = paymentCodes.find(
-                (entry) => normalizeCode(entry.code || '') === userCode,
-            );
+            // Disable button and show loading state
+            submitButton.disabled = true;
+            buttonText.style.display = 'none';
+            buttonLoader.style.display = 'inline';
 
-            if (!match) {
-                showFeedback('Código no reconocido. Verifica que esté bien escrito o solicita uno nuevo al equipo.', 'is-error');
-                setButtonState({ enabled: false, href: defaultHref });
-                if (paypalNote) {
-                    paypalNote.textContent = defaultNote;
+            // Get form data
+            const formData = new FormData(registrationForm);
+            const data = {
+                nombre: formData.get('nombre'),
+                email: formData.get('email'),
+                telefono: formData.get('telefono'),
+                categoria: formData.get('categoria'),
+                mensaje: formData.get('mensaje') || ''
+            };
+
+            try {
+                const response = await fetch(N8N_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    // Show price info before redirect
+                    if (pricingInfo && priceDisplay) {
+                        const priceTypeLabel = {
+                            'early_bird': 'Early Bird',
+                            'stage_2': 'Etapa 2',
+                            'regular': 'Tarifa Regular'
+                        }[result.priceType] || result.priceType;
+
+                        priceDisplay.textContent = `USD $${result.price} (${priceTypeLabel})`;
+                        pricingInfo.style.display = 'block';
+                    }
+
+                    // Show success message
+                    formMessage.textContent = `¡Inscripción procesada! Serás redirigido a PayPal para completar el pago de USD $${result.price}. Número de factura: ${result.invoiceNumber}`;
+                    formMessage.style.color = '#22c55e';
+                    formMessage.style.display = 'block';
+
+                    // Redirect to PayPal after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = result.paypalUrl;
+                    }, 2000);
+                } else {
+                    throw new Error(result.error || 'Error en la respuesta del servidor');
                 }
-                return;
-            }
+            } catch (error) {
+                formMessage.textContent = error.message || 'Hubo un error al procesar tu inscripción. Por favor, intenta nuevamente o contacta al equipo organizador.';
+                formMessage.style.color = '#ef4444';
+                formMessage.style.display = 'block';
+                console.error('Error:', error);
 
-            const amount = match.amount ?? match.value;
-            const label = match.label || `Pago Huascarán 360 MTB (${userCode})`;
-            const noteMessage = match.note || `Se registrará un pago por USD ${amount}.`;
-            const paypalUrl = buildPayPalUrl(amount, label, userCode);
+                // Re-enable button
+                submitButton.disabled = false;
+                buttonText.style.display = 'inline';
+                buttonLoader.style.display = 'none';
 
-            setButtonState({ enabled: true, href: paypalUrl });
-            showFeedback(`Código válido. Se configuró el pago como: ${label}.`, 'is-success');
-
-            if (paypalNote) {
-                paypalNote.textContent = noteMessage;
+                // Hide message after 7 seconds
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                }, 7000);
             }
         });
-
-        if (codeInput) {
-            codeInput.addEventListener('input', () => {
-                showFeedback('', null);
-                setButtonState({ enabled: false, href: defaultHref });
-                if (paypalNote) {
-                    paypalNote.textContent = defaultNote;
-                }
-            });
-        }
     }
 });
