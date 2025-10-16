@@ -1,5 +1,5 @@
 {
-  "name": "Huascaran 360 MTB - PayPal Payment Automation",
+  "name": "paypal-workflow",
   "nodes": [
     {
       "parameters": {
@@ -51,7 +51,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// =============================================\n// Author:      Alexander Ramirez K.\n// Create Date: 2025-10-14\n// Description: Calculate registration price based on early bird slots and dates\n// =============================================\n\n// Get current date\nconst now = new Date();\nconst currentDate = now.toISOString().split('T')[0];\n\n// Pricing deadlines\nconst dec31_2025 = new Date('2025-12-31');\nconst apr30_2026 = new Date('2026-04-30');\n\n// Get early bird slots from config sheet\nconst configData = $input.all()[0].json;\nlet earlyBirdSlotsAvailable = 0;\n\n// ✅ Correctly read from your config structure\nif (configData && configData.early_bird_slots !== undefined) {\n  earlyBirdSlotsAvailable = parseInt(configData.early_bird_slots) || 0;\n}\n\n// Determine price\nlet price = 600; // Default: Regular price\nlet priceType = 'regular';\n\n// ✅ Apply correct pricing logic\nif (earlyBirdSlotsAvailable > 0) {\n  price = 450;\n  priceType = 'early_bird';\n} else if (now <= dec31_2025) {\n  price = 540;\n  priceType = 'stage_2';\n} else if (now <= apr30_2026) {\n  price = 580;\n  priceType = 'stage_3';\n} else {\n  // Registration closed\n  return {\n    json: {\n      error: true,\n      message: 'Registration period has ended (after April 30, 2026)'\n    }\n  };\n}\n\n// Get registration data from webhook\nconst registrationData = $('Registration Webhook').item.json.body;\n\n// Return combined output\nreturn {\n  json: {\n    ...registrationData,\n    price,\n    priceType,\n    earlyBirdSlotsAvailable,\n    registrationDate: currentDate,\n    registrationTimestamp: now.toISOString(),\n    invoiceNumber: `H360-${Date.now()}-${Math.floor(Math.random() * 1000)}`\n  }\n};\n"
+        "jsCode": "// =============================================\n// Author:      Alexander Ramirez K.\n// Create Date: 2025-10-14\n// Description: Calculate registration price based on early bird slots and dates\n// =============================================\n\n// Get current date\nconst now = new Date();\nconst currentDate = now.toISOString().split('T')[0];\n\n// Pricing deadlines\nconst dec31_2025 = new Date('2025-12-31');\nconst apr30_2026 = new Date('2026-04-30');\n\n// Get early bird slots from config sheet\nconst configData = $input.all()[0].json;\nlet earlyBirdSlotsAvailable = parseInt($input.first().json['Cupos']);\n\n// ✅ Correctly read from your config structure\nif (configData && configData.early_bird_slots !== undefined) {\n  earlyBirdSlotsAvailable = earlyBirdSlotsAvailable || 0;\n}\n\n// Determine price\nlet price = 600; // Default: Regular price\nlet priceType = 'regular';\n\n// ✅ Apply correct pricing logic\nif (earlyBirdSlotsAvailable > 0) {\n  price = 450;\n  priceType = 'early_bird';\n} else if (now <= dec31_2025) {\n  price = 540;\n  priceType = 'stage_2';\n} else if (now <= apr30_2026) {\n  price = 580;\n  priceType = 'stage_3';\n} else {\n  // Registration closed\n  return {\n    json: {\n      error: true,\n      message: 'Registration period has ended (after April 30, 2026)'\n    }\n  };\n}\n\n// Get registration data from webhook\nconst registrationData = $('Registration Webhook').item.json.body;\n\n// Return combined output\nreturn {\n  json: {\n    ...registrationData,\n    price,\n    priceType,\n    earlyBirdSlotsAvailable,\n    registrationDate: currentDate,\n    registrationTimestamp: now.toISOString(),\n    invoiceNumber: `H360-${Date.now()}-${Math.floor(Math.random() * 1000)}`\n  }\n};\n"
       },
       "id": "a7ab9505-a27d-49ee-9fe2-7882f4ffa27a",
       "name": "Calculate Price",
@@ -359,16 +359,16 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "early_bird_slots": "={{ $('Calculate Price').item.json.earlyBirdSlotsAvailable - 1 }}",
-            "row_number": 1
+            "row_number": 2,
+            "Cupos": "={{ $('Calculate Price').item.json.earlyBirdSlotsAvailable - 1 }}"
           },
           "matchingColumns": [
             "row_number"
           ],
           "schema": [
             {
-              "id": "early_bird_slots",
-              "displayName": "early_bird_slots",
+              "id": "Cupos",
+              "displayName": "Cupos",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -413,7 +413,7 @@
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={{\n  (() => {\n    const calc = $items(\"Calculate Price\")[0].json;\n    const sent = $items(\"Send PayPal Invoice\")[0].json;\n\n    const paypalUrl = sent?.href\n      || sent?.links?.find(l => l.rel === \"payer-view\")?.href\n      || null;\n\n    const created = $items(\"Create PayPal Invoice\")[0].json;\n    const pickId = (href) => href ? href.split('/').pop().split('?')[0] : null;\n    const invoiceId = created?.id\n      || pickId(created?.self?.href)\n      || pickId(paypalUrl)\n      || null;\n\n    return {\n      success: true,\n      price: calc.price,\n      priceType: calc.priceType,\n      invoiceNumber: calc.invoiceNumber,\n      invoiceId,\n      paypalUrl\n    };\n  })()\n}}\n",
+        "responseBody": "={{\n  JSON.stringify((() => {\n    const calc = $items(\"Calculate Price\")[0].json;\n    const sent = $items(\"Send PayPal Invoice\")[0].json;\n    const paypalUrl = sent?.href\n      || sent?.links?.find(l => l.rel === \"payer-view\")?.href\n      || null;\n    const created = $items(\"Create PayPal Invoice\")[0].json;\n    const pickId = (href) => href ? href.split('/').pop().split('?')[0] : null;\n    const invoiceId = created?.id\n      || pickId(created?.self?.href)\n      || pickId(paypalUrl)\n      || null;\n    return {\n      success: true,\n      price: calc.price,\n      priceType: calc.priceType,\n      invoiceNumber: calc.invoiceNumber,\n      invoiceId,\n      paypalUrl\n    };\n  })())\n}}",
         "options": {}
       },
       "id": "d5d952ae-69dc-4e4c-be95-05ef79bf8a9c",
@@ -794,7 +794,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "3ea21baf-8979-4822-8ff9-b5f1cf500771",
+  "versionId": "6acf4226-ed26-4ebe-86e4-0b7790011a53",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "8da7bee76c0d078f1a19d394eaf1b67c1c2ac60a653cd832cc4e04c0a1011adf"
