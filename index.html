@@ -790,6 +790,200 @@
         // n8n Webhook Configuration
         const N8N_WEBHOOK_URL = 'https://n8n.automationbeast.win/webhook/huascaran-registration';
     </script>
+    <!-- n8n Chat Widget CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+    <!-- n8n Chat Widget -->
+    <script type="module">
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+        createChat({
+            webhookUrl: 'https://n8n.automationbeast.win/webhook/d1bc0be7-a524-4648-9496-43b311b1812a/chat',
+            mode: 'window',
+            initialMessages: [
+                '¡Hola! Soy el asistente de Huascarán 360 MTB 🚵‍♂️',
+                '¿Listo para vivir la travesía alrededor del nevado más alto del Perú?',
+                'Puedo ayudarte con:',
+                '• Etapas, altimetría y logística diaria',
+                '• Paquetes, precios y fechas clave',
+                '• Servicios incluidos y soporte mecánico',
+                '• Inscripciones y requisitos para participar'
+            ],
+            i18n: {
+                es: {
+                    title: 'Huascarán 360 MTB',
+                    subtitle: 'Asistente oficial',
+                    footer: '',
+                    getStarted: '¡Conversemos! 💬',
+                    inputPlaceholder: 'Escribe tu mensaje aquí...',
+                    closeButtonTooltip: 'Cerrar'
+                }
+            },
+            defaultLanguage: 'es',
+            showWelcomeScreen: false,
+            allowFileUploads: false
+        });
+    </script>
+    <style>
+        :root {
+            --chat--color--primary: #d92532;
+            --chat--color--primary-shade-50: #f25863;
+            --chat--color--primary--shade-100: #a11822;
+            --chat--color--secondary: #11131b;
+            --chat--color-secondary-shade-50: #2a2d36;
+            --chat--color-white: #ffffff;
+            --chat--color-light: #f6f8fb;
+            --chat--color-light-shade-50: #e8ecf5;
+            --chat--color-light-shade-100: #d6dbe6;
+            --chat--color-medium: #c3c8d4;
+            --chat--color-dark: #101218;
+            --chat--color-disabled: #c5cad6;
+            --chat--color-typing: #fcbf49;
+
+            --chat--spacing: 1rem;
+            --chat--border-radius: 1.1rem;
+            --chat--transition-duration: 0.28s;
+            --chat--font-family: 'Manrope', 'Segoe UI', sans-serif;
+
+            --chat--window--width: clamp(320px, 28vw, 420px);
+            --chat--window--height: clamp(460px, 62vh, 640px);
+            --chat--window--bottom: 2.2rem;
+            --chat--window--right: 1.75rem;
+            --chat--window--border: 1px solid rgba(16, 18, 24, 0.08);
+            --chat--window--border-radius: 1.5rem;
+            --chat--window--margin-bottom: 1.4rem;
+
+            --chat--header--padding: 1.25rem 1.6rem;
+            --chat--header--background: linear-gradient(135deg, rgba(16, 18, 24, 0.94), rgba(217, 37, 50, 0.9));
+            --chat--header--color: #ffffff;
+            --chat--header--border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+
+            --chat--heading--font-size: 1.45rem;
+            --chat--subtitle--font-size: 1rem;
+            --chat--subtitle--line-height: 1.45;
+
+            --chat--message--font-size: 0.95rem;
+            --chat--message--padding: 0.85rem 1rem;
+            --chat--message--border-radius: 1rem;
+            --chat--message-line-height: 1.55;
+            --chat--message--margin-bottom: 0.75rem;
+            --chat--message--bot--background: #ffffff;
+            --chat--message--bot--color: #101218;
+            --chat--message--bot--border: 1px solid rgba(16, 18, 24, 0.08);
+            --chat--message--user--background: #d92532;
+            --chat--message--user--color: #ffffff;
+            --chat--message--user--border: none;
+            --chat--message--pre--background: rgba(16, 18, 24, 0.08);
+            --chat--messages-list--padding: 1.25rem;
+
+            --chat--textarea--height: 56px;
+            --chat--textarea--max-height: 260px;
+            --chat--input--font-size: 0.95rem;
+            --chat--input--padding: 0.95rem;
+            --chat--input--background: rgba(255, 255, 255, 0.95);
+            --chat--input--text-color: #101218;
+            --chat--input--border: 1px solid rgba(16, 18, 24, 0.08);
+            --chat--input--border-active: 1px solid rgba(217, 37, 50, 0.4);
+            --chat--input--left--panel--width: 2.75rem;
+            --chat--input--send--button--background: transparent;
+            --chat--input--send--button--color: #d92532;
+            --chat--input--send--button--background-hover: rgba(217, 37, 50, 0.14);
+            --chat--input--send--button--color-hover: #91141f;
+
+            --chat--toggle--size: 68px;
+            --chat--toggle--background: linear-gradient(135deg, #d92532, #101218);
+            --chat--toggle--hover--background: linear-gradient(135deg, #f04653, #2a2d36);
+            --chat--toggle--active--background: linear-gradient(135deg, #b21f2d, #0d1018);
+            --chat--toggle--color: #ffffff;
+
+            --chat--body--background: rgba(246, 248, 251, 0.96);
+            --chat--footer--background: rgba(255, 255, 255, 0.96);
+            --chat--footer--color: #101218;
+        }
+
+        /* Position chat widget above sticky banner */
+        .n8n-chat {
+            z-index: 120 !important;
+            font-family: 'Manrope', 'Segoe UI', sans-serif !important;
+        }
+
+        /* Position chat button */
+        .n8n-chat .chat-window-toggle {
+            bottom: 8rem !important;
+            right: 1.5rem !important;
+            z-index: 121 !important;
+        }
+
+        /* Position chat window when open */
+        .n8n-chat .chat-window-wrapper {
+            bottom: 10rem !important;
+            right: 1.5rem !important;
+        }
+
+        .n8n-chat .chat-heading {
+            font-weight: 700 !important;
+            letter-spacing: -0.01em !important;
+        }
+
+        .n8n-chat .chat-heading + p {
+            color: rgba(255, 255, 255, 0.88) !important;
+            margin-top: 0.35rem !important;
+        }
+
+        .n8n-chat .chat-window-toggle {
+            box-shadow: 0 16px 40px rgba(16, 18, 24, 0.38) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .n8n-chat .chat-window-toggle:hover,
+        .n8n-chat .chat-window-toggle:focus {
+            box-shadow: 0 20px 48px rgba(217, 37, 50, 0.5) !important;
+            transform: translateY(-2px) scale(1.03) !important;
+        }
+
+        .n8n-chat .chat-window-toggle svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .n8n-chat .chat-message-from-user {
+            box-shadow: 0 12px 26px rgba(217, 37, 50, 0.3) !important;
+        }
+
+        .n8n-chat .chat-message-from-bot {
+            box-shadow: 0 10px 24px rgba(16, 18, 24, 0.08) !important;
+        }
+
+        .n8n-chat .chat-message-markdown ul {
+            padding-left: 1.25rem !important;
+            margin: 0.35rem 0 !important;
+        }
+
+        .n8n-chat .chat-message-markdown li {
+            margin-bottom: 0.2rem !important;
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --chat--window--width: min(100vw - 2.5rem, 420px);
+                --chat--window--height: min(75vh, 620px);
+                --chat--window--right: 1.2rem;
+                --chat--window--bottom: 1.2rem;
+            }
+
+            .n8n-chat .chat-window-toggle {
+                bottom: 6rem !important;
+                right: 1.2rem !important;
+            }
+
+            .n8n-chat .chat-window-wrapper,
+            .n8n-chat .chat-window {
+                bottom: 8rem !important;
+                right: 1.2rem !important;
+                width: min(100vw - 2.5rem, 420px) !important;
+            }
+        }
+    </style>
     <script src="script.js"></script>
 </body>
 </html>
