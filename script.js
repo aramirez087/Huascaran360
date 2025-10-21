@@ -363,7 +363,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const scrollY = window.scrollY;
             const heroHeight = 800; // Show after scrolling past hero
 
-            if (scrollY > heroHeight) {
+            // Check if footer is in viewport
+            const footer = document.querySelector('.site-footer');
+            const footerRect = footer ? footer.getBoundingClientRect() : null;
+            const isFooterVisible = footerRect && footerRect.top < window.innerHeight;
+
+            if (scrollY > heroHeight && !isFooterVisible) {
                 stickyCta.classList.add('is-visible');
                 stickyCta.setAttribute('aria-hidden', 'false');
             } else {

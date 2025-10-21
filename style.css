@@ -2539,6 +2539,17 @@ tbody tr:last-child th {
     margin: 0;
 }
 
+.site-footer__legal a {
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.site-footer__legal a:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
 /* Sticky CTA Bar */
 .sticky-cta {
     position: fixed;
