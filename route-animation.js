@@ -43,7 +43,7 @@ class RouteAnimation {
     async loadGPX() {
         try {
             console.log('📍 Loading GPX file...');
-            const response = await fetch('huascaran.gpx');
+            const response = await fetch('huascaran-lite.gpx');
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -58,8 +58,8 @@ class RouteAnimation {
             const trackPoints = gpxDoc.querySelectorAll('trkpt');
             console.log(`📊 Found ${trackPoints.length} track points`);
 
-            // Sample every Nth point to reduce data (every 50th point for smooth animation)
-            const samplingRate = 50;
+            // Use every 10th point for smooth animation (GPX already optimized to ~25m spacing)
+            const samplingRate = 10;
             let totalDistance = 0;
 
             trackPoints.forEach((point, index) => {
@@ -87,7 +87,7 @@ class RouteAnimation {
                 }
             });
 
-            console.log(`✅ Loaded ${this.routeData.length} route points`);
+            console.log(`✅ Loaded ${this.routeData.length} route points (optimized)`);
         } catch (error) {
             console.error('❌ Error loading GPX:', error);
         }

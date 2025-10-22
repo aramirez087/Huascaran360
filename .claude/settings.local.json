@@ -1,17 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dir \"C:\\code\\Huascaran360\\images\" /b)",
-      "Bash(dir:*)",
-      "mcp__n8n-mcp__search_nodes",
-      "mcp__n8n-mcp__get_node_documentation",
-      "mcp__n8n-mcp__search_templates",
-      "Bash(curl -s \"https://connect.garmin.com/modern/proxy/download-service/export/gpx/activity/20591906496\" -o test.gpx)",
-      "Bash(findstr /i \"\\.gpx\")",
-      "Bash(powershell -Command \"(Get-Content ''c:\\code\\Huascaran360\\style.css'').Length\")",
-      "Bash(python -m http.server 8000)",
-      "Bash(python generate_favicon.py)",
-      "Bash(pip install Pillow)"
+      "Bash(powershell -Command \"Get-ChildItem *.gpx | Select-Object Name, @{Name=''Size (MB)'';Expression={''{0:N2}'' -f ($_Length/1MB)}}, @{Name=''Size (KB)'';Expression={''{0:N0}'' -f ($_Length/1KB)}} | Format-Table -AutoSize\")"
     ],
     "deny": [],
     "ask": []
