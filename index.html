@@ -606,6 +606,9 @@
                 </div>
                 <figure class="route__map">
                     <iframe src='https://connect.garmin.com/modern/activity/embed/20591906496' width='465' height='548' title='Activity Embed' frameborder="0"></iframe>
+                    <button class="btn btn--secondary btn--small route__details-btn" type="button" data-garmin-details>
+                        Ver detalles completos
+                    </button>
                 </figure>
             </div>
         </section>
@@ -715,6 +718,16 @@
             <button class="video-modal__close" type="button" data-video-close aria-label="Cerrar video">×</button>
             <div class="video-modal__frame">
                 <iframe src="" title="Reproductor video Huascarán 360 MTB" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="garmin-modal" data-garmin-modal aria-hidden="true">
+        <div class="garmin-modal__backdrop" data-garmin-close></div>
+        <div class="garmin-modal__dialog" role="dialog" aria-modal="true" aria-label="Detalles completos de la actividad Garmin" tabindex="-1">
+            <button class="garmin-modal__close" type="button" data-garmin-close aria-label="Cerrar detalles">×</button>
+            <div class="garmin-modal__frame">
+                <iframe src="" title="Detalles completos Garmin Connect" allowfullscreen loading="lazy"></iframe>
             </div>
         </div>
     </div>

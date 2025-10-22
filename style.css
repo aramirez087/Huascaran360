@@ -442,18 +442,19 @@ main {
 }
 
 .btn--ghost {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(16, 18, 24, 0.05);
     backdrop-filter: blur(10px);
-    color: #ffffff;
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    color: var(--color-dark);
+    border: 1.5px solid rgba(16, 18, 24, 0.15);
 }
 
 .btn--ghost:hover,
 .btn--ghost:focus-visible {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(16, 18, 24, 0.08);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 30px rgba(217, 37, 50, 0.15);
 }
 
 .btn--small {
@@ -1321,6 +1322,90 @@ body.modal-open {
 .video-modal__dialog:focus-visible {
     outline: 2px solid rgba(255, 255, 255, 0.45);
     outline-offset: 6px;
+}
+
+/* Garmin Modal */
+.garmin-modal {
+    position: fixed;
+    inset: 0;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 220ms ease;
+    z-index: 200;
+}
+
+.garmin-modal.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.garmin-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 12, 18, 0.72);
+    backdrop-filter: blur(18px);
+}
+
+.garmin-modal__dialog {
+    position: relative;
+    width: min(1200px, 96vw);
+    height: min(800px, 90vh);
+    outline: none;
+}
+
+.garmin-modal__frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 26px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 45px 90px rgba(10, 10, 20, 0.6);
+}
+
+.garmin-modal__frame iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.garmin-modal__close {
+    position: absolute;
+    top: -2.8rem;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    font-size: 1.8rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    transition: transform 180ms ease, background 180ms ease;
+}
+
+.garmin-modal__close:hover,
+.garmin-modal__close:focus-visible {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.garmin-modal__dialog:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.45);
+    outline-offset: 6px;
+}
+
+.route__details-btn {
+    margin-top: 1rem;
+    width: 100%;
 }
 
 @keyframes pulse {
