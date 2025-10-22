@@ -3080,13 +3080,23 @@ tbody tr:last-child th {
     height: 100%;
 }
 
-/* Ensure Leaflet controls stay below sticky CTA */
+/* Ensure Leaflet controls stay below sticky CTA and overlay */
 .route__map-container .leaflet-control-container,
 .route__map-container .leaflet-pane,
 .route__map-container .leaflet-top,
-.route__map-container .leaflet-bottom {
-    z-index: 1 !important;
-    max-z-index: 10 !important;
+.route__map-container .leaflet-bottom,
+.route__map-container .leaflet-marker-pane,
+.route__map-container .leaflet-tile-pane,
+.route__map-container .leaflet-overlay-pane,
+.route__map-container .leaflet-shadow-pane,
+.route__map-container .leaflet-map-pane {
+    z-index: auto !important;
+}
+
+/* Leaflet controls should be below overlay but visible */
+.route__map-container .leaflet-control-zoom,
+.route__map-container .leaflet-control-attribution {
+    z-index: 50 !important;
 }
 
 .route__map-overlay {
@@ -3096,7 +3106,7 @@ tbody tr:last-child th {
     right: 0;
     bottom: 0;
     pointer-events: none;
-    z-index: 1;
+    z-index: 1000;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
