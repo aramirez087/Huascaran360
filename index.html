@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -604,12 +605,58 @@
                     </ul>
                     <a class="btn btn--ghost btn--small" href="#categorias">Revisa categorías y requisitos</a>
                 </div>
-                <figure class="route__map">
-                    <iframe src='https://connect.garmin.com/modern/activity/embed/20591906496' width='465' height='548' title='Activity Embed' frameborder="0"></iframe>
-                    <button class="btn btn--secondary btn--small route__details-btn" type="button" data-garmin-details>
-                        Ver detalles completos
-                    </button>
-                </figure>
+                <div class="route__interactive">
+                    <div class="route__map-wrapper">
+                        <div class="route__map-container" id="routeMap"></div>
+                        <div class="route__map-overlay">
+                            <div class="route__stats-live" data-route-stats>
+                                <div class="route__stat-item">
+                                    <span class="route__stat-label">Distancia</span>
+                                    <span class="route__stat-value" data-route-distance>0 km</span>
+                                </div>
+                                <div class="route__stat-item">
+                                    <span class="route__stat-label">Elevación</span>
+                                    <span class="route__stat-value" data-route-elevation>0 m</span>
+                                </div>
+                                <div class="route__stat-item">
+                                    <span class="route__stat-label">Progreso</span>
+                                    <span class="route__stat-value" data-route-progress>0%</span>
+                                </div>
+                            </div>
+                            <div class="route__controls">
+                                <button class="route__control-btn" data-route-play aria-label="Reproducir animación">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                    </svg>
+                                </button>
+                                <button class="route__control-btn" data-route-pause style="display:none;" aria-label="Pausar animación">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="6" y="4" width="4" height="16"></rect>
+                                        <rect x="14" y="4" width="4" height="16"></rect>
+                                    </svg>
+                                </button>
+                                <button class="route__control-btn" data-route-reset aria-label="Reiniciar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                                        <path d="M21 3v5h-5"></path>
+                                    </svg>
+                                </button>
+                                <button class="route__control-btn" data-route-3d aria-label="Vista 3D">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="route__elevation-profile" id="elevationProfile">
+                        <canvas id="elevationCanvas"></canvas>
+                        <div class="route__elevation-tooltip" data-elevation-tooltip style="display:none;">
+                            <span data-tooltip-elevation></span>
+                            <span data-tooltip-distance></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -722,16 +769,6 @@
         </div>
     </div>
 
-    <div class="garmin-modal" data-garmin-modal aria-hidden="true">
-        <div class="garmin-modal__backdrop" data-garmin-close></div>
-        <div class="garmin-modal__dialog" role="dialog" aria-modal="true" aria-label="Detalles completos de la actividad Garmin" tabindex="-1">
-            <button class="garmin-modal__close" type="button" data-garmin-close aria-label="Cerrar detalles">×</button>
-            <div class="garmin-modal__frame">
-                <iframe src="" title="Detalles completos Garmin Connect" allowfullscreen loading="lazy"></iframe>
-            </div>
-        </div>
-    </div>
-
     <footer class="site-footer">
         <div class="wrapper site-footer__layout">
             <div class="site-footer__column site-footer__column--brand">
@@ -798,10 +835,15 @@
         </div>
     </div>
 
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script>
         // n8n Webhook Configuration
         const N8N_WEBHOOK_URL = 'https://n8n.automationbeast.win/webhook/huascaran-registration';
+        // Mapbox Configuration
+        const MAPBOX_TOKEN = 'pk.eyJ1IjoiYXJhbWlyZXowODciLCJhIjoiY21oMWVmcDl5MHB0NzBzbzlmaWk2aHVtdSJ9.7G2l5038ersBJpJQVtQz7A';
     </script>
+    <script src="route-animation.js"></script>
     <!-- n8n Chat Widget CSS -->
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 

@@ -7,7 +7,9 @@
       "mcp__n8n-mcp__get_node_documentation",
       "mcp__n8n-mcp__search_templates",
       "Bash(curl -s \"https://connect.garmin.com/modern/proxy/download-service/export/gpx/activity/20591906496\" -o test.gpx)",
-      "Bash(findstr /i \"\\.gpx\")"
+      "Bash(findstr /i \"\\.gpx\")",
+      "Bash(powershell -Command \"(Get-Content ''c:\\code\\Huascaran360\\style.css'').Length\")",
+      "Bash(python -m http.server 8000)"
     ],
     "deny": [],
     "ask": []

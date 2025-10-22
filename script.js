@@ -132,15 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Garmin Details Button - Opens in new tab
-    const garminTrigger = document.querySelector('[data-garmin-details]');
-    if (garminTrigger) {
-        garminTrigger.addEventListener('click', () => {
-            // Open Garmin Connect page in a new tab
-            window.open('https://connect.garmin.com/modern/activity/20591906496', '_blank', 'noopener,noreferrer');
-        });
-    }
-
     const carousels = document.querySelectorAll('[data-carousel]');
     if (carousels.length) {
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
