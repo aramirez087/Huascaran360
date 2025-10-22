@@ -3,7 +3,8 @@
     "allow": [
       "Bash(powershell -Command \"Get-ChildItem *.gpx | Select-Object Name, @{Name=''Size (MB)'';Expression={''{0:N2}'' -f ($_Length/1MB)}}, @{Name=''Size (KB)'';Expression={''{0:N0}'' -f ($_Length/1KB)}} | Format-Table -AutoSize\")",
       "Bash(python -m http.server 8000)",
-      "Bash(timeout 2 powershell -Command \"Start-Sleep -Seconds 1; (Invoke-WebRequest -Uri ''http://localhost:8000'' -UseBasicParsing -TimeoutSec 2).StatusCode\")"
+      "Bash(timeout 2 powershell -Command \"Start-Sleep -Seconds 1; (Invoke-WebRequest -Uri ''http://localhost:8000'' -UseBasicParsing -TimeoutSec 2).StatusCode\")",
+      "Bash(powershell -Command \"Test-Path sitemap.xml; Test-Path robots.txt\")"
     ],
     "deny": [],
     "ask": []

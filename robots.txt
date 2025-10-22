@@ -1,0 +1,70 @@
+# Huascarán 360 MTB - Robots Configuration
+# Updated: 2025-10-22
+
+User-agent: *
+Allow: /
+
+# Priority Crawl Sections
+Allow: /#inscripciones
+Allow: /#programa
+Allow: /#recorrido
+Allow: /#contacto
+
+# Disallow admin/backend if applicable
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+Disallow: /paypal-workflow.json
+
+# Allow important assets
+Allow: /images/
+Allow: /favicon.svg
+Allow: /favicon-32x32.png
+Allow: /*.css
+Allow: /*.js
+
+# Sitemap Location
+Sitemap: https://huascaran360mtb.com/sitemap.xml
+
+# Specific Bot Instructions
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+# AI Chatbots (Claude, ChatGPT, Perplexity, etc.)
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# Social Media Bots
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /

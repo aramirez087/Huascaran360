@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+
+    <!-- Main Page -->
+    <url>
+        <loc>https://huascaran360mtb.com/</loc>
+        <lastmod>2025-10-22</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://huascaran360mtb.com/images/huascaran-360-01.webp</image:loc>
+            <image:title>Vista majestuosa del nevado Huascarán</image:title>
+            <image:caption>Los primeros rayos iluminan el nevado Huascarán antes de la largada</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://huascaran360mtb.com/images/huascaran-360-06.webp</image:loc>
+            <image:title>Ciclistas cruzando el Portachuelo de Llanganuco</image:title>
+            <image:caption>Paso Portachuelo a 4,750 m: el punto más alto del desafío</image:caption>
+        </image:image>
+        <video:video>
+            <video:thumbnail_loc>https://huascaran360mtb.com/images/huascaran-360-01.webp</video:thumbnail_loc>
+            <video:title>Huascarán 360 MTB Video Oficial 2026</video:title>
+            <video:description>Video oficial de la carrera de ciclismo de montaña más épica de Perú. Sumérgete en la Cordillera Blanca: una invitación a vivir los 360° del Huascarán.</video:description>
+            <video:content_loc>https://www.youtube.com/watch?v=pgd1Tk28C7U</video:content_loc>
+            <video:player_loc>https://www.youtube.com/embed/pgd1Tk28C7U</video:player_loc>
+            <video:duration>180</video:duration>
+            <video:publication_date>2025-01-01</video:publication_date>
+            <video:family_friendly>yes</video:family_friendly>
+            <video:requires_subscription>no</video:requires_subscription>
+        </video:video>
+    </url>
+
+    <!-- Section: La Carrera (Event Info) -->
+    <url>
+        <loc>https://huascaran360mtb.com/#info</loc>
+        <lastmod>2025-10-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Section: Programa -->
+    <url>
+        <loc>https://huascaran360mtb.com/#programa</loc>
+        <lastmod>2025-10-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Section: Inscripciones (High Priority - Conversion Page) -->
+    <url>
+        <loc>https://huascaran360mtb.com/#inscripciones</loc>
+        <lastmod>2025-10-22</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- Section: Por qué unirte -->
+    <url>
+        <loc>https://huascaran360mtb.com/#por-que-unirte</loc>
+        <lastmod>2025-10-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Section: Recorrido (Route/Map) -->
+    <url>
+        <loc>https://huascaran360mtb.com/#recorrido</loc>
+        <lastmod>2025-10-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Section: Galería -->
+    <url>
+        <loc>https://huascaran360mtb.com/#galeria</loc>
+        <lastmod>2025-10-22</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+        <image:image>
+            <image:loc>https://huascaran360mtb.com/images/huascaran-360-02.webp</image:loc>
+            <image:title>Pelotón de ciclistas ascendiendo por valle andino</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://huascaran360mtb.com/images/huascaran-360-03.webp</image:loc>
+            <image:title>Ciclistas en ruta técnica de montaña</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://huascaran360mtb.com/images/huascaran-360-04.webp</image:loc>
+            <image:title>Paisaje espectacular de la Cordillera Blanca</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://huascaran360mtb.com/images/huascaran-360-05.webp</image:loc>
+            <image:title>Laguna turquesa en la Cordillera Blanca</image:title>
+        </image:image>
+    </url>
+
+    <!-- Section: Servicios -->
+    <url>
+        <loc>https://huascaran360mtb.com/#servicios</loc>
+        <lastmod>2025-10-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Section: Categorías -->
+    <url>
+        <loc>https://huascaran360mtb.com/#categorias</loc>
+        <lastmod>2025-10-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Section: Contacto -->
+    <url>
+        <loc>https://huascaran360mtb.com/#contacto</loc>
+        <lastmod>2025-10-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+</urlset>

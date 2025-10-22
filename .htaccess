@@ -1,0 +1,142 @@
+# Huascarán 360 MTB - Apache Configuration
+# Performance, Security, and SEO Optimization
+
+# Enable Rewrite Engine
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Force HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Force WWW or non-WWW (choose one)
+    # RewriteCond %{HTTP_HOST} !^www\. [NC]
+    # RewriteRule ^(.*)$ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# GZIP Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json application/xml application/rss+xml application/atom+xml image/svg+xml
+</IfModule>
+
+# Brotli Compression (if available)
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+# Browser Caching
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Default: 1 year cache
+    ExpiresDefault "access plus 1 year"
+
+    # HTML: 30 minutes
+    ExpiresByType text/html "access plus 30 minutes"
+
+    # Images: 1 year
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+
+    # CSS & JavaScript: 1 year
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+
+    # Fonts: 1 year
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+
+    # SEO files: 1 day
+    ExpiresByType application/xml "access plus 1 day"
+    ExpiresByType text/xml "access plus 1 day"
+</IfModule>
+
+# Cache-Control Headers
+<IfModule mod_headers.c>
+    # Security Headers
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+    # HSTS
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # Remove Server Info
+    Header unset Server
+    Header unset X-Powered-By
+
+    # Preconnect for performance
+    <FilesMatch "\.(html)$">
+        Header set Link "<https://fonts.googleapis.com>; rel=preconnect"
+        Header append Link "<https://fonts.gstatic.com>; rel=preconnect; crossorigin"
+    </FilesMatch>
+
+    # Static assets
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico|css|js|woff|woff2|ttf|eot)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # HTML files
+    <FilesMatch "\.(html)$">
+        Header set Cache-Control "public, max-age=1800, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# ETags
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
+
+# UTF-8 Encoding
+AddDefaultCharset UTF-8
+<IfModule mod_mime.c>
+    AddCharset UTF-8 .html .css .js .xml .json .webmanifest
+</IfModule>
+
+# MIME Types
+<IfModule mod_mime.c>
+    # Images
+    AddType image/svg+xml svg svgz
+    AddType image/webp webp
+
+    # Fonts
+    AddType font/woff woff
+    AddType font/woff2 woff2
+    AddType font/ttf ttf
+    AddType font/eot eot
+
+    # Manifests
+    AddType application/manifest+json webmanifest
+    AddType application/json json
+
+    # Other
+    AddType text/plain txt
+</IfModule>
+
+# Prevent Directory Browsing
+Options -Indexes
+
+# Error Documents (optional)
+# ErrorDocument 404 /404.html
+# ErrorDocument 500 /500.html
+
+# Block access to hidden files (except .well-known)
+<FilesMatch "^\.(?!well-known)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Protect sensitive files
+<FilesMatch "(^#.*#|\.(bak|conf|dist|fla|in[ci]|log|psd|sh|sql|sw[op])|~)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
