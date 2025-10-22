@@ -339,7 +339,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 formMessage.textContent = 'Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.';
                 formMessage.style.color = '#ef4444';
                 formMessage.style.display = 'block';
-                console.error('Error:', error);
             } finally {
                 // Re-enable button
                 submitButton.disabled = false;
@@ -465,7 +464,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 formMessage.textContent = error.message || 'Hubo un error al procesar tu inscripción. Por favor, intenta nuevamente o contacta al equipo organizador.';
                 formMessage.style.color = '#ef4444';
                 formMessage.style.display = 'block';
-                console.error('Error:', error);
 
                 // Re-enable button
                 submitButton.disabled = false;

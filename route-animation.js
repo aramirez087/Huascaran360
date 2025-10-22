@@ -18,14 +18,9 @@ class RouteAnimation {
     }
 
     async init() {
-        console.log('🚀 RouteAnimation initializing...');
-
         if (typeof L === 'undefined') {
-            console.error('❌ Leaflet not loaded');
             return;
         }
-
-        console.log('✅ Leaflet loaded');
 
         // Parse GPX file
         await this.loadGPX();
@@ -42,7 +37,6 @@ class RouteAnimation {
 
     async loadGPX() {
         try {
-            console.log('📍 Loading GPX file...');
             const response = await fetch('huascaran-lite.gpx');
 
             if (!response.ok) {
@@ -50,13 +44,11 @@ class RouteAnimation {
             }
 
             const gpxText = await response.text();
-            console.log(`📄 GPX file loaded: ${gpxText.length} characters`);
 
             const parser = new DOMParser();
             const gpxDoc = parser.parseFromString(gpxText, 'text/xml');
 
             const trackPoints = gpxDoc.querySelectorAll('trkpt');
-            console.log(`📊 Found ${trackPoints.length} track points`);
 
             // Use every 10th point for smooth animation (GPX already optimized to ~25m spacing)
             const samplingRate = 10;
@@ -86,10 +78,8 @@ class RouteAnimation {
                     });
                 }
             });
-
-            console.log(`✅ Loaded ${this.routeData.length} route points (optimized)`);
         } catch (error) {
-            console.error('❌ Error loading GPX:', error);
+            // Error loading GPX
         }
     }
 
@@ -111,22 +101,16 @@ class RouteAnimation {
     initMap() {
         const mapContainer = document.getElementById('routeMap');
         if (!mapContainer) {
-            console.error('❌ Map container #routeMap not found!');
             return;
         }
 
         if (this.routeData.length === 0) {
-            console.error('❌ No route data loaded!');
             return;
         }
-
-        console.log('🗺️ Initializing Leaflet map...');
 
         // Calculate center point
         const centerLat = this.routeData.reduce((sum, p) => sum + p.lat, 0) / this.routeData.length;
         const centerLon = this.routeData.reduce((sum, p) => sum + p.lon, 0) / this.routeData.length;
-
-        console.log(`📍 Map center: ${centerLat.toFixed(4)}, ${centerLon.toFixed(4)}`);
 
         // Create map with OpenStreetMap tiles
         this.map = L.map('routeMap', {
@@ -204,8 +188,6 @@ class RouteAnimation {
         this.map.fitBounds(this.routeLine.getBounds(), {
             padding: [60, 60]
         });
-
-        console.log('✅ Map initialized successfully!');
     }
 
     setupControls() {
@@ -233,27 +215,32 @@ class RouteAnimation {
         }
 
         const duration = 30; // 30 seconds for full animation
-        const updateInterval = 0.1; // Update every 100ms
+        const totalPoints = this.routeData.length - 1;
+        const startIndex = this.currentIndex;
+        const endIndex = totalPoints;
 
-        this.animationTimeline = gsap.timeline({
+        // Calculate remaining duration based on current progress
+        const remainingProgress = (endIndex - startIndex) / totalPoints;
+        const remainingDuration = duration * remainingProgress;
+
+        // Create animation object to track progress
+        const animationProgress = { value: startIndex };
+
+        this.animationTimeline = gsap.to(animationProgress, {
+            value: endIndex,
+            duration: remainingDuration,
+            ease: 'none',
+            onUpdate: () => {
+                const index = Math.round(animationProgress.value);
+                if (index !== this.currentIndex && index < this.routeData.length) {
+                    this.updateProgress(index);
+                }
+            },
             onComplete: () => {
+                this.updateProgress(endIndex);
                 this.pause();
             }
         });
-
-        // Animate through all route points
-        for (let i = this.currentIndex + 1; i < this.routeData.length; i++) {
-            const point = this.routeData[i];
-            const progress = i / (this.routeData.length - 1);
-            const time = progress * duration;
-
-            this.animationTimeline.to({}, {
-                duration: updateInterval,
-                onStart: () => {
-                    this.updateProgress(i);
-                }
-            }, time);
-        }
     }
 
     pause() {
@@ -312,23 +299,9 @@ class RouteAnimation {
         this.currentIndex = index;
         const point = this.routeData[index];
 
-        // Update marker position with smooth animation
+        // Update marker position directly (no nested animation to avoid conflicts)
         if (this.marker) {
-            const newLatLng = L.latLng(point.lat, point.lon);
-
-            // Smooth transition using GSAP
-            const currentLatLng = this.marker.getLatLng();
-            const tempObj = { lat: currentLatLng.lat, lng: currentLatLng.lng };
-
-            gsap.to(tempObj, {
-                lat: newLatLng.lat,
-                lng: newLatLng.lng,
-                duration: 0.2,
-                ease: 'power2.out',
-                onUpdate: () => {
-                    this.marker.setLatLng([tempObj.lat, tempObj.lng]);
-                }
-            });
+            this.marker.setLatLng([point.lat, point.lon]);
         }
 
         // Update progress line
@@ -344,18 +317,12 @@ class RouteAnimation {
         document.querySelector('[data-route-progress]').textContent =
             `${Math.round(progress)}%`;
 
-        // Animate stats with GSAP
-        gsap.from('[data-route-stats]', {
-            scale: 1.05,
-            duration: 0.2,
-            ease: 'power2.out'
-        });
-
-        // Pan map to follow marker when playing
+        // Pan map to follow marker when playing (with smooth animation)
         if (this.isPlaying) {
             this.map.panTo([point.lat, point.lon], {
                 animate: true,
-                duration: 0.2
+                duration: 0.5,
+                easeLinearity: 0.25
             });
         }
     }
@@ -467,18 +434,15 @@ class RouteAnimation {
 function initRouteAnimation() {
     // Check if all dependencies are loaded
     if (typeof L === 'undefined') {
-        console.warn('⏳ Waiting for Leaflet to load...');
         setTimeout(initRouteAnimation, 100);
         return;
     }
 
     if (typeof gsap === 'undefined') {
-        console.warn('⏳ Waiting for GSAP to load...');
         setTimeout(initRouteAnimation, 100);
         return;
     }
 
-    console.log('✅ All dependencies loaded, initializing route animation');
     new RouteAnimation();
 }
 

@@ -3260,7 +3260,7 @@ tbody tr:last-child th {
 
 .route-marker--cyclist {
     font-size: 32px;
-    animation: bounce 2s ease-in-out infinite;
+    /* Animation removed - it was conflicting with Leaflet's transform positioning */
 }
 
 @keyframes bounce {
