@@ -1,5 +1,5 @@
 // Huascarán 360 MTB - Interactive Route Animation
-// Powered by Mapbox GL JS, GSAP, and GPX data
+// Powered by Leaflet, OpenStreetMap, GSAP, and GPX data
 
 class RouteAnimation {
     constructor() {
@@ -10,6 +10,9 @@ class RouteAnimation {
         this.isPlaying = false;
         this.is3DMode = false;
         this.marker = null;
+        this.routeLine = null;
+        this.progressLine = null;
+        this.currentLayer = 'street'; // 'street' or 'satellite'
 
         this.init();
     }
@@ -17,18 +20,12 @@ class RouteAnimation {
     async init() {
         console.log('🚀 RouteAnimation initializing...');
 
-        if (typeof mapboxgl === 'undefined') {
-            console.error('❌ Mapbox GL JS not loaded');
+        if (typeof L === 'undefined') {
+            console.error('❌ Leaflet not loaded');
             return;
         }
 
-        if (typeof MAPBOX_TOKEN === 'undefined') {
-            console.error('❌ MAPBOX_TOKEN not defined');
-            return;
-        }
-
-        console.log('✅ Mapbox GL JS loaded');
-        mapboxgl.accessToken = MAPBOX_TOKEN;
+        console.log('✅ Leaflet loaded');
 
         // Parse GPX file
         await this.loadGPX();
@@ -90,9 +87,9 @@ class RouteAnimation {
                 }
             });
 
-            console.log(`Loaded ${this.routeData.length} route points`);
+            console.log(`✅ Loaded ${this.routeData.length} route points`);
         } catch (error) {
-            console.error('Error loading GPX:', error);
+            console.error('❌ Error loading GPX:', error);
         }
     }
 
@@ -123,7 +120,7 @@ class RouteAnimation {
             return;
         }
 
-        console.log('🗺️ Initializing Mapbox map...');
+        console.log('🗺️ Initializing Leaflet map...');
 
         // Calculate center point
         const centerLat = this.routeData.reduce((sum, p) => sum + p.lat, 0) / this.routeData.length;
@@ -131,125 +128,83 @@ class RouteAnimation {
 
         console.log(`📍 Map center: ${centerLat.toFixed(4)}, ${centerLon.toFixed(4)}`);
 
-        this.map = new mapboxgl.Map({
-            container: 'routeMap',
-            style: 'mapbox://styles/mapbox/satellite-streets-v12',
-            center: [centerLon, centerLat],
+        // Create map with OpenStreetMap tiles
+        this.map = L.map('routeMap', {
+            center: [centerLat, centerLon],
             zoom: 10,
-            pitch: 0,
-            bearing: 0,
-            terrain: { source: 'mapbox-dem', exaggeration: 1.5 }
+            zoomControl: true
         });
 
-        this.map.on('error', (e) => {
-            console.error('❌ Map error:', e);
+        // Add OpenStreetMap base layer (default)
+        this.streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(this.map);
+
+        // Add satellite layer (Esri World Imagery - free alternative)
+        this.satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '© Esri, Maxar, Earthstar Geographics',
+            maxZoom: 19
         });
 
-        this.map.on('load', () => {
-            console.log('✅ Map loaded successfully!');
+        // Create route line coordinates
+        const routeCoords = this.routeData.map(p => [p.lat, p.lon]);
 
-            // Add terrain source
-            this.map.addSource('mapbox-dem', {
-                'type': 'raster-dem',
-                'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-                'tileSize': 512,
-                'maxzoom': 14
-            });
+        // Add full route line (grey/red)
+        this.routeLine = L.polyline(routeCoords, {
+            color: '#d92532',
+            weight: 4,
+            opacity: 0.6,
+            smoothFactor: 1
+        }).addTo(this.map);
 
-            // Add route line
-            this.map.addSource('route', {
-                'type': 'geojson',
-                'data': {
-                    'type': 'Feature',
-                    'properties': {},
-                    'geometry': {
-                        'type': 'LineString',
-                        'coordinates': this.routeData.map(p => [p.lon, p.lat])
-                    }
-                }
-            });
+        // Add progress line (yellow - will be updated during animation)
+        this.progressLine = L.polyline([], {
+            color: '#fcbf49',
+            weight: 6,
+            opacity: 1,
+            smoothFactor: 1
+        }).addTo(this.map);
 
-            this.map.addLayer({
-                'id': 'route',
-                'type': 'line',
-                'source': 'route',
-                'layout': {
-                    'line-join': 'round',
-                    'line-cap': 'round'
-                },
-                'paint': {
-                    'line-color': '#d92532',
-                    'line-width': 4,
-                    'line-opacity': 0.8
-                }
-            });
-
-            // Add animated progress line
-            this.map.addSource('route-progress', {
-                'type': 'geojson',
-                'data': {
-                    'type': 'Feature',
-                    'properties': {},
-                    'geometry': {
-                        'type': 'LineString',
-                        'coordinates': []
-                    }
-                }
-            });
-
-            this.map.addLayer({
-                'id': 'route-progress',
-                'type': 'line',
-                'source': 'route-progress',
-                'layout': {
-                    'line-join': 'round',
-                    'line-cap': 'round'
-                },
-                'paint': {
-                    'line-color': '#fcbf49',
-                    'line-width': 6,
-                    'line-opacity': 1
-                }
-            });
-
-            // Add start marker
-            const startEl = document.createElement('div');
-            startEl.className = 'route-marker route-marker--start';
-            startEl.innerHTML = '🚴';
-            new mapboxgl.Marker(startEl)
-                .setLngLat([this.routeData[0].lon, this.routeData[0].lat])
-                .addTo(this.map);
-
-            // Add finish marker
-            const finishEl = document.createElement('div');
-            finishEl.className = 'route-marker route-marker--finish';
-            finishEl.innerHTML = '🏁';
-            const lastPoint = this.routeData[this.routeData.length - 1];
-            new mapboxgl.Marker(finishEl)
-                .setLngLat([lastPoint.lon, lastPoint.lat])
-                .addTo(this.map);
-
-            // Add animated cyclist marker
-            const cyclistEl = document.createElement('div');
-            cyclistEl.className = 'route-marker route-marker--cyclist';
-            cyclistEl.innerHTML = '🚵';
-            this.marker = new mapboxgl.Marker(cyclistEl)
-                .setLngLat([this.routeData[0].lon, this.routeData[0].lat])
-                .addTo(this.map);
-
-            // Fit map to route bounds
-            const bounds = this.routeData.reduce((bounds, point) => {
-                return bounds.extend([point.lon, point.lat]);
-            }, new mapboxgl.LngLatBounds(
-                [this.routeData[0].lon, this.routeData[0].lat],
-                [this.routeData[0].lon, this.routeData[0].lat]
-            ));
-
-            this.map.fitBounds(bounds, {
-                padding: 60,
-                duration: 0
-            });
+        // Add start marker
+        const startIcon = L.divIcon({
+            html: '🚴',
+            className: 'route-marker route-marker--start',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
         });
+        L.marker([this.routeData[0].lat, this.routeData[0].lon], { icon: startIcon })
+            .addTo(this.map);
+
+        // Add finish marker
+        const finishIcon = L.divIcon({
+            html: '🏁',
+            className: 'route-marker route-marker--finish',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+        const lastPoint = this.routeData[this.routeData.length - 1];
+        L.marker([lastPoint.lat, lastPoint.lon], { icon: finishIcon })
+            .addTo(this.map);
+
+        // Add animated cyclist marker
+        const cyclistIcon = L.divIcon({
+            html: '🚵',
+            className: 'route-marker route-marker--cyclist',
+            iconSize: [40, 40],
+            iconAnchor: [20, 20]
+        });
+        this.marker = L.marker([this.routeData[0].lat, this.routeData[0].lon], {
+            icon: cyclistIcon,
+            zIndexOffset: 1000
+        }).addTo(this.map);
+
+        // Fit map to route bounds
+        this.map.fitBounds(this.routeLine.getBounds(), {
+            padding: [60, 60]
+        });
+
+        console.log('✅ Map initialized successfully!');
     }
 
     setupControls() {
@@ -261,7 +216,7 @@ class RouteAnimation {
         playBtn?.addEventListener('click', () => this.play());
         pauseBtn?.addEventListener('click', () => this.pause());
         resetBtn?.addEventListener('click', () => this.reset());
-        btn3D?.addEventListener('click', () => this.toggle3D());
+        btn3D?.addEventListener('click', () => this.toggleLayer());
     }
 
     play() {
@@ -316,37 +271,29 @@ class RouteAnimation {
         }
 
         // Reset map view
-        const bounds = this.routeData.reduce((bounds, point) => {
-            return bounds.extend([point.lon, point.lat]);
-        }, new mapboxgl.LngLatBounds(
-            [this.routeData[0].lon, this.routeData[0].lat],
-            [this.routeData[0].lon, this.routeData[0].lat]
-        ));
-
-        this.map.fitBounds(bounds, {
-            padding: 60,
-            duration: 1000
+        this.map.fitBounds(this.routeLine.getBounds(), {
+            padding: [60, 60],
+            duration: 1
         });
     }
 
-    toggle3D() {
-        this.is3DMode = !this.is3DMode;
+    toggleLayer() {
         const btn = document.querySelector('[data-route-3d]');
 
-        if (this.is3DMode) {
+        if (this.currentLayer === 'street') {
+            // Switch to satellite
+            this.map.removeLayer(this.streetLayer);
+            this.map.addLayer(this.satelliteLayer);
+            this.currentLayer = 'satellite';
             btn.classList.add('active');
-            this.map.easeTo({
-                pitch: 60,
-                bearing: -20,
-                duration: 1500
-            });
+            btn.setAttribute('aria-label', 'Vista de mapa');
         } else {
+            // Switch to street
+            this.map.removeLayer(this.satelliteLayer);
+            this.map.addLayer(this.streetLayer);
+            this.currentLayer = 'street';
             btn.classList.remove('active');
-            this.map.easeTo({
-                pitch: 0,
-                bearing: 0,
-                duration: 1500
-            });
+            btn.setAttribute('aria-label', 'Vista satélite');
         }
     }
 
@@ -354,28 +301,28 @@ class RouteAnimation {
         this.currentIndex = index;
         const point = this.routeData[index];
 
-        // Update marker position with GSAP animation
+        // Update marker position with smooth animation
         if (this.marker) {
-            gsap.to(this.marker.getLngLat(), {
-                lng: point.lon,
-                lat: point.lat,
+            const newLatLng = L.latLng(point.lat, point.lon);
+
+            // Smooth transition using GSAP
+            const currentLatLng = this.marker.getLatLng();
+            const tempObj = { lat: currentLatLng.lat, lng: currentLatLng.lng };
+
+            gsap.to(tempObj, {
+                lat: newLatLng.lat,
+                lng: newLatLng.lng,
                 duration: 0.2,
+                ease: 'power2.out',
                 onUpdate: () => {
-                    this.marker.setLngLat([point.lon, point.lat]);
+                    this.marker.setLatLng([tempObj.lat, tempObj.lng]);
                 }
             });
         }
 
         // Update progress line
-        const progressCoords = this.routeData.slice(0, index + 1).map(p => [p.lon, p.lat]);
-        this.map.getSource('route-progress')?.setData({
-            'type': 'Feature',
-            'properties': {},
-            'geometry': {
-                'type': 'LineString',
-                'coordinates': progressCoords
-            }
-        });
+        const progressCoords = this.routeData.slice(0, index + 1).map(p => [p.lat, p.lon]);
+        this.progressLine.setLatLngs(progressCoords);
 
         // Update stats
         const progress = (index / (this.routeData.length - 1)) * 100;
@@ -393,10 +340,11 @@ class RouteAnimation {
             ease: 'power2.out'
         });
 
-        // Pan map to follow marker in 3D mode
-        if (this.is3DMode && this.isPlaying) {
-            this.map.panTo([point.lon, point.lat], {
-                duration: 200
+        // Pan map to follow marker when playing
+        if (this.isPlaying) {
+            this.map.panTo([point.lat, point.lon], {
+                animate: true,
+                duration: 0.2
             });
         }
     }
@@ -496,10 +444,8 @@ class RouteAnimation {
             if (index >= 0 && index < this.routeData.length) {
                 this.updateProgress(index);
                 const point = this.routeData[index];
-                this.map.flyTo({
-                    center: [point.lon, point.lat],
-                    zoom: 13,
-                    duration: 1500
+                this.map.flyTo([point.lat, point.lon], 13, {
+                    duration: 1.5
                 });
             }
         });
@@ -509,20 +455,14 @@ class RouteAnimation {
 // Initialize when DOM and all dependencies are ready
 function initRouteAnimation() {
     // Check if all dependencies are loaded
-    if (typeof mapboxgl === 'undefined') {
-        console.warn('⏳ Waiting for Mapbox GL JS to load...');
+    if (typeof L === 'undefined') {
+        console.warn('⏳ Waiting for Leaflet to load...');
         setTimeout(initRouteAnimation, 100);
         return;
     }
 
     if (typeof gsap === 'undefined') {
         console.warn('⏳ Waiting for GSAP to load...');
-        setTimeout(initRouteAnimation, 100);
-        return;
-    }
-
-    if (typeof MAPBOX_TOKEN === 'undefined') {
-        console.warn('⏳ Waiting for MAPBOX_TOKEN to be defined...');
         setTimeout(initRouteAnimation, 100);
         return;
     }
