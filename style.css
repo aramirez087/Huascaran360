@@ -3118,6 +3118,8 @@ tbody tr:last-child th {
     gap: 1rem;
     flex-wrap: wrap;
     pointer-events: auto;
+    justify-content: flex-end;
+    margin-left: 60px;
 }
 
 .route__stat-item {
@@ -3293,6 +3295,7 @@ tbody tr:last-child th {
 
     .route__stats-live {
         gap: 0.5rem;
+        margin-left: 50px;
     }
 
     .route__stat-item {
