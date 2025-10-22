@@ -2641,7 +2641,7 @@ tbody tr:last-child th {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 90;
+    z-index: 110;
     background: linear-gradient(90deg, #d92532 0%, #a31821 100%);
     box-shadow: 0 -8px 24px rgba(217, 37, 50, 0.35);
     transform: translateY(100%);

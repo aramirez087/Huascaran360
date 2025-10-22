@@ -63,7 +63,7 @@
                             12 - 16 mayo 2026 · Perú
                         </p>
                         <h1>Desafía tu cuerpo y mente en la Cordillera Blanca</h1>
-                        <p class="hero__lead">Descubre la magia de culturas ancestrales en la zona de Conchucos con Huascarán 360 MTB, la carrera que te lleva a través de paisajes espectaculares, lagunas e impresionantes glaciares con el nevado Huascarán a 6,780 m s. n. m.</p>
+                        <p class="hero__lead">Descubre la magia de culturas ancestrales en la zona de Conchucos con Huascarán 360 MTB, la carrera que te lleva a través de paisajes espectaculares, lagunas e impresionantes glaciares con el nevado Huascarán a 6,757 m s. n. m.</p>
 
                         <div class="hero__actions">
                             <a class="btn btn--primary btn--pulse" href="#inscripciones">
@@ -366,7 +366,7 @@
                         <div class="schedule__content">
                             <h3>Etapa 1 · Carhuaz - Vista Alegre - Purhuay</h3>
                             <ul>
-                                <li>06:30 Desayuno.</li>
+                                <li>06:00 Desayuno.</li>
                                 <li>08:00 Largada desde la plaza de Carhuaz.</li>
                                 <li>60 km · 1,200 m+ entre la Cordillera Blanca y Negra bajo los nevados Huálcan y Copa.</li>
                                 <li>Almuerzo y cena incluidos.</li>
@@ -417,6 +417,74 @@
                             </ul>
                         </div>
                     </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="route" id="recorrido">
+            <div class="wrapper route__layout">
+                <div class="route__content">
+                    <p class="eyebrow">Recorrido 360°</p>
+                    <h2>Un looping completo al gigante de los Andes</h2>
+                    <p>Conecta la Cordillera Blanca y la Cordillera Negra en cuatro etapas con terrenos mixtos: single tracks, carreteras de montaña y descensos vertiginosos.</p>
+                    <ul class="route__list">
+                        <li>Etapas balanceadas: maratón XCM y dos con tramos técnicos de alta montaña.</li>
+                        <li>Zonas de asistencia oficiales cada 20 km con hidratación y alimentos calientes.</li>
+                        <li>Escenarios icónicos: lagunas de Llanganuco, Paso Portachuelo y el mirador de Pupash.</li>
+                    </ul>
+                    <a class="btn btn--ghost btn--small" href="#categorias">Revisa categorías y requisitos</a>
+                </div>
+                <div class="route__interactive">
+                    <div class="route__map-wrapper">
+                        <div class="route__map-container" id="routeMap"></div>
+                        <div class="route__map-overlay">
+                            <div class="route__stats-live" data-route-stats>
+                                <div class="route__stat-item">
+                                    <span class="route__stat-label">Distancia</span>
+                                    <span class="route__stat-value" data-route-distance>0 km</span>
+                                </div>
+                                <div class="route__stat-item">
+                                    <span class="route__stat-label">Elevación</span>
+                                    <span class="route__stat-value" data-route-elevation>0 m</span>
+                                </div>
+                                <div class="route__stat-item">
+                                    <span class="route__stat-label">Progreso</span>
+                                    <span class="route__stat-value" data-route-progress>0%</span>
+                                </div>
+                            </div>
+                            <div class="route__controls">
+                                <button class="route__control-btn" data-route-play aria-label="Reproducir animación">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                    </svg>
+                                </button>
+                                <button class="route__control-btn" data-route-pause style="display:none;" aria-label="Pausar animación">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="6" y="4" width="4" height="16"></rect>
+                                        <rect x="14" y="4" width="4" height="16"></rect>
+                                    </svg>
+                                </button>
+                                <button class="route__control-btn" data-route-reset aria-label="Reiniciar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                                        <path d="M21 3v5h-5"></path>
+                                    </svg>
+                                </button>
+                                <button class="route__control-btn" data-route-3d aria-label="Vista 3D">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="route__elevation-profile" id="elevationProfile">
+                        <canvas id="elevationCanvas"></canvas>
+                        <div class="route__elevation-tooltip" data-elevation-tooltip style="display:none;">
+                            <span data-tooltip-elevation></span>
+                            <span data-tooltip-distance></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -595,74 +663,6 @@
             </div>
         </section>
 
-        <section class="route" id="recorrido">
-            <div class="wrapper route__layout">
-                <div class="route__content">
-                    <p class="eyebrow">Recorrido 360°</p>
-                    <h2>Un looping completo al gigante de los Andes</h2>
-                    <p>Conecta la Cordillera Blanca y la Cordillera Negra en cuatro etapas con terrenos mixtos: single tracks, carreteras de montaña y descensos vertiginosos.</p>
-                    <ul class="route__list">
-                        <li>Etapas balanceadas: maratón XCM y dos con tramos técnicos de alta montaña.</li>
-                        <li>Zonas de asistencia oficiales cada 20 km con hidratación y alimentos calientes.</li>
-                        <li>Escenarios icónicos: lagunas de Llanganuco, Paso Portachuelo y el mirador de Pupash.</li>
-                    </ul>
-                    <a class="btn btn--ghost btn--small" href="#categorias">Revisa categorías y requisitos</a>
-                </div>
-                <div class="route__interactive">
-                    <div class="route__map-wrapper">
-                        <div class="route__map-container" id="routeMap"></div>
-                        <div class="route__map-overlay">
-                            <div class="route__stats-live" data-route-stats>
-                                <div class="route__stat-item">
-                                    <span class="route__stat-label">Distancia</span>
-                                    <span class="route__stat-value" data-route-distance>0 km</span>
-                                </div>
-                                <div class="route__stat-item">
-                                    <span class="route__stat-label">Elevación</span>
-                                    <span class="route__stat-value" data-route-elevation>0 m</span>
-                                </div>
-                                <div class="route__stat-item">
-                                    <span class="route__stat-label">Progreso</span>
-                                    <span class="route__stat-value" data-route-progress>0%</span>
-                                </div>
-                            </div>
-                            <div class="route__controls">
-                                <button class="route__control-btn" data-route-play aria-label="Reproducir animación">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                    </svg>
-                                </button>
-                                <button class="route__control-btn" data-route-pause style="display:none;" aria-label="Pausar animación">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="6" y="4" width="4" height="16"></rect>
-                                        <rect x="14" y="4" width="4" height="16"></rect>
-                                    </svg>
-                                </button>
-                                <button class="route__control-btn" data-route-reset aria-label="Reiniciar">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
-                                        <path d="M21 3v5h-5"></path>
-                                    </svg>
-                                </button>
-                                <button class="route__control-btn" data-route-3d aria-label="Vista 3D">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="route__elevation-profile" id="elevationProfile">
-                        <canvas id="elevationCanvas"></canvas>
-                        <div class="route__elevation-tooltip" data-elevation-tooltip style="display:none;">
-                            <span data-tooltip-elevation></span>
-                            <span data-tooltip-distance></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section class="categories" id="categorias">
             <div class="wrapper">
                 <header class="section-heading">
@@ -723,7 +723,7 @@
                 </div>
                 <div class="services__cta">
                     <div class="services__cta-top">
-                        <p class="services__quote">&ldquo;Huascarán 360 MTB nació para quienes sienten que la montaña no solo se recorre, se vive. Ven a desafiar tus límites en los majestuosos Andes peruanos, rodeando el Parque Nacional Huascarán y pedaleando al pie del imponente nevado Huascarán, a 6,780 msnm.<br><br>La aventura comienza donde el aire es más puro y el espíritu más fuerte.&rdquo;</p>
+                        <p class="services__quote">&ldquo;Huascarán 360 MTB nació para quienes sienten que la montaña no solo se recorre, se vive. Ven a desafiar tus límites en los majestuosos Andes peruanos, rodeando el Parque Nacional Huascarán y pedaleando al pie del imponente nevado Huascarán, a 6,757 msnm.<br><br>La aventura comienza donde el aire es más puro y el espíritu más fuerte.&rdquo;</p>
                         <p class="services__quote-author">&mdash; Equipo Huascarán 360 MTB</p>
                         <a class="btn btn--secondary" href="#contacto">Habla con un asesor</a>
                     </div>
