@@ -1161,10 +1161,10 @@
             <div class="site-footer__column">
                 <p class="footer-label">Contacto directo</p>
                 <ul class="footer-links">
-                    <li><a href="mailto:huascaran360mtb@gmail.com">huascaran360mtb@gmail.com</a></li>
-                    <li><a href="https://wa.me/51974840988" target="_blank" rel="noopener">Frank Rocha · +51 974 840 988</a></li>
-                    <li><a href="https://wa.me/50687734888" target="_blank" rel="noopener">Mauricio Cabrera · +506 8773 4888</a></li>
-                    <li><a href="https://wa.me/59899225729" target="_blank" rel="noopener">Ruben Servetto · +598 99 225 729</a></li>
+                    <li><a href="mailto:huascaran360mtb@gmail.com">✉️ huascaran360mtb@gmail.com</a></li>
+                    <li><a href="https://wa.me/51974840988" target="_blank" rel="noopener">🇵🇪 Frank Rocha · +51 974 840 988</a></li>
+                    <li><a href="https://wa.me/50687734888" target="_blank" rel="noopener">🇨🇷 Mauricio Cabrera · +506 8773 4888</a></li>
+                    <li><a href="https://wa.me/59899225729" target="_blank" rel="noopener">🇺🇾 Ruben Servetto · +598 99 225 729</a></li>
                 </ul>
             </div>
             <div class="site-footer__column">
@@ -1208,6 +1208,22 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+    <!-- Twemoji for consistent emoji rendering across all platforms -->
+    <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
+    <script>
+        // Parse emojis to images for consistent display (only in footer)
+        window.addEventListener('DOMContentLoaded', function() {
+            var footer = document.querySelector('.site-footer');
+            if (footer) {
+                twemoji.parse(footer, {
+                    folder: 'svg',
+                    ext: '.svg'
+                });
+            }
+        });
+    </script>
+
     <script>
         // n8n Webhook Configuration
         const N8N_WEBHOOK_URL = 'https://n8n.automationbeast.win/webhook/huascaran-registration';

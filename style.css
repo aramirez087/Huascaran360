@@ -2562,9 +2562,18 @@ tbody tr:last-child th {
 
 .footer-links a {
     display: inline-flex;
+    align-items: center;
     color: rgba(255, 255, 255, 0.78);
     text-decoration: none;
     transition: color var(--transition);
+    font-family: 'Manrope', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+}
+
+.footer-links a img.emoji {
+    height: 1.2em;
+    width: 1.2em;
+    margin: 0 0.25em 0 0;
+    vertical-align: -0.2em;
 }
 
 .footer-links a:hover,

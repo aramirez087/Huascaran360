@@ -1,10 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(powershell -Command \"Get-ChildItem *.gpx | Select-Object Name, @{Name=''Size (MB)'';Expression={''{0:N2}'' -f ($_Length/1MB)}}, @{Name=''Size (KB)'';Expression={''{0:N0}'' -f ($_Length/1KB)}} | Format-Table -AutoSize\")",
-      "Bash(python -m http.server 8000)",
-      "Bash(timeout 2 powershell -Command \"Start-Sleep -Seconds 1; (Invoke-WebRequest -Uri ''http://localhost:8000'' -UseBasicParsing -TimeoutSec 2).StatusCode\")",
-      "Bash(powershell -Command \"Test-Path sitemap.xml; Test-Path robots.txt\")"
+      "Bash(del \"c:\\code\\Huascaran360\\temp_fix.py\" \"c:\\code\\Huascaran360\\temp_fix.ps1\")",
+      "Bash(powershell -Command \"Remove-Item ''c:\\code\\Huascaran360\\temp_fix.py'', ''c:\\code\\Huascaran360\\temp_fix.ps1''\")",
+      "Bash(powershell -Command \"Remove-Item ''c:\\code\\Huascaran360\\temp_fix.py''\")",
+      "Bash(python -c \"with open(r''c:\\code\\Huascaran360\\index.html'', ''r'', encoding=''utf-8'') as f: lines = f.readlines(); print(''Line 1165:'', repr(lines[1164])); print(''Line 1166:'', repr(lines[1165])); print(''Line 1167:'', repr(lines[1166]))\")"
     ],
     "deny": [],
     "ask": []
