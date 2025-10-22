@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Generate Favicon</title>
+</head>
+<body>
+    <h1>Generating favicon...</h1>
+    <canvas id="canvas" width="32" height="32"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Background
+        ctx.fillStyle = '#11131b';
+        ctx.fillRect(0, 0, 32, 32);
+
+        // Mountain path
+        ctx.fillStyle = '#d92532';
+        ctx.beginPath();
+        ctx.moveTo(2, 30);
+        ctx.lineTo(10, 16);
+        ctx.lineTo(14, 22);
+        ctx.lineTo(19, 12);
+        ctx.lineTo(28, 30);
+        ctx.closePath();
+        ctx.fill();
+
+        // Base line
+        ctx.strokeStyle = '#d92532';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(2, 30);
+        ctx.lineTo(30, 30);
+        ctx.stroke();
+
+        // Cyclist dot
+        ctx.fillStyle = '#fcbf49';
+        ctx.beginPath();
+        ctx.arc(15, 23, 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Convert to blob and download
+        canvas.toBlob(function(blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'favicon.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            document.body.innerHTML = '<h1>✅ favicon.png downloaded! Rename it to favicon.ico</h1>';
+        });
+    </script>
+</body>
+</html>
