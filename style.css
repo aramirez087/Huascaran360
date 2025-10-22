@@ -2569,11 +2569,16 @@ tbody tr:last-child th {
     font-family: 'Manrope', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 }
 
-.footer-links a img.emoji {
-    height: 1.2em;
-    width: 1.2em;
-    margin: 0 0.25em 0 0;
-    vertical-align: -0.2em;
+.footer-links a img.emoji,
+.footer-links img.emoji,
+.site-footer img.emoji {
+    display: inline-block !important;
+    height: 1.2em !important;
+    width: 1.2em !important;
+    margin: 0 0.25em 0 0 !important;
+    vertical-align: -0.2em !important;
+    max-width: 1.2em !important;
+    max-height: 1.2em !important;
 }
 
 .footer-links a:hover,
