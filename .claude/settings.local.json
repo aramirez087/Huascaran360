@@ -10,7 +10,8 @@
       "Bash(findstr /i \"\\.gpx\")",
       "Bash(powershell -Command \"(Get-Content ''c:\\code\\Huascaran360\\style.css'').Length\")",
       "Bash(python -m http.server 8000)",
-      "Bash(python generate_favicon.py)"
+      "Bash(python generate_favicon.py)",
+      "Bash(pip install Pillow)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Favicon Generator - Huascarán 360 MTB</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+        canvas { border: 1px solid #ccc; margin: 20px 0; image-rendering: pixelated; }
+        button { background: #d92532; color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 4px; }
+        button:hover { background: #b01e29; }
+        .preview { display: flex; gap: 20px; align-items: center; margin: 20px 0; }
+        .preview canvas { transform: scale(4); transform-origin: left; }
+    </style>
+</head>
+<body>
+    <h1>🚵 Huascarán 360 MTB Favicon Generator</h1>
+    <p>Click the button below to generate and download your favicon files:</p>
+
+    <div class="preview">
+        <div>
+            <p><strong>16x16 Preview:</strong></p>
+            <canvas id="canvas16" width="16" height="16"></canvas>
+        </div>
+        <div>
+            <p><strong>32x32 Preview:</strong></p>
+            <canvas id="canvas32" width="32" height="32"></canvas>
+        </div>
+    </div>
+
+    <button onclick="downloadFavicon(32, 'favicon-32x32.png')">Download 32x32 PNG</button>
+    <button onclick="downloadFavicon(16, 'favicon-16x16.png')">Download 16x16 PNG</button>
+    <button onclick="downloadBoth()">Download Both</button>
+
+    <p id="status"></p>
+
+    <script>
+        function drawFavicon(ctx, size) {
+            const scale = size / 32;
+
+            // Background
+            ctx.fillStyle = '#11131b';
+            ctx.fillRect(0, 0, size, size);
+
+            // Mountain path
+            ctx.fillStyle = '#d92532';
+            ctx.beginPath();
+            ctx.moveTo(2 * scale, 30 * scale);
+            ctx.lineTo(10 * scale, 16 * scale);
+            ctx.lineTo(14 * scale, 22 * scale);
+            ctx.lineTo(19 * scale, 12 * scale);
+            ctx.lineTo(28 * scale, 30 * scale);
+            ctx.closePath();
+            ctx.fill();
+
+            // Base line
+            ctx.strokeStyle = '#d92532';
+            ctx.lineWidth = 2 * scale;
+            ctx.beginPath();
+            ctx.moveTo(2 * scale, 30 * scale);
+            ctx.lineTo(30 * scale, 30 * scale);
+            ctx.stroke();
+
+            // Cyclist dot
+            ctx.fillStyle = '#fcbf49';
+            ctx.beginPath();
+            ctx.arc(15 * scale, 23 * scale, 2 * scale, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Draw previews
+        drawFavicon(document.getElementById('canvas16').getContext('2d'), 16);
+        drawFavicon(document.getElementById('canvas32').getContext('2d'), 32);
+
+        function downloadFavicon(size, filename) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            drawFavicon(ctx, size);
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                document.getElementById('status').innerHTML = `✅ Downloaded ${filename}`;
+            });
+        }
+
+        function downloadBoth() {
+            downloadFavicon(16, 'favicon-16x16.png');
+            setTimeout(() => downloadFavicon(32, 'favicon-32x32.png'), 500);
+        }
+    </script>
+
+    <hr>
+    <h2>📝 Instructions:</h2>
+    <ol>
+        <li>Download both PNG files using the button above</li>
+        <li>Use an online tool like <a href="https://favicon.io/" target="_blank">favicon.io</a> to convert PNGs to .ico</li>
+        <li>Or just use the SVG favicon that's already been added to your HTML (modern browsers)</li>
+    </ol>
+</body>
+</html>
