@@ -166,28 +166,28 @@ class RouteAnimation {
             smoothFactor: 1
         }).addTo(this.map);
 
-        // Add start marker
+        // Add start marker (green flag)
         const startIcon = L.divIcon({
-            html: '🚴',
+            html: '🚩',
             className: 'route-marker route-marker--start',
-            iconSize: [30, 30],
-            iconAnchor: [15, 15]
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
         });
         L.marker([this.routeData[0].lat, this.routeData[0].lon], { icon: startIcon })
             .addTo(this.map);
 
-        // Add finish marker
+        // Add finish marker (checkered flag)
         const finishIcon = L.divIcon({
             html: '🏁',
             className: 'route-marker route-marker--finish',
-            iconSize: [30, 30],
-            iconAnchor: [15, 15]
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
         });
         const lastPoint = this.routeData[this.routeData.length - 1];
         L.marker([lastPoint.lat, lastPoint.lon], { icon: finishIcon })
             .addTo(this.map);
 
-        // Add animated cyclist marker
+        // Add animated cyclist marker (hidden initially, appears on play)
         const cyclistIcon = L.divIcon({
             html: '🚵',
             className: 'route-marker route-marker--cyclist',
@@ -196,7 +196,8 @@ class RouteAnimation {
         });
         this.marker = L.marker([this.routeData[0].lat, this.routeData[0].lon], {
             icon: cyclistIcon,
-            zIndexOffset: 1000
+            zIndexOffset: 1000,
+            opacity: 0
         }).addTo(this.map);
 
         // Fit map to route bounds
@@ -225,6 +226,11 @@ class RouteAnimation {
         this.isPlaying = true;
         document.querySelector('[data-route-play]').style.display = 'none';
         document.querySelector('[data-route-pause]').style.display = 'flex';
+
+        // Show the cyclist marker when animation starts
+        if (this.marker) {
+            this.marker.setOpacity(1);
+        }
 
         const duration = 30; // 30 seconds for full animation
         const updateInterval = 0.1; // Update every 100ms
@@ -268,6 +274,11 @@ class RouteAnimation {
         if (this.animationTimeline) {
             this.animationTimeline.kill();
             this.animationTimeline = null;
+        }
+
+        // Hide the cyclist marker on reset
+        if (this.marker) {
+            this.marker.setOpacity(0);
         }
 
         // Reset map view
