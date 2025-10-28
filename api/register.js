@@ -76,9 +76,11 @@ export default async function handler(req, res) {
 
     // Create PayPal invoice
     const createResponse = await createPayPalInvoice(registrationData);
+    console.log('PayPal createResponse:', JSON.stringify(createResponse, null, 2));
 
     // Extract invoice ID
     const invoiceId = extractInvoiceId(createResponse);
+    console.log('Extracted invoiceId:', invoiceId);
 
     if (!invoiceId) {
       throw new Error('No se pudo obtener el ID de la factura de PayPal');
@@ -86,10 +88,15 @@ export default async function handler(req, res) {
 
     // Extract PayPal payment URL directly from created invoice
     // (Skip sending via email - user gets URL directly)
-    const paypalUrl = extractPayPalUrl(createResponse);
+    let paypalUrl = extractPayPalUrl(createResponse);
+    console.log('Extracted paypalUrl:', paypalUrl);
 
+    // If no payer-view link, construct it manually from invoice ID
     if (!paypalUrl) {
-      throw new Error('No se pudo obtener la URL de pago de PayPal');
+      const isProduction = process.env.PAYPAL_ENVIRONMENT === 'production';
+      const baseURL = isProduction ? 'https://www.paypal.com' : 'https://www.sandbox.paypal.com';
+      paypalUrl = `${baseURL}/invoice/p/${invoiceId}`;
+      console.log('Constructed paypalUrl:', paypalUrl);
     }
 
     // Save to database
