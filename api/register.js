@@ -43,8 +43,10 @@ export default async function handler(req, res) {
       });
     }
 
+    console.log('Step 1: Fetching early bird slots...');
     // Get current early bird slots
     const earlyBirdSlots = await getEarlyBirdSlots();
+    console.log('Early bird slots:', earlyBirdSlots);
 
     // Calculate price
     const pricingResult = calculatePrice(earlyBirdSlots);
@@ -114,10 +116,12 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('Registration error:', error);
 
+    // Return detailed error for debugging (temporary - remove in production)
     return res.status(500).json({
       success: false,
-      error: 'Error al procesar la inscripción. Por favor intenta nuevamente.',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      error: 'Error al procesar la inscripción',
+      details: error.message,
+      stack: error.stack?.split('\n').slice(0, 3).join('\n'), // First 3 lines
     });
   }
 }
