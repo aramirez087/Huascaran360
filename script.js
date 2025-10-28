@@ -459,12 +459,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         window.location.href = result.paypalUrl;
                     }, 2000);
                 } else {
-                    throw new Error(result.error || 'Error en la respuesta del servidor');
+                    // Show detailed error for debugging
+                    const errorDetails = result.details ? `\n\nDetalles: ${result.details}\n\n${result.stack || ''}` : '';
+                    throw new Error((result.error || 'Error en la respuesta del servidor') + errorDetails);
                 }
             } catch (error) {
+                // Show full error message for debugging
                 formMessage.textContent = error.message || 'Hubo un error al procesar tu inscripción. Por favor, intenta nuevamente o contacta al equipo organizador.';
                 formMessage.style.color = '#ef4444';
                 formMessage.style.display = 'block';
+                formMessage.style.whiteSpace = 'pre-wrap'; // Show line breaks
+
+                // Also log to console
+                console.error('Registration error:', error);
 
                 // Re-enable button
                 submitButton.disabled = false;

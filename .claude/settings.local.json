@@ -4,7 +4,11 @@
       "Bash(openssl rand -hex 32)",
       "Bash(git add package.json vercel.json)",
       "Bash(git commit -m \"Fix Vercel deployment - remove build command for static site\")",
-      "Bash(git push origin main)"
+      "Bash(git push origin main)",
+      "Bash(git add index.html)",
+      "Bash(git commit -m \"Add cache-busting to script.js to force reload\")",
+      "Bash(git add api/register.js)",
+      "Bash(git commit -m \"Add debug error messages to API response\")"
     ],
     "deny": [],
     "ask": []
