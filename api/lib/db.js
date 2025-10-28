@@ -19,7 +19,7 @@ export async function getEarlyBirdSlots() {
   const result = await sql`
     SELECT value FROM config WHERE key = 'early_bird_slots'
   `;
-  return parseInt(result.rows[0]?.value || '0', 10);
+  return parseInt(result[0]?.value || '0', 10);
 }
 
 /**
@@ -61,7 +61,7 @@ export async function createRegistration(data) {
     RETURNING id, invoice_number, created_at
   `;
 
-  return result.rows[0];
+  return result[0];
 }
 
 /**
@@ -83,7 +83,7 @@ export async function getRegistrationByEmail(email) {
   const result = await sql`
     SELECT * FROM registrations WHERE email = ${email} ORDER BY created_at DESC LIMIT 1
   `;
-  return result.rows[0] || null;
+  return result[0] || null;
 }
 
 /**
@@ -93,7 +93,7 @@ export async function getRegistrationByInvoiceId(invoiceId) {
   const result = await sql`
     SELECT * FROM registrations WHERE invoice_id = ${invoiceId} LIMIT 1
   `;
-  return result.rows[0] || null;
+  return result[0] || null;
 }
 
 /**
@@ -105,7 +105,7 @@ export async function getAllRegistrations(limit = 100, offset = 0) {
     ORDER BY created_at DESC
     LIMIT ${limit} OFFSET ${offset}
   `;
-  return result.rows;
+  return result;
 }
 
 /**
@@ -121,5 +121,5 @@ export async function getRegistrationStats() {
       SUM(CASE WHEN payment_status = 'paid' THEN price ELSE 0 END) as total_revenue
     FROM registrations
   `;
-  return result.rows[0];
+  return result[0];
 }
