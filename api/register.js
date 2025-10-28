@@ -1,0 +1,123 @@
+// =============================================
+// Registration API Endpoint
+// Handles new race registrations with PayPal
+// =============================================
+
+import {
+  getEarlyBirdSlots,
+  decrementEarlyBirdSlots,
+  createRegistration,
+} from './lib/db.js';
+import {
+  createPayPalInvoice,
+  sendPayPalInvoice,
+  extractInvoiceId,
+  extractPayPalUrl,
+} from './lib/paypal.js';
+import { calculatePrice, generateInvoiceNumber } from './lib/pricing.js';
+
+export default async function handler(req, res) {
+  // CORS headers
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  // Only allow POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    // Validate request body
+    const { nombre, email, telefono, categoria, mensaje } = req.body;
+
+    if (!nombre || !email || !telefono || !categoria) {
+      return res.status(400).json({
+        error: 'Faltan campos obligatorios: nombre, email, telefono, categoria',
+      });
+    }
+
+    // Get current early bird slots
+    const earlyBirdSlots = await getEarlyBirdSlots();
+
+    // Calculate price
+    const pricingResult = calculatePrice(earlyBirdSlots);
+
+    if (pricingResult.error) {
+      return res.status(400).json({
+        success: false,
+        error: pricingResult.message,
+      });
+    }
+
+    const { price, priceType } = pricingResult;
+
+    // Generate invoice number
+    const invoiceNumber = generateInvoiceNumber();
+
+    // Prepare registration data
+    const registrationData = {
+      invoiceNumber,
+      name: nombre,
+      email,
+      phone: telefono,
+      category: categoria,
+      comments: mensaje,
+      price,
+      priceType,
+    };
+
+    // Create PayPal invoice
+    const createResponse = await createPayPalInvoice(registrationData);
+
+    // Extract invoice ID
+    const invoiceId = extractInvoiceId(createResponse);
+
+    if (!invoiceId) {
+      throw new Error('No se pudo obtener el ID de la factura de PayPal');
+    }
+
+    // Send invoice to customer
+    const sendResponse = await sendPayPalInvoice(invoiceId);
+
+    // Extract PayPal payment URL
+    const paypalUrl = extractPayPalUrl(sendResponse);
+
+    // Save to database
+    await createRegistration({
+      ...registrationData,
+      invoiceId,
+      paypalUrl,
+    });
+
+    // Decrement early bird slots if applicable
+    if (priceType === 'early_bird') {
+      await decrementEarlyBirdSlots();
+    }
+
+    // Return success response
+    return res.status(200).json({
+      success: true,
+      price,
+      priceType,
+      invoiceNumber,
+      invoiceId,
+      paypalUrl,
+    });
+
+  } catch (error) {
+    console.error('Registration error:', error);
+
+    return res.status(500).json({
+      success: false,
+      error: 'Error al procesar la inscripción. Por favor intenta nuevamente.',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined,
+    });
+  }
+}

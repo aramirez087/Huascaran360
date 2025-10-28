@@ -928,31 +928,7 @@
                 </div>
                 <div class="pricing__cta" id="pagos">
                     <p class="note">Completa el formulario a continuación para proceder con el pago seguro a través de PayPal. El sistema calculará automáticamente tu tarifa según disponibilidad y fecha.</p>
-                    <div class="pricing__payments pricing__payments--disabled" aria-labelledby="pagos-paypal-heading">
-                        <!-- Temporary PayPal Disabled Notice -->
-                        <div class="paypal-disabled-overlay">
-                            <div class="paypal-disabled-notice">
-                                <div class="paypal-disabled-icon">
-                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                                    </svg>
-                                </div>
-                                <h4>Pagos con PayPal temporalmente deshabilitados</h4>
-                                <p>Estamos trabajando en mejorar nuestro sistema de pagos. Las inscripciones con PayPal estarán disponibles muy pronto.</p>
-                                <p><strong>Mientras tanto, puedes:</strong></p>
-                                <ul>
-                                    <li>Contactarnos directamente por WhatsApp para reservar tu cupo</li>
-                                    <li>Enviar un mensaje a través del formulario de contacto más abajo</li>
-                                </ul>
-                                <div class="paypal-disabled-actions">
-                                    <a class="btn btn--primary" href="#contacto">Contactar al equipo</a>
-                                    <a class="btn btn--secondary" href="https://wa.me/50687734888" target="_blank" rel="noopener">WhatsApp</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Temporary Notice -->
+                    <div class="pricing__payments" aria-labelledby="pagos-paypal-heading">
                         <h3 id="pagos-paypal-heading">Inscríbete y paga de forma segura</h3>
                         <p class="pricing__payments-intro">Ingresa tus datos y serás redirigido automáticamente a PayPal con el monto correcto según la disponibilidad de cupos Early Bird y la fecha actual.</p>
                         <form class="pricing__registration-form" id="registrationForm" novalidate>
@@ -1251,9 +1227,9 @@
         });
     </script>
 
+    <!-- Vercel API is now integrated - no external webhook needed -->
     <script>
-        // n8n Webhook Configuration
-        const N8N_WEBHOOK_URL = 'https://n8n.automationbeast.win/webhook/huascaran-registration';
+        // Using Vercel serverless functions at /api/register
     </script>
     <script src="route-animation.js"></script>
     <!-- n8n Chat Widget CSS -->

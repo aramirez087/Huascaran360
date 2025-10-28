@@ -425,7 +425,8 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
-                const response = await fetch(N8N_WEBHOOK_URL, {
+                // Use Vercel API endpoint instead of n8n
+                const response = await fetch('/api/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

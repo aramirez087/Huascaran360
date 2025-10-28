@@ -1,0 +1,17 @@
+{
+  "name": "huascaran360mtb",
+  "version": "1.0.0",
+  "description": "Huascarán 360 MTB - Mountain Bike Race Registration System",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "postgres": "^3.4.4"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
