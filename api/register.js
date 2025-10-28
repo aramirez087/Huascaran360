@@ -107,9 +107,10 @@ export default async function handler(req, res) {
     if (!paypalUrl) {
       const isProduction = process.env.PAYPAL_ENVIRONMENT === 'production';
       const baseURL = isProduction ? 'https://www.paypal.com' : 'https://www.sandbox.paypal.com';
-      // For production, use the invoice view URL (works for drafts too in some cases)
-      paypalUrl = `${baseURL}/invoice/details/${invoiceId}`;
-      console.log('Using invoice details URL:', paypalUrl);
+      // Use the PAYER view URL (this is what customers use to pay)
+      // Note: This only works if invoice is SENT (not Draft)
+      paypalUrl = `${baseURL}/invoice/p/${invoiceId}`;
+      console.log('Using payer view URL:', paypalUrl);
     }
 
     // Save to database
