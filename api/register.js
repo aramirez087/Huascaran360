@@ -10,6 +10,7 @@ import {
 } from './lib/db.js';
 import {
   createPayPalInvoice,
+  sendPayPalInvoice,
   extractInvoiceId,
   extractPayPalUrl,
 } from './lib/paypal.js';
@@ -86,9 +87,13 @@ export default async function handler(req, res) {
       throw new Error('No se pudo obtener el ID de la factura de PayPal');
     }
 
-    // Extract PayPal payment URL directly from created invoice
-    // (Skip sending via email - user gets URL directly)
-    let paypalUrl = extractPayPalUrl(createResponse);
+    // Send invoice to customer (this activates it)
+    console.log('Sending invoice...');
+    const sendResponse = await sendPayPalInvoice(invoiceId);
+    console.log('Send response:', JSON.stringify(sendResponse, null, 2));
+
+    // Extract PayPal payment URL from send response
+    let paypalUrl = extractPayPalUrl(sendResponse) || extractPayPalUrl(createResponse);
     console.log('Extracted paypalUrl:', paypalUrl);
 
     // If no payer-view link, construct it manually from invoice ID
