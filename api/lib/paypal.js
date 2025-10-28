@@ -58,22 +58,22 @@ export async function createPayPalInvoice(registrationData) {
   const lastName = lastNameParts.join(' ') || firstName;
 
   const priceTypeLabel = {
-    early_bird: 'Early Bird (25% descuento)',
-    stage_2: 'Etapa 2 (10% descuento)',
-    regular: 'Tarifa Regular',
-  }[priceType] || 'Tarifa Regular';
+    early_bird: 'Early Bird (25% discount)',
+    stage_2: 'Stage 2 (10% discount)',
+    regular: 'Regular Rate',
+  }[priceType] || 'Regular Rate';
 
   const invoicePayload = {
     detail: {
       invoice_number: invoiceNumber,
       invoice_date: new Date().toISOString().split('T')[0],
       currency_code: 'USD',
-      note: `Inscripción Huascarán 360 MTB 2026 - ${priceTypeLabel}`,
+      note: `Inscripcion Huascaran 360 MTB 2026 - ${priceTypeLabel}`,
       payment_term: { term_type: 'DUE_ON_RECEIPT' },
     },
     invoicer: {
       name: {
-        given_name: 'Huascarán 360',
+        given_name: 'Huascaran 360',
         surname: 'MTB',
       },
       email_address: process.env.PAYPAL_INVOICER_EMAIL || 'huascaran360mtb@gmail.com',
@@ -92,8 +92,8 @@ export async function createPayPalInvoice(registrationData) {
     ],
     items: [
       {
-        name: 'Inscripción Huascarán 360 MTB 2026',
-        description: `Carrera de ciclismo de montaña - 12-16 mayo 2026\nCategoría: ${category}\nIncluye: Hospedaje, alimentación, asistencia médica, transporte de equipaje`,
+        name: 'Inscripcion Huascaran 360 MTB 2026',
+        description: `Mountain bike race - May 12-16, 2026\nCategory: ${category}\nIncludes: Accommodation, meals, medical assistance, luggage transport`,
         quantity: '1',
         unit_amount: {
           currency_code: 'USD',
