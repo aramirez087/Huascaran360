@@ -10,7 +10,6 @@ import {
 } from './lib/db.js';
 import {
   createPayPalInvoice,
-  sendPayPalInvoice,
   extractInvoiceId,
   extractPayPalUrl,
 } from './lib/paypal.js';
@@ -85,11 +84,13 @@ export default async function handler(req, res) {
       throw new Error('No se pudo obtener el ID de la factura de PayPal');
     }
 
-    // Send invoice to customer
-    const sendResponse = await sendPayPalInvoice(invoiceId);
+    // Extract PayPal payment URL directly from created invoice
+    // (Skip sending via email - user gets URL directly)
+    const paypalUrl = extractPayPalUrl(createResponse);
 
-    // Extract PayPal payment URL
-    const paypalUrl = extractPayPalUrl(sendResponse);
+    if (!paypalUrl) {
+      throw new Error('No se pudo obtener la URL de pago de PayPal');
+    }
 
     // Save to database
     await createRegistration({

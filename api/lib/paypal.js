@@ -184,12 +184,15 @@ export function extractInvoiceId(createResponse, sendResponse = null) {
 
 /**
  * Extract PayPal payment URL from response
+ * Can extract from either create or send response
  */
-export function extractPayPalUrl(sendResponse) {
-  if (sendResponse?.href) return sendResponse.href;
+export function extractPayPalUrl(response) {
+  // Check if response has href directly (from send)
+  if (response?.href) return response.href;
 
-  if (sendResponse?.links) {
-    const payerView = sendResponse.links.find(l => l.rel === 'payer-view');
+  // Check for payer-view link in links array (from create or send)
+  if (response?.links) {
+    const payerView = response.links.find(l => l.rel === 'payer-view');
     if (payerView) return payerView.href;
   }
 
