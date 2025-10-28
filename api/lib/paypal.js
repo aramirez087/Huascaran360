@@ -4,6 +4,16 @@
 // =============================================
 
 /**
+ * Remove non-ASCII characters from a string
+ * PayPal API rejects invoices with accented characters
+ */
+function removeNonASCII(str) {
+  if (!str) return str;
+  // Normalize accented characters to their base form (José → Jose)
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\x00-\x7F]/g, '');
+}
+
+/**
  * Get PayPal OAuth access token
  */
 export async function getPayPalToken() {
@@ -54,7 +64,11 @@ export async function createPayPalInvoice(registrationData) {
     priceType,
   } = registrationData;
 
-  const [firstName, ...lastNameParts] = name.split(' ');
+  // Clean ALL text fields - remove accented characters
+  const cleanName = removeNonASCII(name);
+  const cleanCategory = removeNonASCII(category);
+
+  const [firstName, ...lastNameParts] = cleanName.split(' ');
   const lastName = lastNameParts.join(' ') || firstName;
 
   const priceTypeLabel = {
@@ -93,7 +107,7 @@ export async function createPayPalInvoice(registrationData) {
     items: [
       {
         name: 'Inscripcion Huascaran 360 MTB 2026',
-        description: `Mountain bike race - May 12-16, 2026\nCategory: ${category}\nIncludes: Accommodation, meals, medical assistance, luggage transport`,
+        description: `Mountain bike race - May 12-16, 2026\nCategory: ${cleanCategory}\nIncludes: Accommodation, meals, medical assistance, luggage transport`,
         quantity: '1',
         unit_amount: {
           currency_code: 'USD',
@@ -149,8 +163,8 @@ export async function sendPayPalInvoice(invoiceId) {
     body: JSON.stringify({
       send_to_invoicer: false,
       send_to_recipient: true,
-      subject: 'Factura Huascarán 360 MTB 2026',
-      note: 'Gracias por tu registro. Por favor completa el pago para confirmar tu inscripción.',
+      subject: 'Huascaran 360 MTB 2026 Invoice',
+      note: 'Thank you for your registration. Please complete the payment to confirm your inscription.',
     }),
   });
 
