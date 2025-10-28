@@ -2,6 +2,8 @@
   "version": 2,
   "name": "huascaran-360-mtb",
   "public": true,
+  "buildCommand": null,
+  "outputDirectory": null,
   "github": {
     "silent": true
   },
