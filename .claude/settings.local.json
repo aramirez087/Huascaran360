@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(openssl rand -hex 32)"
+      "Bash(openssl rand -hex 32)",
+      "Bash(git add package.json vercel.json)",
+      "Bash(git commit -m \"Fix Vercel deployment - remove build command for static site\")",
+      "Bash(git push origin main)"
     ],
     "deny": [],
     "ask": []
