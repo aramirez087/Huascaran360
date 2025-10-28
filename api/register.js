@@ -96,10 +96,13 @@ export default async function handler(req, res) {
       console.log('Attempting to send invoice...');
       sendResponse = await sendPayPalInvoice(invoiceId);
       console.log('Invoice sent successfully!');
+      console.log('Send response:', JSON.stringify(sendResponse, null, 2));
       paypalUrl = extractPayPalUrl(sendResponse) || extractPayPalUrl(createResponse);
     } catch (sendError) {
-      console.log('Invoice send failed (API restriction):', sendError.message);
+      console.error('Invoice send FAILED:', sendError.message);
+      console.error('Full error:', sendError);
       // Don't throw - we'll construct the URL manually and let user pay the draft
+      // But include the error in the response for debugging
       paypalUrl = null;
     }
 
