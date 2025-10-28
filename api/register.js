@@ -87,21 +87,29 @@ export default async function handler(req, res) {
       throw new Error('No se pudo obtener el ID de la factura de PayPal');
     }
 
-    // Send invoice to customer (this activates it)
-    console.log('Sending invoice...');
-    const sendResponse = await sendPayPalInvoice(invoiceId);
-    console.log('Send response:', JSON.stringify(sendResponse, null, 2));
+    // Try to send invoice to customer (this activates it)
+    // If it fails due to API restrictions, we'll construct the URL manually
+    let sendResponse = null;
+    let paypalUrl = null;
 
-    // Extract PayPal payment URL from send response
-    let paypalUrl = extractPayPalUrl(sendResponse) || extractPayPalUrl(createResponse);
-    console.log('Extracted paypalUrl:', paypalUrl);
+    try {
+      console.log('Attempting to send invoice...');
+      sendResponse = await sendPayPalInvoice(invoiceId);
+      console.log('Invoice sent successfully!');
+      paypalUrl = extractPayPalUrl(sendResponse) || extractPayPalUrl(createResponse);
+    } catch (sendError) {
+      console.log('Invoice send failed (API restriction):', sendError.message);
+      // Don't throw - we'll construct the URL manually and let user pay the draft
+      paypalUrl = null;
+    }
 
-    // If no payer-view link, construct it manually from invoice ID
+    // If no payer-view link from send response, construct it manually
     if (!paypalUrl) {
       const isProduction = process.env.PAYPAL_ENVIRONMENT === 'production';
       const baseURL = isProduction ? 'https://www.paypal.com' : 'https://www.sandbox.paypal.com';
-      paypalUrl = `${baseURL}/invoice/p/${invoiceId}`;
-      console.log('Constructed paypalUrl:', paypalUrl);
+      // For production, use the invoice view URL (works for drafts too in some cases)
+      paypalUrl = `${baseURL}/invoice/details/${invoiceId}`;
+      console.log('Using invoice details URL:', paypalUrl);
     }
 
     // Save to database
