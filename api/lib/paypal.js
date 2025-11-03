@@ -59,6 +59,7 @@ export async function createPayPalInvoice(registrationData) {
     invoiceNumber,
     name,
     email,
+    phone,
     category,
     price,
     priceType,
@@ -100,6 +101,25 @@ export async function createPayPalInvoice(registrationData) {
           name: {
             given_name: firstName,
             surname: lastName,
+          },
+          // Add phone if available
+          ...(phone && {
+            phones: [
+              {
+                country_code: '51', // Peru country code
+                national_number: phone.replace(/\D/g, ''), // Remove non-digits
+                phone_type: 'MOBILE',
+              },
+            ],
+          }),
+          // Add address to satisfy PayPal's requirements for sending
+          // We use a generic address since we don't collect this in the form
+          address: {
+            address_line_1: 'N/A',
+            admin_area_2: 'Lima', // City
+            admin_area_1: 'Lima', // State/Province
+            postal_code: '15000',
+            country_code: 'PE', // Peru
           },
         },
       },
