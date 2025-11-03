@@ -88,9 +88,9 @@ export default async function handler(req, res) {
     }
 
     // Try to send invoice to customer (this activates it)
-    // If it fails due to API restrictions, we'll construct the URL manually
     let sendResponse = null;
     let paypalUrl = null;
+    let invoiceStatus = 'DRAFT'; // Track invoice status
 
     try {
       console.log('Attempting to send invoice...');
@@ -98,22 +98,16 @@ export default async function handler(req, res) {
       console.log('Invoice sent successfully!');
       console.log('Send response:', JSON.stringify(sendResponse, null, 2));
       paypalUrl = extractPayPalUrl(sendResponse) || extractPayPalUrl(createResponse);
+      invoiceStatus = 'SENT';
     } catch (sendError) {
       console.error('Invoice send FAILED:', sendError.message);
       console.error('Full error:', sendError);
-      // Don't throw - we'll construct the URL manually and let user pay the draft
-      // But include the error in the response for debugging
-      paypalUrl = null;
-    }
 
-    // If no payer-view link from send response, construct it manually
-    if (!paypalUrl) {
-      const isProduction = process.env.PAYPAL_ENVIRONMENT === 'production';
-      const baseURL = isProduction ? 'https://www.paypal.com' : 'https://www.sandbox.paypal.com';
-      // Use the PAYER view URL (this is what customers use to pay)
-      // Note: This only works if invoice is SENT (not Draft)
-      paypalUrl = `${baseURL}/invoice/p/${invoiceId}`;
-      console.log('Using payer view URL:', paypalUrl);
+      // Invoice stays in DRAFT status
+      // We cannot provide a working payment URL for draft invoices
+      // Admin must manually send from PayPal dashboard
+      invoiceStatus = 'DRAFT';
+      paypalUrl = null;
     }
 
     // Save to database
@@ -136,6 +130,10 @@ export default async function handler(req, res) {
       invoiceNumber,
       invoiceId,
       paypalUrl,
+      invoiceStatus, // Include status so frontend knows if email will be sent
+      message: invoiceStatus === 'SENT'
+        ? 'Registro exitoso. Revisa tu email para el enlace de pago.'
+        : 'Registro exitoso. Recibirás un email con el enlace de pago en breve.',
     });
 
   } catch (error) {
