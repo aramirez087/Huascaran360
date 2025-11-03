@@ -2,31 +2,35 @@
 
 ## Why Manual Sending is Needed
 
-Your PayPal API app doesn't have permission to send invoices automatically. This is a PayPal API restriction that requires contacting PayPal support to resolve.
+Your PayPal account has a **restriction preventing invoice sending** - both via API and manually from the dashboard. This is a PayPal account-level limitation.
 
-**Temporary solution:** Manually send invoices from PayPal dashboard after each registration.
+**Current Status:**
+- ✅ Invoices CREATE successfully (visible in PayPal dashboard as Draft)
+- ❌ Invoices CANNOT be sent (API returns REQUEST_REJECTED)
+- ❌ Manual sending from dashboard also fails with generic error
+
+**Root Cause:** PayPal account restriction. Requires contacting PayPal support to resolve.
 
 ---
 
-## 🔄 How to Manually Send Invoices
+## 🔄 Current Workflow (Until PayPal Enables Sending)
 
-### Step 1: When Registration Comes In
+### What Happens Now
 
 When someone registers:
 1. ✅ Invoice is **created** automatically in PayPal (Draft status)
-2. ✅ Registration is **saved** to Supabase database
-3. ❌ Invoice is **NOT sent** (due to API restriction)
+2. ✅ Registration is **saved** to Supabase database with invoice details
+3. ❌ Invoice **CANNOT be sent** (PayPal account restriction)
+4. ℹ️ Customer sees message: "You'll receive email in next few minutes"
 
-### Step 2: Send Invoice from PayPal Dashboard
+### The Problem
 
-1. Go to https://www.paypal.com/invoice
-2. You'll see the new invoice in **"Draft"** status
-3. Click on the invoice
-4. Click **"Send"** button
-5. Confirm the recipient email
-6. Click **"Send Invoice"**
+**You CANNOT send invoices** - neither via API nor manually from PayPal dashboard.
+Error: "Sorry, we couldn't create your invoice. Please contact our customer service team."
 
-Done! The customer will receive the invoice by email.
+### The Solution
+
+**CONTACT PAYPAL SUPPORT IMMEDIATELY** to enable invoice sending on your account.
 
 ---
 
@@ -45,31 +49,49 @@ Done! The customer will receive the invoice by email.
 
 ---
 
-## 🔧 Permanent Fix: Enable API Invoice Sending
+## 🔧 URGENT: Contact PayPal Support
 
-To enable automatic sending (so you don't have to manually send):
+This is the ONLY way to fix the issue:
 
-### Option 1: Contact PayPal Support
+### Contact PayPal Business Support NOW
 
-1. Log into PayPal Business account
+1. Login to https://www.paypal.com
 2. Go to **Help** → **Contact Us**
-3. Select topic: **"Invoicing"** → **"API and Technical Issues"**
-4. Message:
+3. Select: **Invoicing** → **Can't send invoice**
+4. Choose **Message us** or **Call us** (calling is faster)
+5. Use this message:
+
    ```
+   Subject: Unable to Send Invoices - REQUEST_REJECTED Error
+
    Hello,
 
-   I'm using the PayPal Invoicing API v2 to create and send invoices
-   programmatically. Invoice creation works, but the /send endpoint
-   returns "REQUEST_REJECTED" error.
+   I have a PayPal Business account and I'm unable to send invoices either
+   through the dashboard or via the Invoicing API v2.
 
-   App Client ID: [YOUR_CLIENT_ID]
-   Error: UNPROCESSABLE_ENTITY when calling
-   POST /v2/invoicing/invoices/{invoice_id}/send
+   Account email: huascaran360mtb@gmail.com
+   Business name: Huascaran 360 MTB
 
-   Please enable invoice sending permissions for my API app.
+   ISSUE:
+   - I can CREATE invoices successfully
+   - Invoices appear in Draft status
+   - When I click "Send" in dashboard, I get: "Sorry, we couldn't create
+     your invoice. Please contact our customer service team."
+   - API returns: REQUEST_REJECTED / UNPROCESSABLE_ENTITY
+   - Debug ID: 0eb7d8f2dd6b3
+
+   My account is fully verified and Invoicing is enabled in my API app.
+   Please enable invoice sending for my account.
 
    Thank you!
    ```
+
+### While Waiting for PayPal Response
+
+Check these in your account:
+1. **Settings → Account Status** - Any limitations?
+2. **Settings → Business Information** - Fully verified?
+3. Check if there are any pending verification steps
 
 ### Option 2: Check API App Permissions
 
