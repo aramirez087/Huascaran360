@@ -437,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await response.json();
 
                 if (response.ok && result.success) {
-                    // Show price info before redirect
+                    // Show price info
                     if (pricingInfo && priceDisplay) {
                         const priceTypeLabel = {
                             'early_bird': 'Early Bird',
@@ -449,15 +449,25 @@ document.addEventListener('DOMContentLoaded', () => {
                         pricingInfo.style.display = 'block';
                     }
 
-                    // Show success message and redirect to PayPal
-                    formMessage.textContent = `¡Inscripción procesada! Serás redirigido a PayPal para completar el pago de USD $${result.price}. Número de registro: ${result.invoiceNumber}`;
+                    // Show success message
+                    formMessage.innerHTML = `
+                        <strong>¡Inscripción exitosa! 🎉</strong><br><br>
+                        <strong>Número de registro:</strong> ${result.invoiceNumber}<br>
+                        <strong>Monto:</strong> USD $${result.price}<br><br>
+                        En los próximos días recibirás un email con las instrucciones de pago.<br>
+                        Por favor revisa tu bandeja de entrada (y spam).<br><br>
+                        <strong>Email de confirmación enviado a:</strong> ${result.email}
+                    `;
                     formMessage.style.color = '#22c55e';
                     formMessage.style.display = 'block';
 
-                    // Redirect to PayPal checkout after 2 seconds
-                    setTimeout(() => {
-                        window.location.href = result.checkoutUrl;
-                    }, 2000);
+                    // Reset form
+                    registrationForm.reset();
+
+                    // Re-enable button
+                    submitButton.disabled = false;
+                    buttonText.style.display = 'inline';
+                    buttonLoader.style.display = 'none';
                 } else {
                     // Show detailed error for debugging
                     const errorDetails = result.details ? `\n\nDetalles: ${result.details}\n\n${result.stack || ''}` : '';
