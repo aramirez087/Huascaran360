@@ -90,9 +90,6 @@ export async function createPayPalOrder(registrationData) {
             category: 'DIGITAL_GOODS',
           },
         ],
-        payee: {
-          email_address: process.env.PAYPAL_BUSINESS_EMAIL || 'huascaran360mtb@gmail.com',
-        },
       },
     ],
     application_context: {
