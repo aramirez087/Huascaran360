@@ -8,9 +8,11 @@ import {
   decrementEarlyBirdSlots,
   createRegistration,
 } from './lib/db.js';
-// PayPal integration temporarily disabled - manual payment processing
+import {
+  createPayPalOrder,
+  extractCheckoutUrl,
+} from './lib/paypal-checkout.js';
 import { calculatePrice, generateInvoiceNumber } from './lib/pricing.js';
-import { sendRegistrationNotification } from './lib/email.js';
 
 export default async function handler(req, res) {
   // CORS headers
@@ -71,34 +73,33 @@ export default async function handler(req, res) {
       priceType,
     };
 
-    console.log('Saving registration to database...');
+    console.log('Creating PayPal order...');
 
-    // Save to database (payment will be requested manually)
+    // Create PayPal order for checkout
+    const orderResponse = await createPayPalOrder(registrationData);
+    console.log('PayPal order created:', JSON.stringify(orderResponse, null, 2));
+
+    // Extract order ID and checkout URL
+    const orderId = orderResponse.id;
+    const checkoutUrl = extractCheckoutUrl(orderResponse);
+
+    console.log('Order ID:', orderId);
+    console.log('Checkout URL:', checkoutUrl);
+
+    if (!orderId || !checkoutUrl) {
+      throw new Error('No se pudo crear la orden de pago de PayPal');
+    }
+
+    // Save to database
     await createRegistration({
       ...registrationData,
-      invoiceId: invoiceNumber, // Store invoice number for tracking
-      paypalUrl: null, // No PayPal URL yet - will be sent manually
+      invoiceId: orderId, // Store order ID in invoiceId field for backwards compatibility
+      paypalUrl: checkoutUrl,
     });
-
-    console.log('Registration saved successfully!');
 
     // Decrement early bird slots if applicable
     if (priceType === 'early_bird') {
       await decrementEarlyBirdSlots();
-    }
-
-    // Send email notification to business (don't fail registration if email fails)
-    try {
-      console.log('Sending email notification...');
-      const emailResult = await sendRegistrationNotification(registrationData);
-      if (emailResult.success) {
-        console.log('Email notification sent successfully');
-      } else {
-        console.log('Email notification not sent:', emailResult.reason || emailResult.error);
-      }
-    } catch (emailError) {
-      console.error('Email notification error:', emailError);
-      // Continue - don't fail the registration because of email
     }
 
     // Return success response
@@ -107,11 +108,9 @@ export default async function handler(req, res) {
       price,
       priceType,
       invoiceNumber,
-      name: nombre,
-      email,
-      phone: telefono,
-      category: categoria,
-      message: 'Registro exitoso. Recibirás una solicitud de pago en los próximos días.',
+      orderId,
+      checkoutUrl,
+      message: 'Registro exitoso. Serás redirigido a PayPal para completar el pago.',
     });
 
   } catch (error) {

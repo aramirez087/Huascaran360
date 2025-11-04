@@ -34,10 +34,7 @@
       "Bash(git commit -m \"Temporarily remove address/phone - testing if they break invoice creation\")",
       "Bash(git add MANUAL_INVOICE_SENDING.md)",
       "Bash(git commit -m \"Update docs - invoice sending blocked by PayPal account restriction\")",
-      "Bash(git commit -m \"Switch from Invoicing API to PayPal Checkout (Orders API)\n\n- Replace invoice creation with order creation\n- Use PayPal Orders API instead of Invoicing API  \n- Redirect customer directly to PayPal checkout\n- No more draft invoices or email sending issues\n- Better UX: immediate payment vs waiting for email\n- Add success and cancel pages for payment flow\")",
-      "Bash(git add api/lib/paypal-checkout.js)",
-      "Bash(git commit -m \"Remove explicit payee - let PayPal route to API credential owner\")",
-      "Bash(git commit -m \"Simplify to manual payment processing - no PayPal integration\n\n- Remove PayPal order creation\n- Just save registration to Supabase\n- Show message that payment request will be sent\n- Add optional email notification to business email\n- Better UX: no confusing errors or redirects\")"
+      "Bash(git commit -m \"Switch from Invoicing API to PayPal Checkout (Orders API)\n\n- Replace invoice creation with order creation\n- Use PayPal Orders API instead of Invoicing API  \n- Redirect customer directly to PayPal checkout\n- No more draft invoices or email sending issues\n- Better UX: immediate payment vs waiting for email\n- Add success and cancel pages for payment flow\")"
     ],
     "deny": [],
     "ask": []
