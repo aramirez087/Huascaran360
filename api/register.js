@@ -9,11 +9,9 @@ import {
   createRegistration,
 } from './lib/db.js';
 import {
-  createPayPalInvoice,
-  sendPayPalInvoice,
-  extractInvoiceId,
-  extractPayPalUrl,
-} from './lib/paypal.js';
+  createPayPalOrder,
+  extractCheckoutUrl,
+} from './lib/paypal-checkout.js';
 import { calculatePrice, generateInvoiceNumber } from './lib/pricing.js';
 
 export default async function handler(req, res) {
@@ -75,46 +73,28 @@ export default async function handler(req, res) {
       priceType,
     };
 
-    // Create PayPal invoice
-    const createResponse = await createPayPalInvoice(registrationData);
-    console.log('PayPal createResponse:', JSON.stringify(createResponse, null, 2));
+    console.log('Creating PayPal order...');
 
-    // Extract invoice ID
-    const invoiceId = extractInvoiceId(createResponse);
-    console.log('Extracted invoiceId:', invoiceId);
+    // Create PayPal order for checkout
+    const orderResponse = await createPayPalOrder(registrationData);
+    console.log('PayPal order created:', JSON.stringify(orderResponse, null, 2));
 
-    if (!invoiceId) {
-      throw new Error('No se pudo obtener el ID de la factura de PayPal');
-    }
+    // Extract order ID and checkout URL
+    const orderId = orderResponse.id;
+    const checkoutUrl = extractCheckoutUrl(orderResponse);
 
-    // Try to send invoice to customer (this activates it)
-    let sendResponse = null;
-    let paypalUrl = null;
-    let invoiceStatus = 'DRAFT'; // Track invoice status
+    console.log('Order ID:', orderId);
+    console.log('Checkout URL:', checkoutUrl);
 
-    try {
-      console.log('Attempting to send invoice...');
-      sendResponse = await sendPayPalInvoice(invoiceId);
-      console.log('Invoice sent successfully!');
-      console.log('Send response:', JSON.stringify(sendResponse, null, 2));
-      paypalUrl = extractPayPalUrl(sendResponse) || extractPayPalUrl(createResponse);
-      invoiceStatus = 'SENT';
-    } catch (sendError) {
-      console.error('Invoice send FAILED:', sendError.message);
-      console.error('Full error:', sendError);
-
-      // Invoice stays in DRAFT status
-      // We cannot provide a working payment URL for draft invoices
-      // Admin must manually send from PayPal dashboard
-      invoiceStatus = 'DRAFT';
-      paypalUrl = null;
+    if (!orderId || !checkoutUrl) {
+      throw new Error('No se pudo crear la orden de pago de PayPal');
     }
 
     // Save to database
     await createRegistration({
       ...registrationData,
-      invoiceId,
-      paypalUrl,
+      invoiceId: orderId, // Store order ID in invoiceId field for backwards compatibility
+      paypalUrl: checkoutUrl,
     });
 
     // Decrement early bird slots if applicable
@@ -128,12 +108,9 @@ export default async function handler(req, res) {
       price,
       priceType,
       invoiceNumber,
-      invoiceId,
-      paypalUrl,
-      invoiceStatus, // Include status so frontend knows if email will be sent
-      message: invoiceStatus === 'SENT'
-        ? 'Registro exitoso. Revisa tu email para el enlace de pago.'
-        : 'Registro exitoso. Recibirás un email con el enlace de pago en breve.',
+      orderId,
+      checkoutUrl,
+      message: 'Registro exitoso. Serás redirigido a PayPal para completar el pago.',
     });
 
   } catch (error) {

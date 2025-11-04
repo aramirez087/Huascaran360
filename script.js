@@ -449,37 +449,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         pricingInfo.style.display = 'block';
                     }
 
-                    // Check if we have a valid payment URL
-                    if (result.paypalUrl && result.invoiceStatus === 'SENT') {
-                        // Show success message with redirect
-                        formMessage.textContent = `¡Inscripción procesada! Serás redirigido a PayPal para completar el pago de USD $${result.price}. Número de factura: ${result.invoiceNumber}`;
-                        formMessage.style.color = '#22c55e';
-                        formMessage.style.display = 'block';
+                    // Show success message and redirect to PayPal
+                    formMessage.textContent = `¡Inscripción procesada! Serás redirigido a PayPal para completar el pago de USD $${result.price}. Número de registro: ${result.invoiceNumber}`;
+                    formMessage.style.color = '#22c55e';
+                    formMessage.style.display = 'block';
 
-                        // Redirect to PayPal after 2 seconds
-                        setTimeout(() => {
-                            window.location.href = result.paypalUrl;
-                        }, 2000);
-                    } else {
-                        // Invoice is in DRAFT status - will be sent manually
-                        formMessage.innerHTML = `
-                            ¡Inscripción exitosa! 🎉<br><br>
-                            <strong>Monto:</strong> USD $${result.price}<br>
-                            <strong>Número de factura:</strong> ${result.invoiceNumber}<br><br>
-                            Recibirás un email en los próximos minutos con el enlace de pago de PayPal.<br>
-                            Por favor revisa tu bandeja de entrada (y spam).
-                        `;
-                        formMessage.style.color = '#22c55e';
-                        formMessage.style.display = 'block';
-
-                        // Reset form
-                        registrationForm.reset();
-
-                        // Re-enable button
-                        submitButton.disabled = false;
-                        buttonText.style.display = 'inline';
-                        buttonLoader.style.display = 'none';
-                    }
+                    // Redirect to PayPal checkout after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = result.checkoutUrl;
+                    }, 2000);
                 } else {
                     // Show detailed error for debugging
                     const errorDetails = result.details ? `\n\nDetalles: ${result.details}\n\n${result.stack || ''}` : '';

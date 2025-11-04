@@ -30,7 +30,11 @@
       "Bash(echo \"To run the test script, you need to set environment variables first:\n\nWindows PowerShell:\n$env:PAYPAL_CLIENT_ID=\"\"your-client-id\"\"\n$env:PAYPAL_CLIENT_SECRET=\"\"your-secret\"\"\n$env:PAYPAL_ENVIRONMENT=\"\"sandbox\"\"\nnode test-invoice.js INV2-GK4R-NU54-NE3F-N7T3\n\nWindows CMD:\nset PAYPAL_CLIENT_ID=your-client-id\nset PAYPAL_CLIENT_SECRET=your-secret\nset PAYPAL_ENVIRONMENT=sandbox\nnode test-invoice.js INV2-GK4R-NU54-NE3F-N7T3\")",
       "Bash(git commit -m \"Add billing address and phone to invoices - fix 422 send error\n\nPayPal requires billing address before invoices can be sent.\n- Add Peru address with Lima defaults\n- Include phone number from registration\n- This fixes the 422 error when trying to send invoices\")",
       "Bash(git add -A)",
-      "Bash(git commit -m \"Remove test script\")"
+      "Bash(git commit -m \"Remove test script\")",
+      "Bash(git commit -m \"Temporarily remove address/phone - testing if they break invoice creation\")",
+      "Bash(git add MANUAL_INVOICE_SENDING.md)",
+      "Bash(git commit -m \"Update docs - invoice sending blocked by PayPal account restriction\")",
+      "Bash(git commit -m \"Switch from Invoicing API to PayPal Checkout (Orders API)\n\n- Replace invoice creation with order creation\n- Use PayPal Orders API instead of Invoicing API  \n- Redirect customer directly to PayPal checkout\n- No more draft invoices or email sending issues\n- Better UX: immediate payment vs waiting for email\n- Add success and cancel pages for payment flow\")"
     ],
     "deny": [],
     "ask": []
