@@ -150,7 +150,7 @@ export async function sendContactNotification(contactData) {
   } = contactData;
 
   const businessEmails = [
-    'alexramirez.cr@gmail.com'
+    'huascaran360mtb@gmail.com'
   ];
   const resendApiKey = process.env.RESEND_API_KEY;
 
