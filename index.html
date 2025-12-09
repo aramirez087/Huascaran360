@@ -83,6 +83,8 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Lite YouTube Embed for better performance -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.css" />
     <link rel="stylesheet" href="style.css?v=2025-01-25">
 
     <!-- Vercel Speed Insights & Analytics -->
@@ -470,17 +472,9 @@
                     <figure class="hero__media" aria-label="Video oficial Huascarán 360 MTB">
                         <div class="media-frame media-frame--video" data-animate="fade">
                             <span class="media-frame__badge">Video oficial 2026</span>
-                            <div class="video-embed" data-video-src="https://www.youtube.com/embed/wayDFeHqACs">
-                                <iframe
-                                    src="https://www.youtube.com/embed/wayDFeHqACs?rel=0&modestbranding=1&showinfo=0"
-                                    title="Huascarán 360 MTB · Video oficial" loading="lazy"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    allowfullscreen></iframe>
-                                <button class="video-embed__play" type="button" data-video-trigger
-                                    aria-label="Reproducir video oficial">
-                                    <span class="video-embed__pulse"></span>
-                                    <span class="video-embed__icon" aria-hidden="true">&#9658;</span>
-                                </button>
+                            <div class="video-embed">
+                                <lite-youtube videoid="wayDFeHqACs"
+                                    playlabel="Reproducir video oficial Huascarán 360 MTB"></lite-youtube>
                             </div>
                             <div class="media-frame__caption">
                                 <p>Sumérgete en la Cordillera Blanca: una invitación a vivir los 360° del Huascarán.</p>
@@ -1454,6 +1448,8 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <!-- Lite YouTube Embed for better performance -->
+    <script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.min.js" defer></script>
 
     <!-- Twemoji for consistent emoji rendering across all platforms -->
     <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
