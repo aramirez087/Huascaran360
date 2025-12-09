@@ -58,3 +58,28 @@ CREATE TRIGGER update_registrations_updated_at BEFORE UPDATE
 CREATE TRIGGER update_config_updated_at BEFORE UPDATE
     ON config FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
+
+-- Contacts table (replacing n8n)
+CREATE TABLE IF NOT EXISTS contacts (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    id_document VARCHAR(50),
+    birth_date DATE,
+    gender VARCHAR(20),
+    nationality VARCHAR(100),
+    address TEXT,
+    phone VARCHAR(50),
+    email VARCHAR(255) NOT NULL,
+    team VARCHAR(100),
+    plate_number VARCHAR(50),
+    jersey_size VARCHAR(10),
+    emergency_contact_name VARCHAR(255),
+    emergency_contact_phone VARCHAR(50),
+    blood_type VARCHAR(10),
+    image_auth BOOLEAN DEFAULT FALSE,
+    social_media TEXT,
+    message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_contacts_created_at ON contacts(created_at DESC);
