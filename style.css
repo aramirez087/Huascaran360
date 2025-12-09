@@ -224,6 +224,7 @@ main {
         transform: translateY(-100%);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -247,8 +248,15 @@ main {
 }
 
 @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-3px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
 }
 
 .scarcity-banner__text strong {
@@ -403,7 +411,7 @@ main {
     background: linear-gradient(135deg, #d92532 0%, #a31821 100%);
     color: #ffffff;
     box-shadow: 0 10px 30px rgba(217, 37, 50, 0.4),
-                0 0 0 0 rgba(217, 37, 50, 0.3);
+        0 0 0 0 rgba(217, 37, 50, 0.3);
 }
 
 .btn--primary::before {
@@ -424,7 +432,7 @@ main {
 .btn--primary:focus-visible {
     transform: translateY(-3px) scale(1.02);
     box-shadow: 0 18px 45px rgba(217, 37, 50, 0.5),
-                0 0 0 4px rgba(217, 37, 50, 0.15);
+        0 0 0 4px rgba(217, 37, 50, 0.15);
 }
 
 .btn--primary:hover .btn__icon {
@@ -638,8 +646,15 @@ main {
 }
 
 @keyframes shimmer {
-    0%, 100% { transform: translateX(-100%); }
-    50% { transform: translateX(100%); }
+
+    0%,
+    100% {
+        transform: translateX(-100%);
+    }
+
+    50% {
+        transform: translateX(100%);
+    }
 }
 
 .hero__media {
@@ -682,7 +697,7 @@ main {
     pointer-events: none;
 }
 
-.media-frame > * {
+.media-frame>* {
     position: relative;
     z-index: 1;
 }
@@ -1413,10 +1428,12 @@ body.modal-open {
         transform: scale(0.8);
         opacity: 0.9;
     }
+
     50% {
         transform: scale(1.05);
         opacity: 0.3;
     }
+
     100% {
         transform: scale(0.8);
         opacity: 0.9;
@@ -1625,7 +1642,7 @@ section {
     pointer-events: none;
 }
 
-.pricing__highlight > * {
+.pricing__highlight>* {
     position: relative;
     z-index: 1;
 }
@@ -2536,7 +2553,7 @@ tbody tr:last-child th {
     color: rgba(255, 255, 255, 0.68);
 }
 
-.site-footer__tagline + .site-footer__tagline {
+.site-footer__tagline+.site-footer__tagline {
     font-weight: 600;
     color: rgba(255, 255, 255, 0.75);
 }
@@ -3278,9 +3295,12 @@ tbody tr:last-child th {
 }
 
 @keyframes bounce {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0) scale(1);
     }
+
     50% {
         transform: translateY(-5px) scale(1.1);
     }
@@ -3345,6 +3365,7 @@ tbody tr:last-child th {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
@@ -3512,5 +3533,275 @@ tbody tr:last-child th {
     .cta-final__form.registration-form {
         padding: 1.25rem;
         border-radius: 16px;
+    }
+}
+
+/* ========================================
+   Wizard Form Styles
+   ======================================== */
+
+.wizard-form {
+    position: relative;
+}
+
+/* Progress Indicator */
+.wizard-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+    position: relative;
+}
+
+/* Connecting line behind steps */
+.wizard-progress::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: calc(12.5% + 20px);
+    right: calc(12.5% + 20px);
+    height: 3px;
+    background: var(--color-border);
+    z-index: 0;
+}
+
+.wizard-progress::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: calc(12.5% + 20px);
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-primary-shade));
+    z-index: 1;
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+.wizard-form[data-wizard-progress="1"] .wizard-progress::after {
+    width: 0%;
+}
+
+.wizard-form[data-wizard-progress="2"] .wizard-progress::after {
+    width: 33.33%;
+}
+
+.wizard-form[data-wizard-progress="3"] .wizard-progress::after {
+    width: 66.66%;
+}
+
+.wizard-form[data-wizard-progress="4"] .wizard-progress::after {
+    width: 100%;
+}
+
+.wizard-progress__step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    position: relative;
+    z-index: 2;
+}
+
+.wizard-progress__number {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--color-surface);
+    border: 3px solid var(--color-border);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-muted);
+    transition: all 0.3s ease;
+}
+
+.wizard-progress__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-muted);
+    text-align: center;
+    transition: color 0.3s ease;
+    max-width: 80px;
+}
+
+/* Active step */
+.wizard-progress__step.is-active .wizard-progress__number {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 15px rgba(217, 37, 50, 0.4);
+    transform: scale(1.1);
+}
+
+.wizard-progress__step.is-active .wizard-progress__label {
+    color: var(--color-primary);
+}
+
+/* Completed step */
+.wizard-progress__step.is-completed .wizard-progress__number {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+}
+
+.wizard-progress__step.is-completed .wizard-progress__number::before {
+    content: '✓';
+}
+
+.wizard-progress__step.is-completed .wizard-progress__label {
+    color: var(--color-dark);
+}
+
+/* Wizard Steps Container */
+.wizard-step {
+    display: none;
+    animation: wizardFadeIn 0.4s ease;
+}
+
+.wizard-step.is-active {
+    display: block;
+}
+
+@keyframes wizardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes wizardFadeOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+}
+
+.wizard-step.is-exiting {
+    animation: wizardFadeOut 0.3s ease forwards;
+}
+
+/* Wizard Navigation */
+.wizard-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    gap: 1rem;
+}
+
+.wizard-nav__prev,
+.wizard-nav__next {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.wizard-nav__prev svg,
+.wizard-nav__next svg {
+    flex-shrink: 0;
+}
+
+.wizard-nav button[type="submit"] {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.wizard-nav button[type="submit"] svg {
+    flex-shrink: 0;
+}
+
+/* Error state for validation */
+.wizard-step .form-field.has-error input,
+.wizard-step .form-field.has-error select,
+.wizard-step .form-field.has-error textarea {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(217, 37, 50, 0.15);
+}
+
+.wizard-step .form-field.has-error::after {
+    content: 'Este campo es requerido';
+    font-size: 0.75rem;
+    color: var(--color-primary);
+    margin-top: 0.25rem;
+}
+
+/* Responsive Wizard */
+@media (max-width: 768px) {
+    .wizard-progress {
+        padding: 0;
+        margin-bottom: 1.5rem;
+    }
+
+    .wizard-progress::before,
+    .wizard-progress::after {
+        top: 16px;
+        left: calc(12.5% + 16px);
+        right: calc(12.5% + 16px);
+        height: 2px;
+    }
+
+    .wizard-progress__number {
+        width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
+        border-width: 2px;
+    }
+
+    .wizard-progress__label {
+        font-size: 0.65rem;
+        max-width: 60px;
+    }
+
+    .wizard-nav {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .wizard-nav>* {
+        width: 100%;
+    }
+
+    .wizard-nav__prev,
+    .wizard-nav__next,
+    .wizard-nav button[type="submit"] {
+        justify-content: center;
+    }
+
+    .wizard-nav__prev {
+        order: 2;
+    }
+
+    .wizard-nav__next,
+    .wizard-nav button[type="submit"] {
+        order: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .wizard-progress__label {
+        display: none;
+    }
+
+    .wizard-progress::before,
+    .wizard-progress::after {
+        left: calc(12.5% + 12px);
+        right: calc(12.5% + 12px);
     }
 }

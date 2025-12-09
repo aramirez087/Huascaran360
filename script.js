@@ -294,6 +294,162 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Wizard Form Logic
+    const wizardForm = document.querySelector('.wizard-form');
+    if (wizardForm) {
+        const steps = wizardForm.querySelectorAll('.wizard-step');
+        const progressSteps = wizardForm.querySelectorAll('.wizard-progress__step');
+        const nextButtons = wizardForm.querySelectorAll('[data-wizard-next]');
+        const prevButtons = wizardForm.querySelectorAll('[data-wizard-prev]');
+        let currentStep = 1;
+        const totalSteps = steps.length;
+
+        // Initialize progress attribute
+        wizardForm.setAttribute('data-wizard-progress', '1');
+
+        // Validate current step fields
+        const validateStep = (stepNumber) => {
+            const currentStepEl = wizardForm.querySelector(`[data-wizard-step="${stepNumber}"]`);
+            if (!currentStepEl) return true;
+
+            const requiredFields = currentStepEl.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                const formField = field.closest('.form-field');
+
+                // Remove previous error state
+                if (formField) {
+                    formField.classList.remove('has-error');
+                }
+
+                if (!field.value || (field.type === 'select-one' && !field.value)) {
+                    isValid = false;
+                    if (formField) {
+                        formField.classList.add('has-error');
+                    }
+                }
+
+                // Email validation
+                if (field.type === 'email' && field.value) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(field.value)) {
+                        isValid = false;
+                        if (formField) {
+                            formField.classList.add('has-error');
+                        }
+                    }
+                }
+            });
+
+            return isValid;
+        };
+
+        // Go to a specific step
+        const goToStep = (targetStep, direction = 'forward') => {
+            if (targetStep < 1 || targetStep > totalSteps) return;
+
+            // Validate before going forward
+            if (direction === 'forward' && !validateStep(currentStep)) {
+                // Shake animation for invalid step
+                const currentStepEl = wizardForm.querySelector(`[data-wizard-step="${currentStep}"]`);
+                currentStepEl.style.animation = 'none';
+                currentStepEl.offsetHeight; // Trigger reflow
+                currentStepEl.style.animation = 'shake 0.5s ease';
+                return;
+            }
+
+            // Update step visibility
+            steps.forEach((step, index) => {
+                const stepNumber = index + 1;
+                if (stepNumber === targetStep) {
+                    step.classList.add('is-active');
+                } else {
+                    step.classList.remove('is-active');
+                }
+            });
+
+            // Update progress indicator
+            progressSteps.forEach((progressStep, index) => {
+                const stepNumber = index + 1;
+                progressStep.classList.remove('is-active', 'is-completed');
+
+                if (stepNumber < targetStep) {
+                    progressStep.classList.add('is-completed');
+                } else if (stepNumber === targetStep) {
+                    progressStep.classList.add('is-active');
+                }
+            });
+
+            // Update progress bar
+            wizardForm.setAttribute('data-wizard-progress', String(targetStep));
+            currentStep = targetStep;
+
+            // Scroll to form top smoothly
+            wizardForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+
+        // Add shake animation for validation errors
+        const shakeStyle = document.createElement('style');
+        shakeStyle.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(shakeStyle);
+
+        // Next button handlers
+        nextButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToStep(currentStep + 1, 'forward');
+            });
+        });
+
+        // Previous button handlers
+        prevButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToStep(currentStep - 1, 'backward');
+            });
+        });
+
+        // Click on progress step (only for completed steps)
+        progressSteps.forEach((progressStep, index) => {
+            progressStep.addEventListener('click', () => {
+                const targetStep = index + 1;
+                // Only allow going back to completed steps
+                if (targetStep < currentStep) {
+                    goToStep(targetStep, 'backward');
+                }
+            });
+            // Add cursor pointer for completed steps
+            progressStep.style.cursor = 'pointer';
+        });
+
+        // Clear error on input change
+        wizardForm.addEventListener('input', (e) => {
+            const formField = e.target.closest('.form-field');
+            if (formField && formField.classList.contains('has-error')) {
+                if (e.target.value) {
+                    formField.classList.remove('has-error');
+                }
+            }
+        });
+
+        // Handle Enter key to advance
+        wizardForm.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                if (currentStep < totalSteps) {
+                    goToStep(currentStep + 1, 'forward');
+                }
+            }
+        });
+    }
+
     // Contact form submission to /api/contact
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {

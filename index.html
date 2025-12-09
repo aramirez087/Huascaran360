@@ -1142,92 +1142,179 @@
                     <p>Escríbenos para recibir el dossier oficial, planes de entrenamiento y recomendaciones de
                         aclimatación.</p>
                 </div>
-                <form class="cta-final__form registration-form" id="contactForm">
-                    <fieldset class="form-section">
-                        <legend>📝 Datos Personales</legend>
-                        <div class="form-grid">
-                            <label class="form-field"><span class="form-label">Nombre completo *</span><input
-                                    type="text" name="nombre" placeholder="Tu nombre y apellido" required></label>
-                            <label class="form-field"><span class="form-label">Cédula o pasaporte *</span><input
-                                    type="text" name="id_document" placeholder="Número de identificación"
-                                    required></label>
-                            <label class="form-field"><span class="form-label">Fecha de nacimiento *</span><input
-                                    type="date" name="fecha_nacimiento" required></label>
-                            <label class="form-field"><span class="form-label">Sexo *</span><select name="sexo"
-                                    required>
-                                    <option value="">Selecciona</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="femenino">Femenino</option>
-                                    <option value="otro">Otro</option>
-                                </select></label>
-                            <label class="form-field"><span class="form-label">Nacionalidad *</span><input type="text"
-                                    name="nacionalidad" placeholder="Tu país" required></label>
-                            <label class="form-field form-field--full"><span class="form-label">Dirección de
-                                    residencia</span><input type="text" name="direccion"
-                                    placeholder="Ciudad, País"></label>
-                            <label class="form-field"><span class="form-label">Teléfono de contacto *</span><input
-                                    type="tel" name="telefono" placeholder="+51 974 840 988" required></label>
-                            <label class="form-field"><span class="form-label">Correo electrónico *</span><input
-                                    type="email" name="email" placeholder="tucorreo@ejemplo.com" required></label>
+                <form class="cta-final__form registration-form wizard-form" id="contactForm">
+                    <!-- Wizard Progress Indicator -->
+                    <div class="wizard-progress">
+                        <div class="wizard-progress__step is-active" data-step="1">
+                            <span class="wizard-progress__number">1</span>
+                            <span class="wizard-progress__label">Datos Personales</span>
                         </div>
-                    </fieldset>
-                    <fieldset class="form-section">
-                        <legend>🚴 Datos de Carrera</legend>
-                        <div class="form-grid">
-                            <label class="form-field"><span class="form-label">Equipo o patrocinador</span><input
-                                    type="text" name="equipo" placeholder="Si aplica"></label>
-                            <label class="form-field"><span class="form-label">Número de placa/dorsal</span><input
-                                    type="text" name="numero_placa" placeholder="Día de revisión técnica"></label>
-                            <label class="form-field"><span class="form-label">Talla de camiseta *</span><select
-                                    name="talla_camiseta" required>
-                                    <option value="">Selecciona</option>
-                                    <option value="XS">XS</option>
-                                    <option value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                    <option value="XL">XL</option>
-                                    <option value="XXL">XXL</option>
-                                </select></label>
-                            <label class="form-field"><span class="form-label">Tipo de sangre *</span><select
-                                    name="tipo_sangre" required>
-                                    <option value="">Selecciona</option>
-                                    <option value="A+">A+</option>
-                                    <option value="A-">A-</option>
-                                    <option value="B+">B+</option>
-                                    <option value="B-">B-</option>
-                                    <option value="AB+">AB+</option>
-                                    <option value="AB-">AB-</option>
-                                    <option value="O+">O+</option>
-                                    <option value="O-">O-</option>
-                                </select></label>
+                        <div class="wizard-progress__step" data-step="2">
+                            <span class="wizard-progress__number">2</span>
+                            <span class="wizard-progress__label">Carrera</span>
                         </div>
-                    </fieldset>
-                    <fieldset class="form-section">
-                        <legend>🚨 Contacto de Emergencia</legend>
-                        <div class="form-grid">
-                            <label class="form-field"><span class="form-label">Nombre del contacto *</span><input
-                                    type="text" name="contacto_emergencia" placeholder="Nombre completo"
-                                    required></label>
-                            <label class="form-field"><span class="form-label">Teléfono de emergencia *</span><input
-                                    type="tel" name="telefono_emergencia" placeholder="+51 999 999 999"
-                                    required></label>
+                        <div class="wizard-progress__step" data-step="3">
+                            <span class="wizard-progress__number">3</span>
+                            <span class="wizard-progress__label">Emergencia</span>
                         </div>
-                    </fieldset>
-                    <fieldset class="form-section">
-                        <legend>📋 Información Adicional</legend>
-                        <div class="form-grid">
-                            <label class="form-field form-field--checkbox"><input type="checkbox"
-                                    name="autorizacion_imagen" value="true"><span>Autorizo el uso de mi imagen para
-                                    fotos y videos del evento</span></label>
-                            <label class="form-field form-field--full"><span class="form-label">Redes
-                                    sociales</span><input type="text" name="redes_sociales"
-                                    placeholder="@usuario_instagram (para etiquetarte en publicaciones)"></label>
-                            <label class="form-field form-field--full"><span class="form-label">Mensaje
-                                    adicional</span><textarea name="mensaje" rows="3"
-                                    placeholder="Requerimientos especiales, preguntas, etc."></textarea></label>
+                        <div class="wizard-progress__step" data-step="4">
+                            <span class="wizard-progress__number">4</span>
+                            <span class="wizard-progress__label">Finalizar</span>
                         </div>
-                    </fieldset>
-                    <button class="btn btn--primary btn--large" type="submit">Enviar inscripción</button>
+                    </div>
+
+                    <!-- Step 1: Personal Data -->
+                    <div class="wizard-step is-active" data-wizard-step="1">
+                        <fieldset class="form-section">
+                            <legend>📝 Datos Personales</legend>
+                            <div class="form-grid">
+                                <label class="form-field"><span class="form-label">Nombre completo *</span><input
+                                        type="text" name="nombre" placeholder="Tu nombre y apellido" required></label>
+                                <label class="form-field"><span class="form-label">Cédula o pasaporte *</span><input
+                                        type="text" name="id_document" placeholder="Número de identificación"
+                                        required></label>
+                                <label class="form-field"><span class="form-label">Fecha de nacimiento *</span><input
+                                        type="date" name="fecha_nacimiento" required></label>
+                                <label class="form-field"><span class="form-label">Sexo *</span><select name="sexo"
+                                        required>
+                                        <option value="">Selecciona</option>
+                                        <option value="masculino">Masculino</option>
+                                        <option value="femenino">Femenino</option>
+                                        <option value="otro">Otro</option>
+                                    </select></label>
+                                <label class="form-field"><span class="form-label">Nacionalidad *</span><input
+                                        type="text" name="nacionalidad" placeholder="Tu país" required></label>
+                                <label class="form-field form-field--full"><span class="form-label">Dirección de
+                                        residencia</span><input type="text" name="direccion"
+                                        placeholder="Ciudad, País"></label>
+                                <label class="form-field"><span class="form-label">Teléfono de contacto *</span><input
+                                        type="tel" name="telefono" placeholder="+51 974 840 988" required></label>
+                                <label class="form-field"><span class="form-label">Correo electrónico *</span><input
+                                        type="email" name="email" placeholder="tucorreo@ejemplo.com" required></label>
+                            </div>
+                        </fieldset>
+                        <div class="wizard-nav">
+                            <span></span>
+                            <button type="button" class="btn btn--primary wizard-nav__next" data-wizard-next>
+                                Siguiente <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14m-7-7l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Race Data -->
+                    <div class="wizard-step" data-wizard-step="2">
+                        <fieldset class="form-section">
+                            <legend>🚴 Datos de Carrera</legend>
+                            <div class="form-grid">
+                                <label class="form-field"><span class="form-label">Equipo o patrocinador</span><input
+                                        type="text" name="equipo" placeholder="Si aplica"></label>
+                                <label class="form-field"><span class="form-label">Número de placa/dorsal</span><input
+                                        type="text" name="numero_placa" placeholder="Día de revisión técnica"></label>
+                                <label class="form-field"><span class="form-label">Talla de camiseta *</span><select
+                                        name="talla_camiseta" required>
+                                        <option value="">Selecciona</option>
+                                        <option value="XS">XS</option>
+                                        <option value="S">S</option>
+                                        <option value="M">M</option>
+                                        <option value="L">L</option>
+                                        <option value="XL">XL</option>
+                                        <option value="XXL">XXL</option>
+                                    </select></label>
+                                <label class="form-field"><span class="form-label">Tipo de sangre *</span><select
+                                        name="tipo_sangre" required>
+                                        <option value="">Selecciona</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                    </select></label>
+                            </div>
+                        </fieldset>
+                        <div class="wizard-nav">
+                            <button type="button" class="btn btn--ghost wizard-nav__prev" data-wizard-prev>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M19 12H5m7-7l-7 7 7 7" />
+                                </svg> Anterior
+                            </button>
+                            <button type="button" class="btn btn--primary wizard-nav__next" data-wizard-next>
+                                Siguiente <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14m-7-7l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Emergency Contact -->
+                    <div class="wizard-step" data-wizard-step="3">
+                        <fieldset class="form-section">
+                            <legend>🚨 Contacto de Emergencia</legend>
+                            <div class="form-grid">
+                                <label class="form-field"><span class="form-label">Nombre del contacto *</span><input
+                                        type="text" name="contacto_emergencia" placeholder="Nombre completo"
+                                        required></label>
+                                <label class="form-field"><span class="form-label">Teléfono de emergencia *</span><input
+                                        type="tel" name="telefono_emergencia" placeholder="+51 999 999 999"
+                                        required></label>
+                            </div>
+                        </fieldset>
+                        <div class="wizard-nav">
+                            <button type="button" class="btn btn--ghost wizard-nav__prev" data-wizard-prev>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M19 12H5m7-7l-7 7 7 7" />
+                                </svg> Anterior
+                            </button>
+                            <button type="button" class="btn btn--primary wizard-nav__next" data-wizard-next>
+                                Siguiente <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14m-7-7l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Additional Info + Submit -->
+                    <div class="wizard-step" data-wizard-step="4">
+                        <fieldset class="form-section">
+                            <legend>📋 Información Adicional</legend>
+                            <div class="form-grid">
+                                <label class="form-field form-field--checkbox"><input type="checkbox"
+                                        name="autorizacion_imagen" value="true"><span>Autorizo el uso de mi imagen para
+                                        fotos y videos del evento</span></label>
+                                <label class="form-field form-field--full"><span class="form-label">Redes
+                                        sociales</span><input type="text" name="redes_sociales"
+                                        placeholder="@usuario_instagram (para etiquetarte en publicaciones)"></label>
+                                <label class="form-field form-field--full"><span class="form-label">Mensaje
+                                        adicional</span><textarea name="mensaje" rows="3"
+                                        placeholder="Requerimientos especiales, preguntas, etc."></textarea></label>
+                            </div>
+                        </fieldset>
+                        <div class="wizard-nav">
+                            <button type="button" class="btn btn--ghost wizard-nav__prev" data-wizard-prev>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M19 12H5m7-7l-7 7 7 7" />
+                                </svg> Anterior
+                            </button>
+                            <button class="btn btn--primary btn--large" type="submit">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                                </svg>
+                                Enviar inscripción
+                            </button>
+                        </div>
+                    </div>
+
                     <p class="form-message" style="display:none; margin-top: 1rem;"></p>
                 </form>
             </div>
@@ -1312,7 +1399,8 @@
             </div>
         </div>
         <p class="site-footer__legal">&copy; 2026 Huascarán 360 MTB. Todos los derechos reservados. · Desarrollado por
-            <a href="https://github.com/aramirez087/" target="_blank" rel="noopener">aramirez087</a></p>
+            <a href="https://github.com/aramirez087/" target="_blank" rel="noopener">aramirez087</a>
+        </p>
     </footer>
 
     <div class="sticky-cta" data-sticky-cta aria-hidden="true">
