@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Contact form submission to n8n
+    // Contact form submission to /api/contact
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', async (event) => {
@@ -308,18 +308,34 @@ document.addEventListener('DOMContentLoaded', () => {
             submitButton.disabled = true;
             submitButton.textContent = 'Enviando...';
 
-            // Get form data
+            // Get form data - collect all registration fields
             const formData = new FormData(contactForm);
             const data = {
-                fecha: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
+                // Personal Data
                 nombre: formData.get('nombre'),
-                email: formData.get('email'),
+                id_document: formData.get('id_document'),
+                fecha_nacimiento: formData.get('fecha_nacimiento') || null,
+                sexo: formData.get('sexo'),
+                nacionalidad: formData.get('nacionalidad'),
+                direccion: formData.get('direccion') || '',
                 telefono: formData.get('telefono'),
+                email: formData.get('email'),
+                // Race Data
+                equipo: formData.get('equipo') || '',
+                numero_placa: formData.get('numero_placa') || '',
+                talla_camiseta: formData.get('talla_camiseta'),
+                tipo_sangre: formData.get('tipo_sangre'),
+                // Emergency Contact
+                contacto_emergencia: formData.get('contacto_emergencia'),
+                telefono_emergencia: formData.get('telefono_emergencia'),
+                // Other
+                autorizacion_imagen: formData.get('autorizacion_imagen') === 'true',
+                redes_sociales: formData.get('redes_sociales') || '',
                 mensaje: formData.get('mensaje') || ''
             };
 
             try {
-                const response = await fetch('https://n8n.automationbeast.win/webhook/914b6381-87d1-4b9b-a86e-391341abfaca', {
+                const response = await fetch('/api/contact', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -327,27 +343,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(data)
                 });
 
-                if (response.ok) {
-                    formMessage.textContent = '¡Gracias! Tu mensaje ha sido enviado correctamente.';
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    formMessage.textContent = '¡Gracias! Tu inscripción ha sido recibida correctamente. Te contactaremos pronto.';
                     formMessage.style.color = '#22c55e';
                     formMessage.style.display = 'block';
                     contactForm.reset();
                 } else {
-                    throw new Error('Error en la respuesta del servidor');
+                    throw new Error(result.error || 'Error en la respuesta del servidor');
                 }
             } catch (error) {
-                formMessage.textContent = 'Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.';
+                formMessage.textContent = 'Hubo un error al enviar la inscripción. Por favor, intenta nuevamente.';
                 formMessage.style.color = '#ef4444';
                 formMessage.style.display = 'block';
+                console.error('Contact form error:', error);
             } finally {
                 // Re-enable button
                 submitButton.disabled = false;
                 submitButton.textContent = originalButtonText;
 
-                // Hide message after 5 seconds
+                // Hide message after 8 seconds
                 setTimeout(() => {
                     formMessage.style.display = 'none';
-                }, 5000);
+                }, 8000);
             }
         });
     }

@@ -3354,3 +3354,163 @@ tbody tr:last-child th {
         scroll-behavior: auto !important;
     }
 }
+
+/* ========================================
+   Registration Form Styles
+   ======================================== */
+
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-section {
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.form-section legend {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-dark);
+    padding: 0 0.5rem;
+    margin-left: -0.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-field--full {
+    grid-column: 1 / -1;
+}
+
+.form-field--checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    grid-column: 1 / -1;
+}
+
+.form-field--checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.form-field--checkbox span {
+    font-size: 0.95rem;
+    color: var(--color-muted);
+}
+
+.form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-dark);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: var(--color-surface);
+    color: var(--color-dark);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(217, 37, 50, 0.12);
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+    color: var(--color-muted);
+    opacity: 0.7;
+}
+
+.form-field select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23606574' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.form-field textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* CTA Final Form Container */
+.cta-final__form.registration-form {
+    background: var(--color-surface);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(16, 18, 24, 0.1);
+    max-width: 800px;
+    width: 100%;
+}
+
+.cta-final__form .btn--large {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* Responsive adjustments for registration form */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .form-section {
+        padding: 1.25rem;
+    }
+
+    .form-section legend {
+        font-size: 1rem;
+    }
+
+    .cta-final__form.registration-form {
+        padding: 1.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-section {
+        padding: 1rem;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+        padding: 0.75rem 0.875rem;
+        font-size: 0.95rem;
+    }
+
+    .cta-final__form.registration-form {
+        padding: 1.25rem;
+        border-radius: 16px;
+    }
+}

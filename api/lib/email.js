@@ -144,3 +144,128 @@ Próximos pasos:
     return { success: false, reason: 'No email service configured' };
   }
 }
+
+/**
+ * Send email notification about new registration
+ * Sends to both huascaran360mtb@gmail.com and alexramirez.cr@gmail.com
+ */
+export async function sendContactNotification(contactData) {
+  const {
+    name, id_document, birth_date, gender, nationality, address, phone, email,
+    team, plate_number, jersey_size,
+    emergency_contact_name, emergency_contact_phone, blood_type,
+    image_auth, social_media, message
+  } = contactData;
+
+  const businessEmails = [
+    'huascaran360mtb@gmail.com',
+    'alexramirez.cr@gmail.com'
+  ];
+  const resendApiKey = process.env.RESEND_API_KEY;
+
+  const subject = `Nueva Inscripción - ${name}`;
+  const htmlContent = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #667eea;">Nueva Inscripción Recibida</h2>
+      
+      <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">📝 Datos Personales</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b; width: 40%;">Nombre:</td><td>${name}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Cédula/Pasaporte:</td><td>${id_document || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Fecha Nacimiento:</td><td>${birth_date || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Sexo:</td><td>${gender || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Nacionalidad:</td><td>${nationality || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Dirección:</td><td>${address || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Teléfono:</td><td>${phone || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Email:</td><td><a href="mailto:${email}">${email}</a></td></tr>
+        </table>
+      </div>
+
+      <div style="background: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: #166534; border-bottom: 1px solid #bbf7d0; padding-bottom: 10px;">🚴 Datos de Carrera</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #15803d; width: 40%;">Equipo/Patrocinador:</td><td>${team || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #15803d;">N° Placa/Dorsal:</td><td>${plate_number || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #15803d;">Talla Camiseta:</td><td>${jersey_size || '-'}</td></tr>
+        </table>
+      </div>
+
+      <div style="background: #fef2f2; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: #991b1b; border-bottom: 1px solid #fecaca; padding-bottom: 10px;">🚨 Emergencia</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #dc2626; width: 40%;">Contacto:</td><td>${emergency_contact_name || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #dc2626;">Teléfono:</td><td>${emergency_contact_phone || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: #dc2626;">Tipo de Sangre:</td><td>${blood_type || '-'}</td></tr>
+        </table>
+      </div>
+
+      <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: #4b5563; border-bottom: 1px solid #d1d5db; padding-bottom: 10px;">📋 Otros</h3>
+        <p><strong>Autorización Imagen:</strong> ${image_auth ? '✅ SÍ' : '❌ NO'}</p>
+        <p><strong>Redes Sociales:</strong> ${social_media || '-'}</p>
+        ${message ? `<p><strong>Mensaje:</strong> ${message}</p>` : ''}
+      </div>
+    </div>
+  `;
+
+  const textContent = `
+NUEVA INSCRIPCIÓN RECIBIDA
+
+DATOS PERSONALES
+Nombre: ${name}
+Cédula/Pasaporte: ${id_document || '-'}
+Fecha Nacimiento: ${birth_date || '-'}
+Sexo: ${gender || '-'}
+Nacionalidad: ${nationality || '-'}
+Dirección: ${address || '-'}
+Teléfono: ${phone || '-'}
+Email: ${email}
+
+DATOS DE CARRERA
+Equipo/Patrocinador: ${team || '-'}
+N° Placa/Dorsal: ${plate_number || '-'}
+Talla Camiseta: ${jersey_size || '-'}
+
+EMERGENCIA
+Contacto: ${emergency_contact_name || '-'}
+Teléfono: ${emergency_contact_phone || '-'}
+Tipo de Sangre: ${blood_type || '-'}
+
+OTROS
+Autorización Imagen: ${image_auth ? 'SÍ' : 'NO'}
+Redes Sociales: ${social_media || '-'}
+Mensaje: ${message || '-'}
+  `.trim();
+
+  if (resendApiKey) {
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'Huascaran 360 MTB <onboarding@resend.dev>',
+          to: businessEmails,
+          subject,
+          html: htmlContent,
+          text: textContent,
+          reply_to: email
+        }),
+      });
+
+      if (!response.ok) throw new Error(await response.text());
+      return { success: true };
+    } catch (error) {
+      console.error('Error sending contact email:', error);
+      return { success: false, error: error.message };
+    }
+  } else {
+    console.log('=== NEW REGISTRATION (Email not configured) ===');
+    console.log(textContent);
+    return { success: false, reason: 'No email service configured' };
+  }
+}
+

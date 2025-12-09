@@ -1,8 +1,3 @@
-// =============================================
-// Database Helper Functions
-// Supabase PostgreSQL Integration
-// =============================================
-
 import postgres from 'postgres';
 
 // Create database connection
@@ -11,6 +6,9 @@ const sql = postgres(process.env.DATABASE_URL, {
   idle_timeout: 20,
   connect_timeout: 10,
 });
+
+// Export sql for health check
+export { sql };
 
 /**
  * Get current early bird slots available
@@ -121,5 +119,35 @@ export async function getRegistrationStats() {
       SUM(CASE WHEN payment_status = 'paid' THEN price ELSE 0 END) as total_revenue
     FROM registrations
   `;
+  return result[0];
+}
+
+/**
+ * Create a new contact/registration
+ */
+export async function createContact(data) {
+  const {
+    name, id_document, birth_date, gender, nationality, address, phone, email,
+    team, plate_number, jersey_size,
+    emergency_contact_name, emergency_contact_phone, blood_type,
+    image_auth, social_media, message
+  } = data;
+
+  const result = await sql`
+    INSERT INTO contacts (
+      name, id_document, birth_date, gender, nationality, address, phone, email,
+      team, plate_number, jersey_size,
+      emergency_contact_name, emergency_contact_phone, blood_type,
+      image_auth, social_media, message
+    )
+    VALUES (
+      ${name}, ${id_document}, ${birth_date}, ${gender}, ${nationality}, ${address}, ${phone}, ${email},
+      ${team}, ${plate_number}, ${jersey_size},
+      ${emergency_contact_name}, ${emergency_contact_phone}, ${blood_type},
+      ${image_auth}, ${social_media}, ${message}
+    )
+    RETURNING id, created_at
+  `;
+
   return result[0];
 }
