@@ -464,33 +464,61 @@ document.addEventListener('DOMContentLoaded', () => {
             submitButton.disabled = true;
             submitButton.textContent = 'Enviando...';
 
-            // Get form data - collect all registration fields
-            const formData = new FormData(contactForm);
-            const data = {
-                // Personal Data
-                nombre: formData.get('nombre'),
-                id_document: formData.get('id_document'),
-                fecha_nacimiento: formData.get('fecha_nacimiento') || null,
-                sexo: formData.get('sexo'),
-                nacionalidad: formData.get('nacionalidad'),
-                direccion: formData.get('direccion') || '',
-                telefono: formData.get('telefono'),
-                email: formData.get('email'),
-                // Race Data
-                equipo: formData.get('equipo') || '',
-                numero_placa: formData.get('numero_placa') || '',
-                talla_camiseta: formData.get('talla_camiseta'),
-                tipo_sangre: formData.get('tipo_sangre'),
-                // Emergency Contact
-                contacto_emergencia: formData.get('contacto_emergencia'),
-                telefono_emergencia: formData.get('telefono_emergencia'),
-                // Other
-                autorizacion_imagen: formData.get('autorizacion_imagen') === 'true',
-                redes_sociales: formData.get('redes_sociales') || '',
-                mensaje: formData.get('mensaje') || ''
-            };
-
             try {
+                // Get form data
+                const formData = new FormData(contactForm);
+
+                // Handle File Upload (Step 5)
+                const fileInput = contactForm.querySelector('input[type="file"]');
+                let comprobanteData = null;
+
+                if (fileInput && fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+
+                    // Simple size check (4MB limit)
+                    if (file.size > 4 * 1024 * 1024) {
+                        throw new Error('El archivo es demasiado grande. Máximo 4MB.');
+                    }
+
+                    // Convert to Base64
+                    const toBase64 = (file) => new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = error => reject(error);
+                    });
+
+                    comprobanteData = await toBase64(file);
+                } else if (fileInput && fileInput.hasAttribute('required')) {
+                    throw new Error('Por favor sube el comprobante de pago.');
+                }
+
+                const data = {
+                    // Personal Data
+                    nombre: formData.get('nombre'),
+                    id_document: formData.get('id_document'),
+                    fecha_nacimiento: formData.get('fecha_nacimiento') || null,
+                    sexo: formData.get('sexo'),
+                    nacionalidad: formData.get('nacionalidad'),
+                    direccion: formData.get('direccion') || '',
+                    telefono: formData.get('telefono'),
+                    email: formData.get('email'),
+                    // Race Data
+                    equipo: formData.get('equipo') || '',
+                    numero_placa: formData.get('numero_placa') || '',
+                    talla_camiseta: formData.get('talla_camiseta'),
+                    tipo_sangre: formData.get('tipo_sangre'),
+                    // Emergency Contact
+                    contacto_emergencia: formData.get('contacto_emergencia'),
+                    telefono_emergencia: formData.get('telefono_emergencia'),
+                    // Other
+                    autorizacion_imagen: formData.get('autorizacion_imagen') === 'true',
+                    redes_sociales: formData.get('redes_sociales') || '',
+                    mensaje: formData.get('mensaje') || '',
+                    // Payment Proof
+                    comprobante: comprobanteData
+                };
+
                 const response = await fetch('/api/contact', {
                     method: 'POST',
                     headers: {
@@ -506,11 +534,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     formMessage.style.color = '#22c55e';
                     formMessage.style.display = 'block';
                     contactForm.reset();
+
+                    // Reset wizard to step 1
+                    if (typeof goToStep === 'function') {
+                        window.location.reload(); // Simplest way to reset wizard state completely
+                    }
                 } else {
                     throw new Error(result.error || 'Error en la respuesta del servidor');
                 }
             } catch (error) {
-                formMessage.textContent = 'Hubo un error al enviar la inscripción. Por favor, intenta nuevamente.';
+                formMessage.textContent = error.message || 'Hubo un error al enviar la inscripción. Por favor, intenta nuevamente.';
                 formMessage.style.color = '#ef4444';
                 formMessage.style.display = 'block';
                 console.error('Contact form error:', error);

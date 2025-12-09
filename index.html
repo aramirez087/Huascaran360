@@ -1159,7 +1159,11 @@
                         </div>
                         <div class="wizard-progress__step" data-step="4">
                             <span class="wizard-progress__number">4</span>
-                            <span class="wizard-progress__label">Finalizar</span>
+                            <span class="wizard-progress__label">Info Adicional</span>
+                        </div>
+                        <div class="wizard-progress__step" data-step="5">
+                            <span class="wizard-progress__number">5</span>
+                            <span class="wizard-progress__label">Pago</span>
                         </div>
                     </div>
 
@@ -1282,7 +1286,7 @@
                         </div>
                     </div>
 
-                    <!-- Step 4: Additional Info + Submit -->
+                    <!-- Step 4: Additional Info -->
                     <div class="wizard-step" data-wizard-step="4">
                         <fieldset class="form-section">
                             <legend>📋 Información Adicional</legend>
@@ -1296,6 +1300,40 @@
                                 <label class="form-field form-field--full"><span class="form-label">Mensaje
                                         adicional</span><textarea name="mensaje" rows="3"
                                         placeholder="Requerimientos especiales, preguntas, etc."></textarea></label>
+                            </div>
+                        </fieldset>
+                        <div class="wizard-nav">
+                            <button type="button" class="btn btn--ghost wizard-nav__prev" data-wizard-prev>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M19 12H5m7-7l-7 7 7 7" />
+                                </svg> Anterior
+                            </button>
+                            <button type="button" class="btn btn--primary wizard-nav__next" data-wizard-next>
+                                Siguiente <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14m-7-7l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Payment Proof -->
+                    <div class="wizard-step" data-wizard-step="5">
+                        <fieldset class="form-section">
+                            <legend>💳 Comprobante de Pago</legend>
+                            <div class="form-grid">
+                                <div class="form-field form-field--full">
+                                    <p class="form-instructions"
+                                        style="margin-bottom: 1rem; color: var(--color-gray-600);">
+                                        Por favor sube una foto o captura de pantalla de tu comprobante de pago.
+                                    </p>
+                                    <label class="form-label">Imagen del comprobante *</label>
+                                    <input type="file" name="comprobante_pago" accept="image/*" required>
+                                    <small
+                                        style="display: block; margin-top: 0.5rem; color: var(--color-gray-500);">Formatos
+                                        aceptados: JPG, PNG, WEBP. Máx 4MB.</small>
+                                </div>
                             </div>
                         </fieldset>
                         <div class="wizard-nav">

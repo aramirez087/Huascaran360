@@ -146,7 +146,7 @@ export async function sendContactNotification(contactData) {
     name, id_document, birth_date, gender, nationality, address, phone, email,
     team, plate_number, jersey_size,
     emergency_contact_name, emergency_contact_phone, blood_type,
-    image_auth, social_media, message
+    image_auth, social_media, message, comprobante
   } = contactData;
 
   const businessEmails = [
@@ -196,6 +196,7 @@ export async function sendContactNotification(contactData) {
         <p><strong>Autorización Imagen:</strong> ${image_auth ? '✅ SÍ' : '❌ NO'}</p>
         <p><strong>Redes Sociales:</strong> ${social_media || '-'}</p>
         ${message ? `<p><strong>Mensaje:</strong> ${message}</p>` : ''}
+        ${comprobante ? `<p><strong>Comprobante de Pago:</strong> Adjunto en este correo ✅</p>` : '<p><strong>Comprobante de Pago:</strong> No adjuntado ❌</p>'}
       </div>
     </div>
   `;
@@ -227,19 +228,49 @@ OTROS
 Autorización Imagen: ${image_auth ? 'SÍ' : 'NO'}
 Redes Sociales: ${social_media || '-'}
 Mensaje: ${message || '-'}
+Comprobante de Pago: ${comprobante ? 'Adjunto' : 'No adjuntado'}
   `.trim();
+
+  // Prepare attachments if exists
+  const attachments = [];
+  if (comprobante) {
+    try {
+      // split "data:image/png;base64,....."
+      const matches = comprobante.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+
+      if (matches && matches.length === 3) {
+        const type = matches[1];
+        const data = matches[2];
+        const extension = type.split('/')[1] || 'png';
+        const buffer = Buffer.from(data, 'base64');
+
+        attachments.push({
+          filename: `comprobante.${extension}`,
+          content: buffer
+        });
+      }
+    } catch (e) {
+      console.error('Error processing attachment:', e);
+    }
+  }
 
   if (resendApiKey) {
     try {
       const resend = new Resend(resendApiKey);
-      const { data, error } = await resend.emails.send({
+      const emailOptions = {
         from: 'Huascaran 360 MTB <onboarding@resend.dev>',
         to: businessEmails,
         subject,
         html: htmlContent,
         text: textContent,
         reply_to: email
-      });
+      };
+
+      if (attachments.length > 0) {
+        emailOptions.attachments = attachments;
+      }
+
+      const { data, error } = await resend.emails.send(emailOptions);
 
       if (error) {
         console.error('Resend error:', error);
