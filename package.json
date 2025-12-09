@@ -8,7 +8,8 @@
     "deploy": "vercel --prod"
   },
   "dependencies": {
-    "postgres": "^3.4.4"
+    "postgres": "^3.4.4",
+    "resend": "^4.0.0"
   },
   "engines": {
     "node": ">=18.x"

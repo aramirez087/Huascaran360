@@ -3,6 +3,8 @@
 // Send email notifications for new registrations
 // =============================================
 
+import { Resend } from 'resend';
+
 /**
  * Send email notification about new registration
  * Uses Resend API if configured, otherwise just logs
@@ -104,40 +106,30 @@ Próximos pasos:
 3. Marcar como pagado en Supabase cuando se complete el pago
   `.trim();
 
-  // If Resend API key is configured, send email
+  // If Resend API key is configured, send email using SDK
   if (resendApiKey) {
     try {
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: 'Huascaran 360 MTB <onboarding@resend.dev>', // Change this to your verified domain
-          to: businessEmail,
-          subject,
-          html: htmlContent,
-          text: textContent,
-        }),
+      const resend = new Resend(resendApiKey);
+      const { data, error } = await resend.emails.send({
+        from: 'Huascaran 360 MTB <onboarding@resend.dev>',
+        to: [businessEmail],
+        subject,
+        html: htmlContent,
+        text: textContent,
       });
 
-      if (!response.ok) {
-        const error = await response.text();
+      if (error) {
         console.error('Failed to send email via Resend:', error);
-        throw new Error(`Email send failed: ${error}`);
+        throw new Error(`Email send failed: ${error.message}`);
       }
 
-      const result = await response.json();
-      console.log('Email sent successfully via Resend:', result.id);
-      return { success: true, provider: 'resend', id: result.id };
+      console.log('Email sent successfully via Resend:', data.id);
+      return { success: true, provider: 'resend', id: data.id };
     } catch (error) {
       console.error('Error sending email:', error);
-      // Don't throw - registration should still succeed
       return { success: false, error: error.message };
     }
   } else {
-    // No email service configured - just log to console
     console.log('=== NEW REGISTRATION (Email not configured) ===');
     console.log(textContent);
     console.log('=== END REGISTRATION ===');
@@ -146,7 +138,7 @@ Próximos pasos:
 }
 
 /**
- * Send email notification about new registration
+ * Send email notification about new contact form submission
  * Sends to both huascaran360mtb@gmail.com and alexramirez.cr@gmail.com
  */
 export async function sendContactNotification(contactData) {
@@ -166,7 +158,7 @@ export async function sendContactNotification(contactData) {
   const subject = `Nueva Inscripción - ${name}`;
   const htmlContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #667eea;">Nueva Inscripción Recibida</h2>
+      <h2 style="color: #d92532;">🚵 Nueva Inscripción Huascarán 360 MTB</h2>
       
       <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
         <h3 style="margin-top: 0; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">📝 Datos Personales</h3>
@@ -210,7 +202,7 @@ export async function sendContactNotification(contactData) {
   `;
 
   const textContent = `
-NUEVA INSCRIPCIÓN RECIBIDA
+NUEVA INSCRIPCIÓN HUASCARÁN 360 MTB
 
 DATOS PERSONALES
 Nombre: ${name}
@@ -240,32 +232,32 @@ Mensaje: ${message || '-'}
 
   if (resendApiKey) {
     try {
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: 'Huascaran 360 MTB <onboarding@resend.dev>',
-          to: businessEmails,
-          subject,
-          html: htmlContent,
-          text: textContent,
-          reply_to: email
-        }),
+      const resend = new Resend(resendApiKey);
+      const { data, error } = await resend.emails.send({
+        from: 'Huascaran 360 MTB <onboarding@resend.dev>',
+        to: businessEmails,
+        subject,
+        html: htmlContent,
+        text: textContent,
+        reply_to: email
       });
 
-      if (!response.ok) throw new Error(await response.text());
-      return { success: true };
+      if (error) {
+        console.error('Resend error:', error);
+        return { success: false, error: error.message };
+      }
+
+      console.log('Contact email sent successfully:', data.id);
+      return { success: true, id: data.id };
     } catch (error) {
       console.error('Error sending contact email:', error);
       return { success: false, error: error.message };
     }
   } else {
-    console.log('=== NEW REGISTRATION (Email not configured) ===');
+    console.log('=== NEW CONTACT (Email not configured) ===');
+    console.log('RESEND_API_KEY is not set in environment variables');
     console.log(textContent);
-    return { success: false, reason: 'No email service configured' };
+    return { success: false, reason: 'RESEND_API_KEY not configured' };
   }
 }
 
