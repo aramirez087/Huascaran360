@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "crons": [
-    {
-      "path": "/api/health",
-      "schedule": "0 0 */5 * *"
-    }
-  ],
   "name": "huascaran-360-mtb",
   "public": true,
   "buildCommand": null,

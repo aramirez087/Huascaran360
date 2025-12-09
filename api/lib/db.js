@@ -65,33 +65,6 @@ export async function createRegistration(data) {
 }
 
 /**
- * Create a new contact message
- */
-export async function createContact(data) {
-  const {
-    name, id_document, birth_date, gender, nationality, address, phone, email,
-    team, plate_number, jersey_size, emergency_contact_name, emergency_contact_phone,
-    blood_type, image_auth, social_media, message
-  } = data;
-
-  const result = await sql`
-    INSERT INTO contacts (
-      name, id_document, birth_date, gender, nationality, address, phone, email,
-      team, plate_number, jersey_size, emergency_contact_name, emergency_contact_phone,
-      blood_type, image_auth, social_media, message
-    )
-    VALUES (
-      ${name}, ${id_document}, ${birth_date}, ${gender}, ${nationality}, ${address}, ${phone}, ${email},
-      ${team}, ${plate_number}, ${jersey_size}, ${emergency_contact_name}, ${emergency_contact_phone},
-      ${blood_type}, ${image_auth}, ${social_media}, ${message}
-    )
-    RETURNING id, created_at
-  `;
-
-  return result[0];
-}
-
-/**
  * Update payment status for a registration
  */
 export async function updatePaymentStatus(invoiceId, status, paymentDate = null) {

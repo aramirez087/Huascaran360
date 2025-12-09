@@ -311,29 +311,15 @@ document.addEventListener('DOMContentLoaded', () => {
             // Get form data
             const formData = new FormData(contactForm);
             const data = {
-                fecha: new Date().toISOString().split('T')[0],
+                fecha: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
                 nombre: formData.get('nombre'),
-                id_document: formData.get('id_document'),
-                fecha_nacimiento: formData.get('fecha_nacimiento'),
-                sexo: formData.get('sexo'),
-                nacionalidad: formData.get('nacionalidad'),
-                direccion: formData.get('direccion'),
-                telefono: formData.get('telefono'),
                 email: formData.get('email'),
-                equipo: formData.get('equipo'),
-                numero_placa: formData.get('numero_placa'),
-                talla_camiseta: formData.get('talla_camiseta'),
-                tipo_sangre: formData.get('tipo_sangre'),
-                contacto_emergencia: formData.get('contacto_emergencia'),
-                telefono_emergencia: formData.get('telefono_emergencia'),
-                redes_sociales: formData.get('redes_sociales'),
-                autorizacion_imagen: formData.get('autorizacion_imagen') === 'on',
+                telefono: formData.get('telefono'),
                 mensaje: formData.get('mensaje') || ''
             };
 
             try {
-                // Use Vercel API endpoint instead of n8n
-                const response = await fetch('/api/contact', {
+                const response = await fetch('https://n8n.automationbeast.win/webhook/914b6381-87d1-4b9b-a86e-391341abfaca', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -341,18 +327,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(data)
                 });
 
-                const result = await response.json();
-
-                if (response.ok && result.success) {
+                if (response.ok) {
                     formMessage.textContent = '¡Gracias! Tu mensaje ha sido enviado correctamente.';
                     formMessage.style.color = '#22c55e';
                     formMessage.style.display = 'block';
                     contactForm.reset();
                 } else {
-                    throw new Error(result.error || 'Error en la respuesta del servidor');
+                    throw new Error('Error en la respuesta del servidor');
                 }
             } catch (error) {
-                console.error('Contact form error:', error);
                 formMessage.textContent = 'Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.';
                 formMessage.style.color = '#ef4444';
                 formMessage.style.display = 'block';
@@ -407,5 +390,109 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStickyCta(); // Check initial state
     }
 
+    // Registration form submission with automatic PayPal redirection
+    const registrationForm = document.getElementById('registrationForm');
+    if (registrationForm) {
+        const formMessage = registrationForm.querySelector('[data-form-message]');
+        const submitButton = registrationForm.querySelector('[data-registration-button]');
+        const buttonText = submitButton.querySelector('[data-button-text]');
+        const buttonLoader = submitButton.querySelector('[data-button-loader]');
+        const pricingInfo = registrationForm.querySelector('[data-pricing-info]');
+        const priceDisplay = registrationForm.querySelector('[data-price-display]');
 
+        registrationForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // Validate form
+            if (!registrationForm.checkValidity()) {
+                registrationForm.reportValidity();
+                return;
+            }
+
+            // Disable button and show loading state
+            submitButton.disabled = true;
+            buttonText.style.display = 'none';
+            buttonLoader.style.display = 'inline';
+
+            // Get form data
+            const formData = new FormData(registrationForm);
+            const data = {
+                nombre: formData.get('nombre'),
+                email: formData.get('email'),
+                telefono: formData.get('telefono'),
+                categoria: formData.get('categoria'),
+                mensaje: formData.get('mensaje') || ''
+            };
+
+            try {
+                // Use Vercel API endpoint instead of n8n
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    // Show price info
+                    if (pricingInfo && priceDisplay) {
+                        const priceTypeLabel = {
+                            'early_bird': 'Early Bird',
+                            'stage_2': 'Etapa 2',
+                            'regular': 'Tarifa Regular'
+                        }[result.priceType] || result.priceType;
+
+                        priceDisplay.textContent = `USD $${result.price} (${priceTypeLabel})`;
+                        pricingInfo.style.display = 'block';
+                    }
+
+                    // Show success message
+                    formMessage.innerHTML = `
+                        <strong>¡Inscripción exitosa! 🎉</strong><br><br>
+                        <strong>Número de registro:</strong> ${result.invoiceNumber}<br>
+                        <strong>Monto:</strong> USD $${result.price}<br><br>
+                        En los próximos días recibirás un email con las instrucciones de pago.<br>
+                        Por favor revisa tu bandeja de entrada (y spam).<br><br>
+                        <strong>Email de confirmación enviado a:</strong> ${result.email}
+                    `;
+                    formMessage.style.color = '#22c55e';
+                    formMessage.style.display = 'block';
+
+                    // Reset form
+                    registrationForm.reset();
+
+                    // Re-enable button
+                    submitButton.disabled = false;
+                    buttonText.style.display = 'inline';
+                    buttonLoader.style.display = 'none';
+                } else {
+                    // Show detailed error for debugging
+                    const errorDetails = result.details ? `\n\nDetalles: ${result.details}\n\n${result.stack || ''}` : '';
+                    throw new Error((result.error || 'Error en la respuesta del servidor') + errorDetails);
+                }
+            } catch (error) {
+                // Show full error message for debugging
+                formMessage.textContent = error.message || 'Hubo un error al procesar tu inscripción. Por favor, intenta nuevamente o contacta al equipo organizador.';
+                formMessage.style.color = '#ef4444';
+                formMessage.style.display = 'block';
+                formMessage.style.whiteSpace = 'pre-wrap'; // Show line breaks
+
+                // Also log to console
+                console.error('Registration error:', error);
+
+                // Re-enable button
+                submitButton.disabled = false;
+                buttonText.style.display = 'inline';
+                buttonLoader.style.display = 'none';
+
+                // Hide message after 7 seconds
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                }, 7000);
+            }
+        });
+    }
 });
