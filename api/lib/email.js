@@ -234,24 +234,35 @@ Comprobante de Pago: ${comprobante ? 'Adjunto' : 'No adjuntado'}
   // Prepare attachments if exists
   const attachments = [];
   if (comprobante) {
+    console.log('Processing comprobante attachment, data length:', comprobante.length);
     try {
-      // split "data:image/png;base64,....."
-      const matches = comprobante.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+      // Match data URI format: data:image/png;base64,.....
+      // More permissive regex to handle various image types
+      const matches = comprobante.match(/^data:([^;]+);base64,(.+)$/);
 
       if (matches && matches.length === 3) {
-        const type = matches[1];
-        const data = matches[2];
-        const extension = type.split('/')[1] || 'png';
-        const buffer = Buffer.from(data, 'base64');
+        const mimeType = matches[1];
+        const base64Data = matches[2];
+        const extension = mimeType.split('/')[1] || 'png';
+
+        console.log('Attachment MIME type:', mimeType);
+        console.log('Attachment extension:', extension);
+        console.log('Base64 data length:', base64Data.length);
 
         attachments.push({
-          filename: `comprobante.${extension}`,
-          content: buffer
+          filename: `comprobante_pago.${extension}`,
+          content: Buffer.from(base64Data, 'base64')
         });
+
+        console.log('Attachment prepared successfully, buffer size:', attachments[0].content.length);
+      } else {
+        console.error('Failed to parse data URI. First 100 chars:', comprobante.substring(0, 100));
       }
     } catch (e) {
       console.error('Error processing attachment:', e);
     }
+  } else {
+    console.log('No comprobante data received');
   }
 
   if (resendApiKey) {
