@@ -4,7 +4,7 @@ import postgres from 'postgres';
 const sql = postgres(process.env.DATABASE_URL, {
   max: 1, // Limit connections for serverless
   idle_timeout: 20,
-  connect_timeout: 10,
+  connect_timeout: 60,
 });
 
 // Export sql for health check
