@@ -468,29 +468,85 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Get form data
                 const formData = new FormData(contactForm);
 
-                // Handle File Upload (Step 5)
+                // Handle File Upload (Step 5) with compression and detailed error handling
                 const fileInput = contactForm.querySelector('input[type="file"]');
                 let comprobanteData = null;
 
                 if (fileInput && fileInput.files.length > 0) {
                     const file = fileInput.files[0];
+                    console.log('[Upload] File selected:', file.name, 'Size:', (file.size / 1024 / 1024).toFixed(2) + 'MB', 'Type:', file.type);
 
-                    // Simple size check (4MB limit)
+                    // Validate file type
+                    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                    if (!validTypes.includes(file.type.toLowerCase())) {
+                        throw new Error('Formato de imagen no válido. Usa JPG, PNG o WEBP.');
+                    }
+
+                    // Simple size check (4MB limit before compression)
                     if (file.size > 4 * 1024 * 1024) {
                         throw new Error('El archivo es demasiado grande. Máximo 4MB.');
                     }
 
-                    // Convert to Base64
-                    const toBase64 = (file) => new Promise((resolve, reject) => {
-                        const reader = new FileReader();
-                        reader.readAsDataURL(file);
-                        reader.onload = () => resolve(reader.result);
-                        reader.onerror = error => reject(error);
+                    // Compress image before converting to Base64
+                    const compressImage = (file, maxWidth = 800, quality = 0.7) => new Promise((resolve, reject) => {
+                        const startTime = performance.now();
+                        console.log('[Compress] Starting compression...');
+
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const img = new Image();
+                        const objectUrl = URL.createObjectURL(file);
+
+                        img.onload = () => {
+                            URL.revokeObjectURL(objectUrl); // Cleanup memory
+                            try {
+                                let { width, height } = img;
+                                console.log('[Compress] Original dimensions:', width, 'x', height);
+
+                                // Calculate new dimensions maintaining aspect ratio
+                                if (width > maxWidth) {
+                                    height = Math.round((height * maxWidth) / width);
+                                    width = maxWidth;
+                                }
+
+                                canvas.width = width;
+                                canvas.height = height;
+
+                                // Draw and compress
+                                ctx.drawImage(img, 0, 0, width, height);
+                                const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+
+                                const compressedSize = compressedDataUrl.length * 0.75; // Approximate bytes
+                                const endTime = performance.now();
+                                console.log('[Compress] Compressed dimensions:', width, 'x', height);
+                                console.log('[Compress] Compressed size:', (compressedSize / 1024).toFixed(2) + 'KB');
+                                console.log('[Compress] Time:', (endTime - startTime).toFixed(2) + 'ms');
+
+                                resolve(compressedDataUrl);
+                            } catch (err) {
+                                console.error('[Compress] Canvas error:', err);
+                                reject(new Error('Error al procesar la imagen. Intenta con otra imagen.'));
+                            }
+                        };
+
+                        img.onerror = (err) => {
+                            URL.revokeObjectURL(objectUrl); // Cleanup memory
+                            console.error('[Compress] Image load error:', err);
+                            reject(new Error('No se pudo cargar la imagen. Intenta con otra imagen.'));
+                        };
+
+                        img.src = objectUrl;
                     });
 
-                    comprobanteData = await toBase64(file);
-                } else if (fileInput && fileInput.hasAttribute('required')) {
-                    throw new Error('Por favor sube el comprobante de pago.');
+                    try {
+                        comprobanteData = await compressImage(file);
+                        console.log('[Upload] Image compressed successfully');
+                    } catch (compressionError) {
+                        console.error('[Upload] Compression failed:', compressionError);
+                        throw compressionError;
+                    }
+                } else {
+                    console.log('[Upload] No file selected (optional field)');
                 }
 
                 const data = {
@@ -519,34 +575,61 @@ document.addEventListener('DOMContentLoaded', () => {
                     comprobante: comprobanteData
                 };
 
-                const response = await fetch('/api/contact', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
+                console.log('[Submit] Sending data to API...');
+                console.log('[Submit] Payload size:', JSON.stringify(data).length, 'bytes');
 
-                const result = await response.json();
+                // Create abort controller for timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
 
-                if (response.ok && result.success) {
-                    formMessage.textContent = '¡Gracias! Tu inscripción ha sido recibida correctamente. Te contactaremos pronto.';
-                    formMessage.style.color = '#22c55e';
-                    formMessage.style.display = 'block';
-                    contactForm.reset();
+                try {
+                    const response = await fetch('/api/contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                        signal: controller.signal
+                    });
+                    clearTimeout(timeoutId);
 
-                    // Reset wizard to step 1
-                    if (typeof goToStep === 'function') {
-                        window.location.reload(); // Simplest way to reset wizard state completely
+                    console.log('[Submit] Response status:', response.status);
+                    const result = await response.json();
+                    console.log('[Submit] Response data:', result);
+
+                    if (response.ok && result.success) {
+                        formMessage.textContent = '¡Gracias! Tu inscripción ha sido recibida correctamente. Te contactaremos pronto.';
+                        formMessage.style.color = '#22c55e';
+                        formMessage.style.display = 'block';
+                        contactForm.reset();
+
+                        // Reset wizard to step 1
+                        if (typeof goToStep === 'function') {
+                            window.location.reload(); // Simplest way to reset wizard state completely
+                        }
+                    } else {
+                        throw new Error(result.error || 'Error del servidor. Por favor intenta de nuevo.');
                     }
-                } else {
-                    throw new Error(result.error || 'Error en la respuesta del servidor');
+                } catch (fetchError) {
+                    clearTimeout(timeoutId);
+                    if (fetchError.name === 'AbortError') {
+                        throw new Error('La conexión tardó demasiado. Verifica tu conexión a internet e intenta de nuevo.');
+                    }
+                    throw fetchError;
                 }
             } catch (error) {
-                formMessage.textContent = error.message || 'Hubo un error al enviar la inscripción. Por favor, intenta nuevamente.';
+                // Provide user-friendly error messages
+                let errorMessage = error.message || 'Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.';
+
+                // Check for common network errors
+                if (error instanceof TypeError && error.message.includes('fetch')) {
+                    errorMessage = 'Error de conexión. Verifica tu conexión a internet e intenta de nuevo.';
+                }
+
+                console.error('[Submit] Error:', error);
+                formMessage.textContent = errorMessage;
                 formMessage.style.color = '#ef4444';
                 formMessage.style.display = 'block';
-                console.error('Contact form error:', error);
             } finally {
                 // Re-enable button
                 submitButton.disabled = false;
