@@ -18,9 +18,15 @@ export default async function handler(req, res) {
 
     try {
         const body = req.body;
+        console.log('[Contact API] Received request. Body keys:', Object.keys(body));
+        console.log('[Contact API] Has comprobante:', !!body.comprobante);
+        if (body.comprobante) {
+            console.log('[Contact API] Comprobante size:', body.comprobante.length, 'chars');
+        }
 
         // Basic validation
         if (!body.nombre || !body.email) {
+            console.log('[Contact API] Validation failed: missing nombre or email');
             return res.status(400).json({
                 success: false,
                 error: 'Nombre y email son requeridos'
@@ -28,6 +34,7 @@ export default async function handler(req, res) {
         }
 
         // Map frontend field names to database columns
+        // Note: comprobante is NOT saved to database, only sent via email
         const contactData = {
             name: body.nombre,
             id_document: body.id_document || null,
@@ -45,15 +52,35 @@ export default async function handler(req, res) {
             blood_type: body.tipo_sangre || null,
             image_auth: body.autorizacion_imagen || false,
             social_media: body.redes_sociales || null,
-            message: body.mensaje || null,
-            comprobante: body.comprobante || null
+            message: body.mensaje || null
         };
 
-        // Save to database
-        const contact = await createContact(contactData);
+        // Save to database FIRST (without comprobante - it's not stored)
+        console.log('[Contact API] Saving to database...');
+        let contact;
+        try {
+            contact = await createContact(contactData);
+            console.log('[Contact API] Database save successful, id:', contact.id);
+        } catch (dbError) {
+            console.error('[Contact API] Database error:', dbError.message);
+            return res.status(500).json({
+                success: false,
+                error: 'Error al guardar los datos. Por favor intenta de nuevo.',
+                details: dbError.message
+            });
+        }
 
-        // Send email notification
-        await sendContactNotification(contactData);
+        // Try to send email notification (don't fail if this errors)
+        console.log('[Contact API] Sending email notification...');
+        try {
+            const emailData = { ...contactData, comprobante: body.comprobante || null };
+            await sendContactNotification(emailData);
+            console.log('[Contact API] Email sent successfully');
+        } catch (emailError) {
+            // Log the email error but don't fail the request
+            console.error('[Contact API] Email error (non-fatal):', emailError.message);
+            // Continue - the registration is still saved
+        }
 
         return res.status(200).json({
             success: true,
@@ -62,7 +89,7 @@ export default async function handler(req, res) {
         });
 
     } catch (error) {
-        console.error('Contact form error:', error);
+        console.error('[Contact API] Unexpected error:', error);
         return res.status(500).json({
             success: false,
             error: 'Error al procesar la inscripción',
