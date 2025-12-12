@@ -23,6 +23,7 @@ class RouteAnimation {
 
         this.speedBtn = null;
         this.speedLabelEl = null;
+        this.currentFacing = null;
 
         this.elevationCtx = null;
         this.elevationBaseImage = null;
@@ -81,8 +82,7 @@ class RouteAnimation {
                 ...rawPoints[0],
                 distance: 0,
                 segmentDistance: 0,
-                gradient: 0,
-                bearing: 0
+                gradient: 0
             }];
 
             for (let i = 1; i < rawPoints.length; i++) {
@@ -97,8 +97,7 @@ class RouteAnimation {
                         ...curr,
                         distance: totalDistance,
                         segmentDistance: distanceSinceKept,
-                        gradient: 0,
-                        bearing: 0
+                        gradient: 0
                     });
                     distanceSinceKept = 0;
                 }
@@ -110,7 +109,6 @@ class RouteAnimation {
                 const horizontalM = curr.segmentDistance * 1000;
                 const elevDiff = curr.elevation - prev.elevation;
                 curr.gradient = horizontalM > 0 ? (elevDiff / horizontalM) * 100 : 0;
-                curr.bearing = this.calculateBearing(prev.lat, prev.lon, curr.lat, curr.lon);
             }
         } catch (error) {
             // Silent fail if GPX can't be loaded
@@ -128,22 +126,8 @@ class RouteAnimation {
         return R * c;
     }
 
-    calculateBearing(lat1, lon1, lat2, lon2) {
-        const phi1 = this.toRad(lat1);
-        const phi2 = this.toRad(lat2);
-        const dLon = this.toRad(lon2 - lon1);
-        const y = Math.sin(dLon) * Math.cos(phi2);
-        const x = Math.cos(phi1) * Math.sin(phi2) -
-            Math.sin(phi1) * Math.cos(phi2) * Math.cos(dLon);
-        return (this.toDeg(Math.atan2(y, x)) + 360) % 360;
-    }
-
     toRad(degrees) {
         return degrees * Math.PI / 180;
-    }
-
-    toDeg(radians) {
-        return radians * 180 / Math.PI;
     }
 
     initMap() {
@@ -313,6 +297,8 @@ class RouteAnimation {
         if (this.animationTween) {
             this.animationTween.timeScale(multiplier);
         }
+
+        this.updateCyclistAnimationSpeed();
     }
 
     play() {
@@ -331,6 +317,9 @@ class RouteAnimation {
             this.marker.setOpacity(1);
         }
         this.ensureCyclistInner();
+        this.marker?.getElement()?.classList.add('is-playing');
+        this.updateCyclistAnimationSpeed();
+        this.updateCyclistFacing(this.currentIndex);
 
         if (this.animationTween) {
             this.animationTween.resume();
@@ -382,6 +371,8 @@ class RouteAnimation {
         this.isPlaying = false;
         document.querySelector('[data-route-play]')?.style.setProperty('display', 'flex');
         document.querySelector('[data-route-pause]')?.style.setProperty('display', 'none');
+
+        this.marker?.getElement()?.classList.remove('is-playing');
 
         if (this.animationTween && !fromComplete) {
             this.animationTween.pause();
@@ -438,8 +429,8 @@ class RouteAnimation {
 
         if (this.marker) {
             this.marker.setLatLng([point.lat, point.lon]);
-            this.updateCyclistRotation(point.bearing || 0);
         }
+        this.updateCyclistFacing(index);
 
         if (index === 0 || index < previousIndex) {
             this.progressCoords = this.routeData.slice(0, index + 1).map(p => [p.lat, p.lon]);
@@ -486,17 +477,54 @@ class RouteAnimation {
 
         const inner = document.createElement('div');
         inner.className = 'route-marker__inner';
-        inner.textContent = el.textContent || '🚴‍♂️';
+
+        const glyph = document.createElement('div');
+        glyph.className = 'route-marker__glyph';
+        glyph.textContent = el.textContent || '🚴‍♂️';
+
         el.textContent = '';
+        inner.appendChild(glyph);
         el.appendChild(inner);
     }
 
-    updateCyclistRotation(bearing) {
+    updateCyclistAnimationSpeed() {
+        const el = this.marker?.getElement();
+        if (!el) return;
+
+        const multiplier = Number(this.speedMultiplier || 1);
+        const clamped = Math.min(3, Math.max(0.5, multiplier));
+        const seconds = Math.max(0.45, Math.min(1.4, 0.95 / clamped));
+        el.style.setProperty('--bike-bob-duration', `${seconds.toFixed(2)}s`);
+    }
+
+    updateCyclistFacing(index) {
+        const el = this.marker?.getElement();
+        if (!el || this.routeData.length < 2) return;
+
         this.ensureCyclistInner();
-        const inner = this.marker?.getElement()?.querySelector('.route-marker__inner');
-        if (inner) {
-            inner.style.transform = `rotate(${bearing}deg)`;
+
+        const maxIndex = this.routeData.length - 1;
+        const nextIndex = index < maxIndex ? index + 1 : Math.max(0, index - 1);
+        const a = this.routeData[index];
+        const b = this.routeData[nextIndex];
+
+        let dx = 0;
+        if (this.map?.latLngToContainerPoint) {
+            const pA = this.map.latLngToContainerPoint([a.lat, a.lon]);
+            const pB = this.map.latLngToContainerPoint([b.lat, b.lon]);
+            dx = pB.x - pA.x;
+            if (Math.abs(dx) < 2) return;
+        } else {
+            dx = b.lon - a.lon;
+            if (Math.abs(dx) < 0.00002) return;
         }
+
+        const facing = dx >= 0 ? 'west' : 'east';
+        if (facing === this.currentFacing) return;
+        this.currentFacing = facing;
+
+        el.classList.toggle('is-facing-west', facing === 'west');
+        el.classList.toggle('is-facing-east', facing === 'east');
     }
 
     drawElevationProfile() {
