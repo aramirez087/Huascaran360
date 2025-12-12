@@ -6,29 +6,13 @@ class RouteAnimation {
         this.map = null;
         this.routeData = [];
         this.currentIndex = 0;
-        this.animationTween = null;
+        this.animationTimeline = null;
         this.isPlaying = false;
-        this.currentLayer = 'street';
-
+        this.is3DMode = false;
         this.marker = null;
         this.routeLine = null;
-        this.progressGlowLine = null;
         this.progressLine = null;
-        this.progressCoords = [];
-
-        this.baseDuration = 45;
-        this.speedSteps = [0.5, 1, 1.5, 2, 3];
-        this.speedMultiplier = 1;
-        this.hasIntroPlayed = false;
-
-        this.speedBtn = null;
-        this.speedLabelEl = null;
-
-        this.elevationCtx = null;
-        this.elevationBaseImage = null;
-        this.elevationGeom = null;
-        this.elevationListenersSet = false;
-        this.resizeTimer = null;
+        this.currentLayer = 'street'; // 'street' or 'satellite'
 
         this.init();
     }
@@ -38,13 +22,17 @@ class RouteAnimation {
             return;
         }
 
+        // Parse GPX file
         await this.loadGPX();
-        this.initMap();
-        this.setupControls();
-        this.setupStats();
-        this.drawElevationProfile();
 
-        window.addEventListener('resize', () => this.handleResize());
+        // Initialize map
+        this.initMap();
+
+        // Setup controls
+        this.setupControls();
+
+        // Draw elevation profile
+        this.drawElevationProfile();
     }
 
     async loadGPX() {
@@ -56,64 +44,42 @@ class RouteAnimation {
             }
 
             const gpxText = await response.text();
+
             const parser = new DOMParser();
             const gpxDoc = parser.parseFromString(gpxText, 'text/xml');
-            const trackPoints = Array.from(gpxDoc.querySelectorAll('trkpt'));
 
-            if (trackPoints.length === 0) {
-                return;
-            }
+            const trackPoints = gpxDoc.querySelectorAll('trkpt');
 
-            const rawPoints = trackPoints.map((point) => {
-                const lat = parseFloat(point.getAttribute('lat'));
-                const lon = parseFloat(point.getAttribute('lon'));
-                const eleNode = point.querySelector('ele');
-                const elevation = eleNode ? parseFloat(eleNode.textContent) : 0;
-                return { lat, lon, elevation };
-            });
-
-            const targetSpacingKm = 0.12; // ~120m between animated points
+            // Use every 10th point for smooth animation (GPX already optimized to ~25m spacing)
+            const samplingRate = 10;
             let totalDistance = 0;
-            let distanceSinceKept = 0;
-            let lastRaw = rawPoints[0];
 
-            this.routeData = [{
-                ...rawPoints[0],
-                distance: 0,
-                segmentDistance: 0,
-                gradient: 0,
-                bearing: 0
-            }];
+            trackPoints.forEach((point, index) => {
+                if (index % samplingRate === 0 || index === trackPoints.length - 1) {
+                    const lat = parseFloat(point.getAttribute('lat'));
+                    const lon = parseFloat(point.getAttribute('lon'));
+                    const eleNode = point.querySelector('ele');
+                    const elevation = eleNode ? parseFloat(eleNode.textContent) : 0;
 
-            for (let i = 1; i < rawPoints.length; i++) {
-                const curr = rawPoints[i];
-                const stepDist = this.calculateDistance(lastRaw.lat, lastRaw.lon, curr.lat, curr.lon);
-                distanceSinceKept += stepDist;
-                lastRaw = curr;
+                    if (this.routeData.length > 0) {
+                        const lastPoint = this.routeData[this.routeData.length - 1];
+                        const dist = this.calculateDistance(
+                            lastPoint.lat, lastPoint.lon,
+                            lat, lon
+                        );
+                        totalDistance += dist;
+                    }
 
-                if (distanceSinceKept >= targetSpacingKm || i === rawPoints.length - 1) {
-                    totalDistance += distanceSinceKept;
                     this.routeData.push({
-                        ...curr,
-                        distance: totalDistance,
-                        segmentDistance: distanceSinceKept,
-                        gradient: 0,
-                        bearing: 0
+                        lat,
+                        lon,
+                        elevation,
+                        distance: totalDistance
                     });
-                    distanceSinceKept = 0;
                 }
-            }
-
-            for (let i = 1; i < this.routeData.length; i++) {
-                const prev = this.routeData[i - 1];
-                const curr = this.routeData[i];
-                const horizontalM = curr.segmentDistance * 1000;
-                const elevDiff = curr.elevation - prev.elevation;
-                curr.gradient = horizontalM > 0 ? (elevDiff / horizontalM) * 100 : 0;
-                curr.bearing = this.calculateBearing(prev.lat, prev.lon, curr.lat, curr.lon);
-            }
+            });
         } catch (error) {
-            // Silent fail if GPX can't be loaded
+            // Error loading GPX
         }
     }
 
@@ -121,89 +87,70 @@ class RouteAnimation {
         const R = 6371; // Earth's radius in km
         const dLat = this.toRad(lat2 - lat1);
         const dLon = this.toRad(lon2 - lon1);
-        const a = Math.sin(dLat / 2) ** 2 +
-            Math.cos(this.toRad(lat1)) * Math.cos(this.toRad(lat2)) *
-            Math.sin(dLon / 2) ** 2;
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.cos(this.toRad(lat1)) * Math.cos(this.toRad(lat2)) *
+                  Math.sin(dLon / 2) * Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
-    }
-
-    calculateBearing(lat1, lon1, lat2, lon2) {
-        const phi1 = this.toRad(lat1);
-        const phi2 = this.toRad(lat2);
-        const dLon = this.toRad(lon2 - lon1);
-        const y = Math.sin(dLon) * Math.cos(phi2);
-        const x = Math.cos(phi1) * Math.sin(phi2) -
-            Math.sin(phi1) * Math.cos(phi2) * Math.cos(dLon);
-        return (this.toDeg(Math.atan2(y, x)) + 360) % 360;
     }
 
     toRad(degrees) {
         return degrees * Math.PI / 180;
     }
 
-    toDeg(radians) {
-        return radians * 180 / Math.PI;
-    }
-
     initMap() {
         const mapContainer = document.getElementById('routeMap');
-        if (!mapContainer || this.routeData.length === 0) {
+        if (!mapContainer) {
             return;
         }
 
+        if (this.routeData.length === 0) {
+            return;
+        }
+
+        // Calculate center point
         const centerLat = this.routeData.reduce((sum, p) => sum + p.lat, 0) / this.routeData.length;
         const centerLon = this.routeData.reduce((sum, p) => sum + p.lon, 0) / this.routeData.length;
 
+        // Create map with OpenStreetMap tiles
         this.map = L.map('routeMap', {
             center: [centerLat, centerLon],
             zoom: 10,
             zoomControl: true
         });
 
+        // Add OpenStreetMap base layer (default)
         this.streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors',
             maxZoom: 19
         }).addTo(this.map);
 
-        this.satelliteLayer = L.tileLayer(
-            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-            {
-                attribution: '© Esri, Maxar, Earthstar Geographics',
-                maxZoom: 19
-            }
-        );
+        // Add satellite layer (Esri World Imagery - free alternative)
+        this.satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '© Esri, Maxar, Earthstar Geographics',
+            maxZoom: 19
+        });
 
+        // Create route line coordinates
         const routeCoords = this.routeData.map(p => [p.lat, p.lon]);
 
+        // Add full route line (grey/red)
         this.routeLine = L.polyline(routeCoords, {
             color: '#d92532',
             weight: 4,
-            opacity: 0.45,
-            dashArray: '8 12',
-            lineCap: 'round',
-            smoothFactor: 1,
-            className: 'route-line route-line--base'
+            opacity: 0.6,
+            smoothFactor: 1
         }).addTo(this.map);
 
-        this.progressGlowLine = L.polyline([], {
-            color: '#fcbf49',
-            weight: 12,
-            opacity: 0.35,
-            lineCap: 'round',
-            smoothFactor: 1,
-            className: 'route-line route-line--glow'
-        }).addTo(this.map);
-
+        // Add progress line (yellow - will be updated during animation)
         this.progressLine = L.polyline([], {
             color: '#fcbf49',
             weight: 6,
             opacity: 1,
-            lineCap: 'round',
-            smoothFactor: 1,
-            className: 'route-line route-line--progress'
+            smoothFactor: 1
         }).addTo(this.map);
 
+        // Add start marker (green flag)
         const startIcon = L.divIcon({
             html: '🚩',
             className: 'route-marker route-marker--start',
@@ -213,6 +160,7 @@ class RouteAnimation {
         L.marker([this.routeData[0].lat, this.routeData[0].lon], { icon: startIcon })
             .addTo(this.map);
 
+        // Add finish marker (checkered flag)
         const finishIcon = L.divIcon({
             html: '🏁',
             className: 'route-marker route-marker--finish',
@@ -223,8 +171,9 @@ class RouteAnimation {
         L.marker([lastPoint.lat, lastPoint.lon], { icon: finishIcon })
             .addTo(this.map);
 
+        // Add animated cyclist marker (hidden initially, appears on play)
         const cyclistIcon = L.divIcon({
-            html: '🚴‍♂️',
+            html: '🚵',
             className: 'route-marker route-marker--cyclist',
             iconSize: [40, 40],
             iconAnchor: [20, 20]
@@ -235,6 +184,7 @@ class RouteAnimation {
             opacity: 0
         }).addTo(this.map);
 
+        // Fit map to route bounds
         this.map.fitBounds(this.routeLine.getBounds(), {
             padding: [60, 60]
         });
@@ -245,293 +195,179 @@ class RouteAnimation {
         const pauseBtn = document.querySelector('[data-route-pause]');
         const resetBtn = document.querySelector('[data-route-reset]');
         const btn3D = document.querySelector('[data-route-3d]');
-        const controls = document.querySelector('.route__controls');
 
         playBtn?.addEventListener('click', () => this.play());
         pauseBtn?.addEventListener('click', () => this.pause());
         resetBtn?.addEventListener('click', () => this.reset());
         btn3D?.addEventListener('click', () => this.toggleLayer());
-
-        if (controls && !controls.querySelector('[data-route-speed]')) {
-            const speedBtn = document.createElement('button');
-            speedBtn.className = 'route__control-btn route__control-btn--speed';
-            speedBtn.setAttribute('data-route-speed', '');
-            speedBtn.setAttribute('aria-label', 'Cambiar velocidad');
-            speedBtn.innerHTML = '<span class="route__speed-label">1x</span>';
-            controls.insertBefore(speedBtn, controls.firstChild);
-            this.speedBtn = speedBtn;
-            this.speedLabelEl = speedBtn.querySelector('.route__speed-label');
-            speedBtn.addEventListener('click', () => this.cycleSpeed());
-        }
-    }
-
-    setupStats() {
-        const stats = document.querySelector('[data-route-stats]');
-        if (!stats) {
-            return;
-        }
-
-        if (!stats.querySelector('[data-route-gradient]')) {
-            const gradientItem = document.createElement('div');
-            gradientItem.className = 'route__stat-item';
-            gradientItem.innerHTML = `
-                <span class="route__stat-label">Pendiente</span>
-                <span class="route__stat-value" data-route-gradient>0%</span>
-            `;
-            stats.appendChild(gradientItem);
-        }
-
-        if (!stats.querySelector('[data-route-speed]')) {
-            const speedItem = document.createElement('div');
-            speedItem.className = 'route__stat-item';
-            speedItem.innerHTML = `
-                <span class="route__stat-label">Velocidad</span>
-                <span class="route__stat-value" data-route-speed>1x</span>
-            `;
-            stats.appendChild(speedItem);
-        }
-    }
-
-    cycleSpeed() {
-        const currentIdx = this.speedSteps.indexOf(this.speedMultiplier);
-        const nextIdx = (currentIdx + 1) % this.speedSteps.length;
-        this.setSpeed(this.speedSteps[nextIdx]);
-    }
-
-    setSpeed(multiplier) {
-        this.speedMultiplier = multiplier;
-
-        if (this.speedLabelEl) {
-            this.speedLabelEl.textContent = `${multiplier}x`;
-        }
-
-        const speedStat = document.querySelector('[data-route-speed]');
-        if (speedStat) {
-            speedStat.textContent = `${multiplier}x`;
-        }
-
-        if (this.animationTween) {
-            this.animationTween.timeScale(multiplier);
-        }
     }
 
     play() {
         if (this.isPlaying) return;
 
-        const totalPoints = this.routeData.length - 1;
-        if (this.currentIndex >= totalPoints) {
-            this.reset();
-        }
-
         this.isPlaying = true;
-        document.querySelector('[data-route-play]')?.style.setProperty('display', 'none');
-        document.querySelector('[data-route-pause]')?.style.setProperty('display', 'flex');
+        document.querySelector('[data-route-play]').style.display = 'none';
+        document.querySelector('[data-route-pause]').style.display = 'flex';
 
+        // Show the cyclist marker when animation starts
         if (this.marker) {
             this.marker.setOpacity(1);
         }
-        this.ensureCyclistInner();
 
-        if (this.animationTween) {
-            this.animationTween.resume();
-            this.animationTween.timeScale(this.speedMultiplier);
-            return;
-        }
+        const duration = 30; // 30 seconds for full animation
+        const totalPoints = this.routeData.length - 1;
+        const startIndex = this.currentIndex;
+        const endIndex = totalPoints;
 
-        const startAnimation = () => {
-            const duration = this.baseDuration;
-            const startIndex = this.currentIndex;
-            const endIndex = totalPoints;
+        // Calculate remaining duration based on current progress
+        const remainingProgress = (endIndex - startIndex) / totalPoints;
+        const remainingDuration = duration * remainingProgress;
 
-            const remainingProgress = (endIndex - startIndex) / totalPoints;
-            const remainingDuration = duration * remainingProgress;
+        // Create animation object to track progress
+        const animationProgress = { value: startIndex };
 
-            const animationProgress = { value: startIndex };
-
-            this.animationTween = gsap.to(animationProgress, {
-                value: endIndex,
-                duration: remainingDuration,
-                ease: 'none',
-                onUpdate: () => {
-                    const index = Math.round(animationProgress.value);
-                    if (index !== this.currentIndex && index < this.routeData.length) {
-                        this.updateProgress(index);
-                    }
-                },
-                onComplete: () => {
-                    this.updateProgress(endIndex);
-                    this.pause(true);
-                    this.animationTween = null;
+        this.animationTimeline = gsap.to(animationProgress, {
+            value: endIndex,
+            duration: remainingDuration,
+            ease: 'none',
+            onUpdate: () => {
+                const index = Math.round(animationProgress.value);
+                if (index !== this.currentIndex && index < this.routeData.length) {
+                    this.updateProgress(index);
                 }
-            });
-
-            this.animationTween.timeScale(this.speedMultiplier);
-        };
-
-        if (!this.hasIntroPlayed && this.currentIndex === 0 && this.map) {
-            this.hasIntroPlayed = true;
-            const start = this.routeData[0];
-            this.map.flyTo([start.lat, start.lon], 12, { duration: 2 });
-            gsap.delayedCall(1.8, startAnimation);
-        } else {
-            startAnimation();
-        }
+            },
+            onComplete: () => {
+                this.updateProgress(endIndex);
+                this.pause();
+            }
+        });
     }
 
-    pause(fromComplete = false) {
+    pause() {
         this.isPlaying = false;
-        document.querySelector('[data-route-play]')?.style.setProperty('display', 'flex');
-        document.querySelector('[data-route-pause]')?.style.setProperty('display', 'none');
+        document.querySelector('[data-route-play]').style.display = 'flex';
+        document.querySelector('[data-route-pause]').style.display = 'none';
 
-        if (this.animationTween && !fromComplete) {
-            this.animationTween.pause();
+        if (this.animationTimeline) {
+            this.animationTimeline.pause();
         }
     }
 
     reset() {
         this.pause();
         this.currentIndex = 0;
-        this.progressCoords = [];
         this.updateProgress(0);
 
-        if (this.animationTween) {
-            this.animationTween.kill();
-            this.animationTween = null;
+        if (this.animationTimeline) {
+            this.animationTimeline.kill();
+            this.animationTimeline = null;
         }
 
+        // Hide the cyclist marker on reset
         if (this.marker) {
             this.marker.setOpacity(0);
         }
 
-        if (this.map && this.routeLine) {
-            this.map.fitBounds(this.routeLine.getBounds(), {
-                padding: [60, 60],
-                duration: 1
-            });
-        }
+        // Reset map view
+        this.map.fitBounds(this.routeLine.getBounds(), {
+            padding: [60, 60],
+            duration: 1
+        });
     }
 
     toggleLayer() {
         const btn = document.querySelector('[data-route-3d]');
-        if (!this.map) return;
 
         if (this.currentLayer === 'street') {
+            // Switch to satellite
             this.map.removeLayer(this.streetLayer);
             this.map.addLayer(this.satelliteLayer);
             this.currentLayer = 'satellite';
-            btn?.classList.add('active');
-            btn?.setAttribute('aria-label', 'Vista de mapa');
+            btn.classList.add('active');
+            btn.setAttribute('aria-label', 'Vista de mapa');
         } else {
+            // Switch to street
             this.map.removeLayer(this.satelliteLayer);
             this.map.addLayer(this.streetLayer);
             this.currentLayer = 'street';
-            btn?.classList.remove('active');
-            btn?.setAttribute('aria-label', 'Vista satélite');
+            btn.classList.remove('active');
+            btn.setAttribute('aria-label', 'Vista satélite');
         }
     }
 
     updateProgress(index) {
-        const previousIndex = this.currentIndex;
         this.currentIndex = index;
-
         const point = this.routeData[index];
 
+        // Update marker position directly (no nested animation to avoid conflicts)
         if (this.marker) {
             this.marker.setLatLng([point.lat, point.lon]);
-            this.updateCyclistRotation(point.bearing || 0);
         }
 
-        if (index === 0 || index < previousIndex) {
-            this.progressCoords = this.routeData.slice(0, index + 1).map(p => [p.lat, p.lon]);
-        } else {
-            for (let i = previousIndex + 1; i <= index; i++) {
-                const p = this.routeData[i];
-                this.progressCoords.push([p.lat, p.lon]);
-            }
-        }
+        // Update progress line
+        const progressCoords = this.routeData.slice(0, index + 1).map(p => [p.lat, p.lon]);
+        this.progressLine.setLatLngs(progressCoords);
 
-        this.progressLine?.setLatLngs(this.progressCoords);
-        this.progressGlowLine?.setLatLngs(this.progressCoords);
-
+        // Update stats
         const progress = (index / (this.routeData.length - 1)) * 100;
-        const distanceEl = document.querySelector('[data-route-distance]');
-        const elevationEl = document.querySelector('[data-route-elevation]');
-        const progressEl = document.querySelector('[data-route-progress]');
-        const gradientEl = document.querySelector('[data-route-gradient]');
+        document.querySelector('[data-route-distance]').textContent =
+            `${point.distance.toFixed(1)} km`;
+        document.querySelector('[data-route-elevation]').textContent =
+            `${Math.round(point.elevation)} m`;
+        document.querySelector('[data-route-progress]').textContent =
+            `${Math.round(progress)}%`;
 
-        if (distanceEl) distanceEl.textContent = `${point.distance.toFixed(1)} km`;
-        if (elevationEl) elevationEl.textContent = `${Math.round(point.elevation)} m`;
-        if (progressEl) progressEl.textContent = `${Math.round(progress)}%`;
-        if (gradientEl) gradientEl.textContent = `${point.gradient.toFixed(1)}%`;
-
-        this.updateElevationIndicator(index);
-
-        if (this.isPlaying && this.map) {
-            const lookAhead = Math.min(index + 8, this.routeData.length - 1);
-            const aheadPoint = this.routeData[lookAhead];
-            const targetLat = (point.lat + aheadPoint.lat) / 2;
-            const targetLon = (point.lon + aheadPoint.lon) / 2;
-
-            this.map.panTo([targetLat, targetLon], {
+        // Pan map to follow marker when playing (with smooth animation)
+        if (this.isPlaying) {
+            this.map.panTo([point.lat, point.lon], {
                 animate: true,
-                duration: 0.6,
-                easeLinearity: 0.15
+                duration: 0.5,
+                easeLinearity: 0.25
             });
-        }
-    }
-
-    ensureCyclistInner() {
-        const el = this.marker?.getElement();
-        if (!el || el.querySelector('.route-marker__inner')) return;
-
-        const inner = document.createElement('div');
-        inner.className = 'route-marker__inner';
-        inner.textContent = el.textContent || '🚴‍♂️';
-        el.textContent = '';
-        el.appendChild(inner);
-    }
-
-    updateCyclistRotation(bearing) {
-        this.ensureCyclistInner();
-        const inner = this.marker?.getElement()?.querySelector('.route-marker__inner');
-        if (inner) {
-            inner.style.transform = `rotate(${bearing}deg)`;
         }
     }
 
     drawElevationProfile() {
         const canvas = document.getElementById('elevationCanvas');
-        const container = document.getElementById('elevationProfile');
-        if (!canvas || !container || this.routeData.length === 0) return;
+        if (!canvas || this.routeData.length === 0) return;
 
         const ctx = canvas.getContext('2d');
-        this.elevationCtx = ctx;
+        const container = document.getElementById('elevationProfile');
 
-        const width = container.clientWidth;
-        const height = 150;
+        // Set canvas size
+        canvas.width = container.clientWidth;
+        canvas.height = 150;
+
+        const width = canvas.width;
+        const height = canvas.height;
         const padding = 20;
 
-        canvas.width = width;
-        canvas.height = height;
-
+        // Find min/max elevation
         const elevations = this.routeData.map(p => p.elevation);
         const minEle = Math.min(...elevations);
         const maxEle = Math.max(...elevations);
-        const eleRange = Math.max(maxEle - minEle, 1);
+        const eleRange = maxEle - minEle;
 
+        // Clear canvas
         ctx.clearRect(0, 0, width, height);
 
+        // Draw gradient fill
         const gradient = ctx.createLinearGradient(0, 0, 0, height);
-        gradient.addColorStop(0, 'rgba(217, 37, 50, 0.35)');
+        gradient.addColorStop(0, 'rgba(217, 37, 50, 0.3)');
         gradient.addColorStop(1, 'rgba(217, 37, 50, 0.05)');
 
         ctx.beginPath();
         ctx.moveTo(padding, height - padding);
 
-        this.routeData.forEach((point, i) => {
-            const x = padding + (i / (this.routeData.length - 1)) * (width - 2 * padding);
+        this.routeData.forEach((point, index) => {
+            const x = padding + (index / (this.routeData.length - 1)) * (width - 2 * padding);
             const y = height - padding - ((point.elevation - minEle) / eleRange) * (height - 2 * padding);
-            ctx.lineTo(x, y);
+
+            if (index === 0) {
+                ctx.lineTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
         });
 
         ctx.lineTo(width - padding, height - padding);
@@ -539,118 +375,70 @@ class RouteAnimation {
         ctx.fillStyle = gradient;
         ctx.fill();
 
+        // Draw line
         ctx.beginPath();
-        this.routeData.forEach((point, i) => {
-            const x = padding + (i / (this.routeData.length - 1)) * (width - 2 * padding);
+        this.routeData.forEach((point, index) => {
+            const x = padding + (index / (this.routeData.length - 1)) * (width - 2 * padding);
             const y = height - padding - ((point.elevation - minEle) / eleRange) * (height - 2 * padding);
-            if (i === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
+
+            if (index === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
         });
         ctx.strokeStyle = '#d92532';
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        this.elevationBaseImage = ctx.getImageData(0, 0, width, height);
-        this.elevationGeom = { width, height, padding, minEle, eleRange };
+        // Add interactivity
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const index = Math.round(((x - padding) / (width - 2 * padding)) * (this.routeData.length - 1));
 
-        if (!this.elevationListenersSet) {
-            this.elevationListenersSet = true;
-            canvas.addEventListener('mousemove', (e) => this.onElevationMove(e));
-            canvas.addEventListener('mouseleave', () => this.onElevationLeave());
-            canvas.addEventListener('click', (e) => this.onElevationClick(e));
-        }
+            if (index >= 0 && index < this.routeData.length) {
+                const point = this.routeData[index];
+                const tooltip = document.querySelector('[data-elevation-tooltip]');
 
-        this.updateElevationIndicator(this.currentIndex);
-    }
-
-    onElevationMove(e) {
-        if (!this.elevationGeom) return;
-
-        const canvas = e.currentTarget;
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const { width, padding } = this.elevationGeom;
-        const index = Math.round(((x - padding) / (width - 2 * padding)) * (this.routeData.length - 1));
-
-        if (index >= 0 && index < this.routeData.length) {
-            const point = this.routeData[index];
-            const tooltip = document.querySelector('[data-elevation-tooltip]');
-            if (!tooltip) return;
-
-            tooltip.style.display = 'block';
-            tooltip.style.left = `${x}px`;
-            tooltip.querySelector('[data-tooltip-elevation]').textContent = `${Math.round(point.elevation)} m`;
-            tooltip.querySelector('[data-tooltip-distance]').textContent = `${point.distance.toFixed(1)} km`;
-        }
-    }
-
-    onElevationLeave() {
-        document.querySelector('[data-elevation-tooltip]')?.style.setProperty('display', 'none');
-    }
-
-    onElevationClick(e) {
-        if (!this.elevationGeom || !this.map) return;
-
-        const canvas = e.currentTarget;
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const { width, padding } = this.elevationGeom;
-        const index = Math.round(((x - padding) / (width - 2 * padding)) * (this.routeData.length - 1));
-
-        if (index >= 0 && index < this.routeData.length) {
-            const wasPlaying = this.isPlaying;
-
-            if (this.animationTween) {
-                this.animationTween.kill();
-                this.animationTween = null;
+                tooltip.style.display = 'block';
+                tooltip.style.left = `${x}px`;
+                tooltip.querySelector('[data-tooltip-elevation]').textContent =
+                    `${Math.round(point.elevation)} m`;
+                tooltip.querySelector('[data-tooltip-distance]').textContent =
+                    `${point.distance.toFixed(1)} km`;
             }
-            this.isPlaying = false;
+        });
 
-            this.updateProgress(index);
-            const point = this.routeData[index];
-            this.map.flyTo([point.lat, point.lon], 13, { duration: 1.2 });
+        canvas.addEventListener('mouseleave', () => {
+            document.querySelector('[data-elevation-tooltip]').style.display = 'none';
+        });
 
-            if (wasPlaying) {
-                this.play();
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const index = Math.round(((x - padding) / (width - 2 * padding)) * (this.routeData.length - 1));
+
+            if (index >= 0 && index < this.routeData.length) {
+                this.updateProgress(index);
+                const point = this.routeData[index];
+                this.map.flyTo([point.lat, point.lon], 13, {
+                    duration: 1.5
+                });
             }
-        }
-    }
-
-    updateElevationIndicator(index) {
-        if (!this.elevationCtx || !this.elevationBaseImage || !this.elevationGeom) return;
-
-        const ctx = this.elevationCtx;
-        const { width, height, padding, minEle, eleRange } = this.elevationGeom;
-
-        ctx.putImageData(this.elevationBaseImage, 0, 0);
-
-        const x = padding + (index / (this.routeData.length - 1)) * (width - 2 * padding);
-        const point = this.routeData[index];
-        const y = height - padding - ((point.elevation - minEle) / eleRange) * (height - 2 * padding);
-
-        ctx.save();
-        ctx.strokeStyle = 'rgba(252, 191, 73, 0.9)';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(x, padding);
-        ctx.lineTo(x, height - padding);
-        ctx.stroke();
-
-        ctx.fillStyle = '#fcbf49';
-        ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-    }
-
-    handleResize() {
-        clearTimeout(this.resizeTimer);
-        this.resizeTimer = setTimeout(() => this.drawElevationProfile(), 150);
+        });
     }
 }
 
+// Initialize when DOM and all dependencies are ready
 function initRouteAnimation() {
-    if (typeof L === 'undefined' || typeof gsap === 'undefined') {
+    // Check if all dependencies are loaded
+    if (typeof L === 'undefined') {
+        setTimeout(initRouteAnimation, 100);
+        return;
+    }
+
+    if (typeof gsap === 'undefined') {
         setTimeout(initRouteAnimation, 100);
         return;
     }
@@ -658,6 +446,7 @@ function initRouteAnimation() {
     new RouteAnimation();
 }
 
+// Start initialization when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initRouteAnimation);
 } else {
