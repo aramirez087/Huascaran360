@@ -3276,6 +3276,26 @@ tbody tr:last-child th {
     border-color: rgba(16, 18, 24, 0.95) transparent transparent transparent;
 }
 
+/* Route Lines (Leaflet SVG paths) */
+.route-line--base {
+    stroke-dashoffset: 0;
+    animation: route-dash 6s linear infinite;
+}
+
+.route-line--progress {
+    filter: drop-shadow(0 0 6px rgba(252, 191, 73, 0.8)) drop-shadow(0 0 14px rgba(252, 191, 73, 0.6));
+}
+
+.route-line--glow {
+    filter: blur(2px);
+}
+
+@keyframes route-dash {
+    to {
+        stroke-dashoffset: -40;
+    }
+}
+
 /* Route Markers */
 .route-marker {
     font-size: 28px;
@@ -3292,6 +3312,63 @@ tbody tr:last-child th {
 .route-marker--cyclist {
     font-size: 32px;
     /* Animation removed - it was conflicting with Leaflet's transform positioning */
+}
+
+.route-marker__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.25s ease;
+    transform-origin: 50% 50%;
+    will-change: transform;
+}
+
+.route-marker--cyclist.is-facing-west .route-marker__inner {
+    transform: scaleX(-1);
+}
+
+.route-marker--cyclist.is-facing-east .route-marker__inner {
+    transform: scaleX(1);
+}
+
+.route-marker__glyph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+}
+
+.route-marker--cyclist.is-playing .route-marker__glyph {
+    animation: route-bike-bob var(--bike-bob-duration, 0.95s) ease-in-out infinite;
+}
+
+@keyframes route-bike-bob {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-3px) scale(1.03);
+    }
+}
+
+.route__control-btn--speed {
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.route__control-btn--speed .route__speed-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 @keyframes bounce {
