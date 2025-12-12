@@ -207,8 +207,38 @@ class RouteAnimation {
         L.marker([lastPoint.lat, lastPoint.lon], { icon: finishIcon })
             .addTo(this.map);
 
+        const cyclistIconHtml = `
+            <div class="route-marker__inner">
+                <div class="route-marker__glyph" aria-hidden="true">
+                    <svg class="route-cyclist-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="routeBikeGradient" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0" stop-color="#fcbf49" />
+                                <stop offset="1" stop-color="#d92532" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="32" cy="32" r="30" fill="rgba(255, 255, 255, 0.96)"
+                            stroke="url(#routeBikeGradient)" stroke-width="2" />
+                        <g fill="none" stroke="#101218" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <circle class="route-cyclist-icon__wheel" cx="20" cy="42" r="10" stroke-dasharray="3 6" />
+                            <circle class="route-cyclist-icon__wheel" cx="46" cy="42" r="10" stroke-dasharray="3 6" />
+                            <path d="M20 42 L30 42 L36 30 L46 42" />
+                            <path d="M30 42 L27 30 L44 30" />
+                            <path d="M44 30 L46 42" />
+                            <circle cx="40" cy="20" r="4" fill="#101218" stroke="none" />
+                            <path d="M40 24 L36 30" />
+                            <path d="M36 30 L44 30" />
+                            <path d="M36 30 L32 38" />
+                            <path d="M32 38 L30 42" />
+                            <path d="M44 30 L48 26" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        `;
+
         const cyclistIcon = L.divIcon({
-            html: '🚴‍♂️',
+            html: cyclistIconHtml,
             className: 'route-marker route-marker--cyclist',
             iconSize: [40, 40],
             iconAnchor: [20, 20]
@@ -495,6 +525,9 @@ class RouteAnimation {
         const clamped = Math.min(3, Math.max(0.5, multiplier));
         const seconds = Math.max(0.45, Math.min(1.4, 0.95 / clamped));
         el.style.setProperty('--bike-bob-duration', `${seconds.toFixed(2)}s`);
+
+        const wheelSeconds = Math.max(0.18, Math.min(1.2, 0.65 / clamped));
+        el.style.setProperty('--bike-wheel-duration', `${wheelSeconds.toFixed(2)}s`);
     }
 
     updateCyclistFacing(index) {

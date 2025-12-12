@@ -3314,6 +3314,12 @@ tbody tr:last-child th {
     /* Animation removed - it was conflicting with Leaflet's transform positioning */
 }
 
+.route-cyclist-icon {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
 .route-marker__inner {
     display: flex;
     align-items: center;
@@ -3344,6 +3350,17 @@ tbody tr:last-child th {
 
 .route-marker--cyclist.is-playing .route-marker__glyph {
     animation: route-bike-bob var(--bike-bob-duration, 0.95s) ease-in-out infinite;
+}
+
+.route-marker--cyclist.is-playing .route-cyclist-icon__wheel {
+    animation: route-wheel-spin var(--bike-wheel-duration, 0.65s) linear infinite;
+    stroke-dashoffset: 0;
+}
+
+@keyframes route-wheel-spin {
+    to {
+        stroke-dashoffset: -120;
+    }
 }
 
 @keyframes route-bike-bob {
