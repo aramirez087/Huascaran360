@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS contacts (
     blood_type VARCHAR(10),
     -- Other
     image_auth BOOLEAN DEFAULT FALSE,
+    payment_proof_submitted BOOLEAN DEFAULT FALSE,
     social_media TEXT,
     message TEXT,
     -- Timestamps

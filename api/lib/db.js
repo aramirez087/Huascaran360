@@ -130,7 +130,7 @@ export async function createContact(data) {
     name, id_document, birth_date, gender, nationality, address, phone, email,
     team, plate_number, jersey_size,
     emergency_contact_name, emergency_contact_phone, blood_type,
-    image_auth, social_media, message
+    image_auth, social_media, message, payment_proof_submitted
   } = data;
 
   const result = await sql`
@@ -138,13 +138,13 @@ export async function createContact(data) {
       name, id_document, birth_date, gender, nationality, address, phone, email,
       team, plate_number, jersey_size,
       emergency_contact_name, emergency_contact_phone, blood_type,
-      image_auth, social_media, message
+      image_auth, social_media, message, payment_proof_submitted
     )
     VALUES (
       ${name}, ${id_document}, ${birth_date}, ${gender}, ${nationality}, ${address}, ${phone}, ${email},
       ${team}, ${plate_number}, ${jersey_size},
       ${emergency_contact_name}, ${emergency_contact_phone}, ${blood_type},
-      ${image_auth}, ${social_media}, ${message}
+      ${image_auth}, ${social_media}, ${message}, ${payment_proof_submitted || false}
     )
     RETURNING id, created_at
   `;

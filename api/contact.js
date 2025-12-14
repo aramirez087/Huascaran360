@@ -52,7 +52,8 @@ export default async function handler(req, res) {
             blood_type: body.tipo_sangre || null,
             image_auth: body.autorizacion_imagen || false,
             social_media: body.redes_sociales || null,
-            message: body.mensaje || null
+            message: body.mensaje || null,
+            payment_proof_submitted: !!body.comprobante
         };
 
         // Save to database FIRST (without comprobante - it's not stored)
