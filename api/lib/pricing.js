@@ -14,7 +14,7 @@ export function calculatePrice(earlyBirdSlotsAvailable) {
 
   // Pricing deadlines
   const nov30_2025 = new Date('2025-11-30T23:59:59');
-  const dec31_2025 = new Date('2025-12-31T23:59:59');
+  const jan15_2026 = new Date('2026-01-15T23:59:59');
   const apr30_2026 = new Date('2026-04-30T23:59:59');
 
   // Check if registration period has ended
@@ -34,8 +34,8 @@ export function calculatePrice(earlyBirdSlotsAvailable) {
     };
   }
 
-  // Stage 2: $540 (until Dec 31, 2025)
-  if (now <= dec31_2025) {
+  // Stage 2: $540 (until Jan 15, 2026)
+  if (now <= jan15_2026) {
     return {
       price: 540,
       priceType: 'stage_2',
