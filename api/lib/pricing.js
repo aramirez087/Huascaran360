@@ -13,6 +13,7 @@ export function calculatePrice(earlyBirdSlotsAvailable) {
   const now = new Date();
 
   // Pricing deadlines
+  const nov30_2025 = new Date('2025-11-30T23:59:59');
   const dec31_2025 = new Date('2025-12-31T23:59:59');
   const apr30_2026 = new Date('2026-04-30T23:59:59');
 
@@ -24,8 +25,8 @@ export function calculatePrice(earlyBirdSlotsAvailable) {
     };
   }
 
-  // Early Bird: $450 (if slots available)
-  if (earlyBirdSlotsAvailable > 0) {
+  // Early Bird: $450 (until Nov 30, 2025 and if slots available)
+  if (now <= nov30_2025 && earlyBirdSlotsAvailable > 0) {
     return {
       price: 450,
       priceType: 'early_bird',
