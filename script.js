@@ -389,6 +389,9 @@ document.addEventListener('DOMContentLoaded', () => {
             wizardForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
 
+        // Expose step navigation for submit/reset helpers
+        wizardForm.goToStep = goToStep;
+
         // Add shake animation for validation errors
         const shakeStyle = document.createElement('style');
         shakeStyle.textContent = `
@@ -439,13 +442,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Handle Enter key to advance
+        // Handle Enter key to advance (allow Enter to submit on last step)
         wizardForm.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+            if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && currentStep < totalSteps) {
                 e.preventDefault();
-                if (currentStep < totalSteps) {
-                    goToStep(currentStep + 1, 'forward');
-                }
+                goToStep(currentStep + 1, 'forward');
             }
         });
     }
@@ -453,33 +454,91 @@ document.addEventListener('DOMContentLoaded', () => {
     // Contact form submission to /api/contact
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
+        let hideMessageTimeoutId = null;
+
+        // If a required field in a hidden step is invalid, guide the user to the right step
+        const contactSubmitButton = contactForm.querySelector('button[type="submit"]');
+        if (contactSubmitButton) {
+            contactSubmitButton.addEventListener('click', (event) => {
+                if (contactForm.dataset.submitting === 'true') {
+                    event.preventDefault();
+                    return;
+                }
+
+                if (typeof contactForm.checkValidity === 'function' && !contactForm.checkValidity()) {
+                    event.preventDefault();
+
+                    const firstInvalid = contactForm.querySelector(':invalid');
+                    if (firstInvalid) {
+                        const stepEl = firstInvalid.closest('.wizard-step');
+                        const stepNumber = stepEl ? Number(stepEl.getAttribute('data-wizard-step')) : NaN;
+                        const currentWizardStep = Number(contactForm.getAttribute('data-wizard-progress') || '1');
+
+                        if (Number.isFinite(stepNumber) && typeof contactForm.goToStep === 'function') {
+                            contactForm.goToStep(stepNumber, stepNumber < currentWizardStep ? 'backward' : 'forward');
+                        }
+
+                        setTimeout(() => {
+                            if (typeof firstInvalid.reportValidity === 'function') {
+                                firstInvalid.reportValidity();
+                            } else if (typeof contactForm.reportValidity === 'function') {
+                                contactForm.reportValidity();
+                            }
+                        }, 0);
+                    }
+                }
+            });
+        }
+
         contactForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
             const formMessage = contactForm.querySelector('.form-message');
             const submitButton = contactForm.querySelector('button[type="submit"]');
-            const originalButtonText = submitButton.textContent;
+
+            if (hideMessageTimeoutId) {
+                clearTimeout(hideMessageTimeoutId);
+                hideMessageTimeoutId = null;
+            }
+
+            if (contactForm.dataset.submitting === 'true') {
+                return;
+            }
+            contactForm.dataset.submitting = 'true';
 
             // Disable button and show loading state
-            submitButton.disabled = true;
-            submitButton.textContent = 'Enviando...';
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.classList.add('is-loading');
+                submitButton.setAttribute('aria-busy', 'true');
+            }
+
+            if (formMessage) {
+                formMessage.textContent = 'Enviando... Esto puede tardar unos segundos.';
+                formMessage.style.color = '#64748b';
+                formMessage.style.display = 'block';
+            }
 
             try {
                 // Get form data
                 const formData = new FormData(contactForm);
 
                 // Handle File Upload (Step 5) with compression and detailed error handling
-                const fileInput = contactForm.querySelector('input[type="file"]');
+                const fileInput = contactForm.querySelector('input[name="comprobante_pago"]');
                 let comprobanteData = null;
 
-                if (fileInput && fileInput.files.length > 0) {
+                if (fileInput && fileInput.files && fileInput.files.length > 0) {
                     const file = fileInput.files[0];
                     console.log('[Upload] File selected:', file.name, 'Size:', (file.size / 1024 / 1024).toFixed(2) + 'MB', 'Type:', file.type);
+                    const mimeType = (file.type || '').toLowerCase();
+                    const filename = file.name || '';
+                    const extension = filename.includes('.') ? filename.split('.').pop().toLowerCase() : '';
 
                     // Validate file type
-                    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-                    if (!validTypes.includes(file.type.toLowerCase())) {
-                        throw new Error('Formato de imagen no válido. Usa JPG, PNG o WEBP.');
+                    const validTypes = ['image/jpeg', 'image/jpg', 'image/pjpeg', 'image/png', 'image/webp'];
+                    const validExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+                    if ((!mimeType || !validTypes.includes(mimeType)) && (!extension || !validExtensions.includes(extension))) {
+                        throw new Error('Formato de imagen no válido. Usa JPG/JPEG, PNG o WEBP.');
                     }
 
                     // Simple size check (4MB limit before compression)
@@ -594,21 +653,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     clearTimeout(timeoutId);
 
                     console.log('[Submit] Response status:', response.status);
-                    const result = await response.json();
+                    let result = null;
+                    try {
+                        result = await response.json();
+                    } catch (jsonError) {
+                        console.error('[Submit] Failed to parse JSON response:', jsonError);
+                    }
                     console.log('[Submit] Response data:', result);
 
-                    if (response.ok && result.success) {
+                    if (response.ok && result && result.success) {
                         formMessage.textContent = '¡Gracias! Tu inscripción ha sido recibida correctamente. Te contactaremos pronto.';
                         formMessage.style.color = '#22c55e';
                         formMessage.style.display = 'block';
                         contactForm.reset();
 
                         // Reset wizard to step 1
-                        if (typeof goToStep === 'function') {
-                            window.location.reload(); // Simplest way to reset wizard state completely
+                        if (typeof contactForm.goToStep === 'function') {
+                            contactForm.querySelectorAll('.has-error').forEach((field) => field.classList.remove('has-error'));
+                            contactForm.goToStep(1, 'backward');
                         }
                     } else {
-                        throw new Error(result.error || 'Error del servidor. Por favor intenta de nuevo.');
+                        throw new Error((result && result.error) || 'Error del servidor. Por favor intenta de nuevo.');
                     }
                 } catch (fetchError) {
                     clearTimeout(timeoutId);
@@ -631,14 +696,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 formMessage.style.color = '#ef4444';
                 formMessage.style.display = 'block';
             } finally {
+                contactForm.dataset.submitting = 'false';
+
                 // Re-enable button
-                submitButton.disabled = false;
-                submitButton.textContent = originalButtonText;
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('is-loading');
+                    submitButton.removeAttribute('aria-busy');
+                }
 
                 // Hide message after 8 seconds
-                setTimeout(() => {
-                    formMessage.style.display = 'none';
-                }, 8000);
+                if (formMessage) {
+                    hideMessageTimeoutId = setTimeout(() => {
+                        formMessage.style.display = 'none';
+                    }, 8000);
+                }
             }
         });
     }

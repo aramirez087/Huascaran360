@@ -1,5 +1,5 @@
 import { createContact } from './lib/db.js';
-import { sendContactNotification } from './lib/email.js';
+import { sendContactConfirmationEmail, sendContactNotification } from './lib/email.js';
 
 export default async function handler(req, res) {
     // Set CORS headers
@@ -83,6 +83,18 @@ export default async function handler(req, res) {
             // Continue - the registration is still saved
         }
 
+        // Try to send confirmation email to participant (don't fail if this errors)
+        console.log('[Contact API] Sending confirmation email...');
+        try {
+            const confirmationResult = await sendContactConfirmationEmail(contactData);
+            if (confirmationResult && confirmationResult.success) {
+                console.log('[Contact API] Confirmation email sent successfully');
+            } else {
+                console.log('[Contact API] Confirmation email not sent:', confirmationResult?.reason || confirmationResult?.error || 'unknown');
+            }
+        } catch (confirmationError) {
+            console.error('[Contact API] Confirmation email error (non-fatal):', confirmationError.message);
+        }
         return res.status(200).json({
             success: true,
             message: 'Inscripción recibida correctamente',
