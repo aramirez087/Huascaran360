@@ -5,8 +5,8 @@ Sitio oficial para la carrera de ciclismo de montaña Huascarán 360 MTB. La lan
 ## Estructura
 
 - `index.html`: Maquetación principal y contenido en español listo para GitHub Pages.
-- `style.css`: Sistema de estilos con variables, diseño responsivo y componentes reutilizables.
-- `script.js`: Interacciones ligeras (menú móvil y acordeones de categorías).
+- `style.d8aa6868.css`: Sistema de estilos con variables, diseño responsivo y componentes reutilizables (fingerprint para cache).
+- `script.7a39a3e7.js`: Interacciones ligeras (menú móvil y acordeones de categorías, fingerprint para cache).
 
 ## Despliegue en GitHub Pages
 

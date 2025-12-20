@@ -25,8 +25,8 @@
   Cache-Control: public, max-age=1800, must-revalidate
   Link: <https://fonts.googleapis.com>; rel=preconnect
   Link: <https://fonts.gstatic.com>; rel=preconnect; crossorigin
-  Link: </style.css?v=2025-02-12>; rel=preload; as=style
-  Link: </script.js?v=2.0>; rel=preload; as=script
+  Link: </style.d8aa6868.css>; rel=preload; as=style
+  Link: </script.7a39a3e7.js>; rel=preload; as=script
 
 # Static Assets - Long cache
 /images/*

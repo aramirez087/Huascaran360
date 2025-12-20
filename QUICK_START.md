@@ -17,7 +17,7 @@
 - `api/lib/pricing.js` - Pricing logic
 
 ✅ **Updated Frontend**
-- [script.js](script.js) - Now uses `/api/register` instead of n8n
+- [script.7a39a3e7.js](script.7a39a3e7.js) - Now uses `/api/register` instead of n8n
 - [index.html](index.html) - Removed n8n webhook URL
 
 ---
