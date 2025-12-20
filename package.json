@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "postgres": "^3.4.4",
-    "resend": "^4.0.0"
+    "resend": "^6.6.0"
   },
   "engines": {
     "node": ">=18.x"
