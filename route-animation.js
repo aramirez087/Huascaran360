@@ -130,11 +130,42 @@ class RouteAnimation {
         return degrees * Math.PI / 180;
     }
 
+    getThemeTokens() {
+        if (typeof window === 'undefined') {
+            return {
+                primary: '#1f4b9c',
+                secondary: '#6ea4dd',
+                accent: '#7fd3f4',
+                accentStrong: '#4fb7e0',
+                ink: '#0b1629',
+                surfaceRgb: '255 255 255',
+                primaryRgb: '31 75 156',
+                accentRgb: '127 211 244'
+            };
+        }
+
+        const styles = getComputedStyle(document.documentElement);
+        const read = (name, fallback) => styles.getPropertyValue(name).trim() || fallback;
+        return {
+            primary: read('--color-primary', '#1f4b9c'),
+            secondary: read('--color-secondary', '#6ea4dd'),
+            accent: read('--color-accent', '#7fd3f4'),
+            accentStrong: read('--color-accent-strong', '#4fb7e0'),
+            ink: read('--color-ink', '#0b1629'),
+            surfaceRgb: read('--color-surface-rgb', '255 255 255'),
+            primaryRgb: read('--color-primary-rgb', '31 75 156'),
+            accentRgb: read('--color-accent-rgb', '127 211 244')
+        };
+    }
+
     initMap() {
         const mapContainer = document.getElementById('routeMap');
         if (!mapContainer || this.routeData.length === 0) {
             return;
         }
+
+        const theme = this.getThemeTokens();
+        this.theme = theme;
 
         const centerLat = this.routeData.reduce((sum, p) => sum + p.lat, 0) / this.routeData.length;
         const centerLon = this.routeData.reduce((sum, p) => sum + p.lon, 0) / this.routeData.length;
@@ -161,7 +192,7 @@ class RouteAnimation {
         const routeCoords = this.routeData.map(p => [p.lat, p.lon]);
 
         this.routeLine = L.polyline(routeCoords, {
-            color: '#d92532',
+            color: theme.primary,
             weight: 4,
             opacity: 0.45,
             dashArray: '8 12',
@@ -171,7 +202,7 @@ class RouteAnimation {
         }).addTo(this.map);
 
         this.progressGlowLine = L.polyline([], {
-            color: '#fcbf49',
+            color: theme.accent,
             weight: 12,
             opacity: 0.35,
             lineCap: 'round',
@@ -180,7 +211,7 @@ class RouteAnimation {
         }).addTo(this.map);
 
         this.progressLine = L.polyline([], {
-            color: '#fcbf49',
+            color: theme.accentStrong,
             weight: 6,
             opacity: 1,
             lineCap: 'round',
@@ -213,19 +244,19 @@ class RouteAnimation {
                     <svg class="route-cyclist-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <linearGradient id="routeBikeGradient" x1="0" y1="0" x2="1" y2="1">
-                                <stop offset="0" stop-color="#fcbf49" />
-                                <stop offset="1" stop-color="#d92532" />
+                                <stop offset="0" stop-color="${theme.accentStrong}" />
+                                <stop offset="1" stop-color="${theme.primary}" />
                             </linearGradient>
                         </defs>
-                        <circle cx="32" cy="32" r="30" fill="rgba(255, 255, 255, 0.96)"
+                        <circle cx="32" cy="32" r="30" fill="rgba(${theme.surfaceRgb}, 0.96)"
                             stroke="url(#routeBikeGradient)" stroke-width="2" />
-                        <g fill="none" stroke="#101218" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <g fill="none" stroke="${theme.ink}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                             <circle class="route-cyclist-icon__wheel" cx="20" cy="42" r="10" stroke-dasharray="3 6" />
                             <circle class="route-cyclist-icon__wheel" cx="46" cy="42" r="10" stroke-dasharray="3 6" />
                             <path d="M20 42 L30 42 L36 30 L46 42" />
                             <path d="M30 42 L27 30 L44 30" />
                             <path d="M44 30 L46 42" />
-                            <circle cx="40" cy="20" r="4" fill="#101218" stroke="none" />
+                            <circle cx="40" cy="20" r="4" fill="${theme.ink}" stroke="none" />
                             <path d="M40 24 L36 30" />
                             <path d="M36 30 L44 30" />
                             <path d="M36 30 L32 38" />
@@ -565,6 +596,7 @@ class RouteAnimation {
         const container = document.getElementById('elevationProfile');
         if (!canvas || !container || this.routeData.length === 0) return;
 
+        const theme = this.theme || this.getThemeTokens();
         const ctx = canvas.getContext('2d');
         this.elevationCtx = ctx;
 
@@ -583,8 +615,8 @@ class RouteAnimation {
         ctx.clearRect(0, 0, width, height);
 
         const gradient = ctx.createLinearGradient(0, 0, 0, height);
-        gradient.addColorStop(0, 'rgba(217, 37, 50, 0.35)');
-        gradient.addColorStop(1, 'rgba(217, 37, 50, 0.05)');
+        gradient.addColorStop(0, `rgba(${theme.primaryRgb}, 0.25)`);
+        gradient.addColorStop(1, `rgba(${theme.primaryRgb}, 0.05)`);
 
         ctx.beginPath();
         ctx.moveTo(padding, height - padding);
@@ -607,7 +639,7 @@ class RouteAnimation {
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
         });
-        ctx.strokeStyle = '#d92532';
+        ctx.strokeStyle = theme.primary;
         ctx.lineWidth = 2;
         ctx.stroke();
 
@@ -680,6 +712,7 @@ class RouteAnimation {
     updateElevationIndicator(index) {
         if (!this.elevationCtx || !this.elevationBaseImage || !this.elevationGeom) return;
 
+        const theme = this.theme || this.getThemeTokens();
         const ctx = this.elevationCtx;
         const { width, height, padding, minEle, eleRange } = this.elevationGeom;
 
@@ -690,14 +723,14 @@ class RouteAnimation {
         const y = height - padding - ((point.elevation - minEle) / eleRange) * (height - 2 * padding);
 
         ctx.save();
-        ctx.strokeStyle = 'rgba(252, 191, 73, 0.9)';
+        ctx.strokeStyle = `rgba(${theme.accentRgb}, 0.9)`;
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(x, padding);
         ctx.lineTo(x, height - padding);
         ctx.stroke();
 
-        ctx.fillStyle = '#fcbf49';
+        ctx.fillStyle = theme.accentStrong;
         ctx.beginPath();
         ctx.arc(x, y, 4, 0, Math.PI * 2);
         ctx.fill();

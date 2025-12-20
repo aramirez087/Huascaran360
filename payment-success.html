@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pago Exitoso - Huascaran 360 MTB</title>
     <style>
+        :root {
+            --color-primary: #1f4b9c;
+            --color-primary-hover: #173f83;
+            --color-secondary: #6ea4dd;
+            --color-accent: #7fd3f4;
+            --color-bg: #f3f7fc;
+            --color-bg-strong: #e2edf7;
+            --color-surface: #ffffff;
+            --color-text: #0b1629;
+            --color-text-muted: #5b6d88;
+            --color-text-inverse: #ffffff;
+            --color-border: #d9e2ef;
+            --color-ink-rgb: 11 22 41;
+            --color-primary-rgb: 31 75 156;
+            --color-success: #168a4a;
+            --color-success-bg: #e6f6ed;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -12,7 +29,7 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-strong) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -20,52 +37,53 @@
             padding: 20px;
         }
         .container {
-            background: white;
+            background: var(--color-surface);
             border-radius: 20px;
             padding: 60px 40px;
             max-width: 600px;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(var(--color-ink-rgb), 0.18);
         }
         .success-icon {
             width: 80px;
             height: 80px;
-            background: #22c55e;
+            background: var(--color-success);
             border-radius: 50%;
             margin: 0 auto 30px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 48px;
-            color: white;
+            color: var(--color-text-inverse);
         }
         h1 {
-            color: #1e293b;
+            color: var(--color-text);
             margin-bottom: 16px;
             font-size: 32px;
         }
         p {
-            color: #64748b;
+            color: var(--color-text-muted);
             font-size: 18px;
             line-height: 1.6;
             margin-bottom: 20px;
         }
         .info-box {
-            background: #f1f5f9;
+            background: var(--color-success-bg);
             border-radius: 12px;
             padding: 24px;
             margin: 30px 0;
             text-align: left;
+            border: 1px solid var(--color-border);
         }
         .info-box strong {
-            color: #1e293b;
+            color: var(--color-text);
             display: block;
             margin-bottom: 8px;
         }
         .button {
             display: inline-block;
-            background: #667eea;
-            color: white;
+            background: var(--color-primary);
+            color: var(--color-text-inverse);
             padding: 16px 32px;
             border-radius: 12px;
             text-decoration: none;
@@ -75,7 +93,8 @@
         }
         .button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            background: var(--color-primary-hover);
+            box-shadow: 0 10px 20px rgba(var(--color-primary-rgb), 0.3);
         }
     </style>
 </head>
@@ -87,7 +106,7 @@
 
         <div class="info-box">
             <strong>¿Qué sigue?</strong>
-            <p style="margin: 0; color: #64748b;">
+            <p style="margin: 0; color: var(--color-text-muted);">
                 Recibirás un email de confirmación con todos los detalles de tu inscripción.
                 Si no lo ves en unos minutos, revisa tu carpeta de spam.
             </p>

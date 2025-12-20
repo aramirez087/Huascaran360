@@ -9,7 +9,7 @@ img = Image.new('RGBA', (size, size), (0, 0, 0, 0))
 draw = ImageDraw.Draw(img)
 
 # Background
-draw.rectangle([(0, 0), (size, size)], fill='#11131b')
+draw.rectangle([(0, 0), (size, size)], fill='#f3f7fc')
 
 # Mountain path (simplified)
 points = [
@@ -19,13 +19,13 @@ points = [
     (19, 12),  # Highest peak
     (28, 30),  # End right
 ]
-draw.polygon(points, fill='#d92532')
+draw.polygon(points, fill='#1f4b9c')
 
 # Base line
-draw.line([(2, 30), (30, 30)], fill='#d92532', width=2)
+draw.line([(2, 30), (30, 30)], fill='#1f4b9c', width=2)
 
-# Cyclist dot (yellow)
-draw.ellipse([(13, 21), (17, 25)], fill='#fcbf49')
+# Cyclist dot (icy blue)
+draw.ellipse([(13, 21), (17, 25)], fill='#7fd3f4')
 
 # Save as ICO
 img.save('favicon.ico', format='ICO', sizes=[(32, 32), (16, 16)])

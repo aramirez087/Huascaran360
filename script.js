@@ -515,7 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (formMessage) {
                 formMessage.textContent = 'Enviando... Esto puede tardar unos segundos.';
-                formMessage.style.color = '#64748b';
+                formMessage.style.color = 'var(--color-text-muted)';
                 formMessage.style.display = 'block';
             }
 
@@ -663,7 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (response.ok && result && result.success) {
                         formMessage.textContent = '¡Gracias! Tu inscripción ha sido recibida correctamente. Te contactaremos pronto.';
-                        formMessage.style.color = '#22c55e';
+                        formMessage.style.color = 'var(--color-success)';
                         formMessage.style.display = 'block';
                         contactForm.reset();
 
@@ -693,7 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 console.error('[Submit] Error:', error);
                 formMessage.textContent = errorMessage;
-                formMessage.style.color = '#ef4444';
+                formMessage.style.color = 'var(--color-danger)';
                 formMessage.style.display = 'block';
             } finally {
                 contactForm.dataset.submitting = 'false';
@@ -821,7 +821,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         Por favor revisa tu bandeja de entrada (y spam).<br><br>
                         <strong>Email de confirmación enviado a:</strong> ${result.email}
                     `;
-                    formMessage.style.color = '#22c55e';
+                    formMessage.style.color = 'var(--color-success)';
                     formMessage.style.display = 'block';
 
                     // Reset form
@@ -839,7 +839,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 // Show full error message for debugging
                 formMessage.textContent = error.message || 'Hubo un error al procesar tu inscripción. Por favor, intenta nuevamente o contacta al equipo organizador.';
-                formMessage.style.color = '#ef4444';
+                formMessage.style.color = 'var(--color-danger)';
                 formMessage.style.display = 'block';
                 formMessage.style.whiteSpace = 'pre-wrap'; // Show line breaks
 

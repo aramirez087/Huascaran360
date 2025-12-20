@@ -3,6 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Generate Favicon</title>
+    <style>
+        :root {
+            --color-primary: #1f4b9c;
+            --color-accent: #7fd3f4;
+            --color-bg: #f3f7fc;
+            --color-text: #0b1629;
+        }
+        body {
+            font-family: sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+        }
+    </style>
 </head>
 <body>
     <h1>Generating favicon...</h1>
@@ -11,13 +24,19 @@
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
+        const styles = getComputedStyle(document.documentElement);
+        const palette = {
+            background: styles.getPropertyValue('--color-bg').trim() || '#f3f7fc',
+            primary: styles.getPropertyValue('--color-primary').trim() || '#1f4b9c',
+            accent: styles.getPropertyValue('--color-accent').trim() || '#7fd3f4'
+        };
 
         // Background
-        ctx.fillStyle = '#11131b';
+        ctx.fillStyle = palette.background;
         ctx.fillRect(0, 0, 32, 32);
 
         // Mountain path
-        ctx.fillStyle = '#d92532';
+        ctx.fillStyle = palette.primary;
         ctx.beginPath();
         ctx.moveTo(2, 30);
         ctx.lineTo(10, 16);
@@ -28,7 +47,7 @@
         ctx.fill();
 
         // Base line
-        ctx.strokeStyle = '#d92532';
+        ctx.strokeStyle = palette.primary;
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(2, 30);
@@ -36,7 +55,7 @@
         ctx.stroke();
 
         // Cyclist dot
-        ctx.fillStyle = '#fcbf49';
+        ctx.fillStyle = palette.accent;
         ctx.beginPath();
         ctx.arc(15, 23, 2, 0, Math.PI * 2);
         ctx.fill();

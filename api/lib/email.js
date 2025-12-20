@@ -5,6 +5,20 @@
 
 import { Resend } from 'resend';
 
+const EMAIL_THEME = {
+  primary: '#1f4b9c',
+  text: '#0b1629',
+  muted: '#5b6d88',
+  surface: '#f8fbff',
+  surfaceAlt: '#eef3f9',
+  border: '#d9e2ef',
+  accentBg: '#e6f1fb',
+  accentBorder: '#c3d2e6',
+  warningBg: '${EMAIL_THEME.warningBg}',
+  warningText: '${EMAIL_THEME.warningText}',
+  warningBorder: '#fde68a'
+};
+
 /**
  * Send email notification about new registration
  * Uses Resend API if configured, otherwise just logs
@@ -34,48 +48,48 @@ export async function sendRegistrationNotification(registrationData) {
   const subject = `Nueva Inscripción - ${name} - ${invoiceNumber}`;
   const htmlContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #667eea;">Nueva Inscripción Recibida</h2>
+      <h2 style="color: ${EMAIL_THEME.primary};">Nueva Inscripción Recibida</h2>
 
-      <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #1e293b;">Detalles del Participante</h3>
+      <div style="background: ${EMAIL_THEME.surface}; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: ${EMAIL_THEME.text};">Detalles del Participante</h3>
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
-            <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Número de Registro:</td>
+            <td style="padding: 8px 0; font-weight: bold; color: ${EMAIL_THEME.muted};">Número de Registro:</td>
             <td style="padding: 8px 0;">${invoiceNumber}</td>
           </tr>
           <tr>
-            <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Nombre:</td>
+            <td style="padding: 8px 0; font-weight: bold; color: ${EMAIL_THEME.muted};">Nombre:</td>
             <td style="padding: 8px 0;">${name}</td>
           </tr>
           <tr>
-            <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Email:</td>
+            <td style="padding: 8px 0; font-weight: bold; color: ${EMAIL_THEME.muted};">Email:</td>
             <td style="padding: 8px 0;"><a href="mailto:${email}">${email}</a></td>
           </tr>
           <tr>
-            <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Teléfono:</td>
+            <td style="padding: 8px 0; font-weight: bold; color: ${EMAIL_THEME.muted};">Teléfono:</td>
             <td style="padding: 8px 0;">${phone}</td>
           </tr>
           <tr>
-            <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Categoría:</td>
+            <td style="padding: 8px 0; font-weight: bold; color: ${EMAIL_THEME.muted};">Categoría:</td>
             <td style="padding: 8px 0;">${category}</td>
           </tr>
         </table>
       </div>
 
-      <div style="background: #ecfdf5; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #10b981;">
-        <h3 style="margin-top: 0; color: #065f46;">Información de Pago</h3>
+      <div style="background: ${EMAIL_THEME.accentBg}; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid ${EMAIL_THEME.primary};">
+        <h3 style="margin-top: 0; color: ${EMAIL_THEME.primary};">Información de Pago</h3>
         <p style="margin: 8px 0;"><strong>Tipo de Tarifa:</strong> ${priceTypeLabel}</p>
-        <p style="margin: 8px 0; font-size: 24px; font-weight: bold; color: #10b981;">USD $${price.toFixed(2)}</p>
+        <p style="margin: 8px 0; font-size: 24px; font-weight: bold; color: ${EMAIL_THEME.primary};">USD $${price.toFixed(2)}</p>
       </div>
 
       ${comments ? `
-      <div style="background: #fef3c7; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #92400e;">Comentarios</h3>
-        <p style="margin: 0; color: #78350f;">${comments}</p>
+      <div style="background: ${EMAIL_THEME.warningBg}; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: ${EMAIL_THEME.warningText};">Comentarios</h3>
+        <p style="margin: 0; color: ${EMAIL_THEME.warningText};">${comments}</p>
       </div>
       ` : ''}
 
-      <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">
+      <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid ${EMAIL_THEME.border}; color: ${EMAIL_THEME.muted}; font-size: 14px;">
         <p><strong>Próximos pasos:</strong></p>
         <ol style="line-height: 1.8;">
           <li>Revisar los datos del participante</li>
@@ -157,42 +171,42 @@ export async function sendContactNotification(contactData) {
   const subject = `Nueva Inscripción - ${name}`;
   const htmlContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #d92532;">🚵 Nueva Inscripción Huascarán 360 MTB</h2>
+      <h2 style="color: ${EMAIL_THEME.primary};">🚵 Nueva Inscripción Huascarán 360 MTB</h2>
       
-      <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">📝 Datos Personales</h3>
+      <div style="background: ${EMAIL_THEME.surface}; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: ${EMAIL_THEME.text}; border-bottom: 1px solid ${EMAIL_THEME.border}; padding-bottom: 10px;">📝 Datos Personales</h3>
         <table style="width: 100%; border-collapse: collapse;">
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b; width: 40%;">Nombre:</td><td>${name}</td></tr>
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Cédula/Pasaporte:</td><td>${id_document || '-'}</td></tr>
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Fecha Nacimiento:</td><td>${birth_date || '-'}</td></tr>
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Sexo:</td><td>${gender || '-'}</td></tr>
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Nacionalidad:</td><td>${nationality || '-'}</td></tr>
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Dirección:</td><td>${address || '-'}</td></tr>
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Teléfono:</td><td>${phone || '-'}</td></tr>
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #64748b;">Email:</td><td><a href="mailto:${email}">${email}</a></td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.muted}; width: 40%;">Nombre:</td><td>${name}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.muted};">Cédula/Pasaporte:</td><td>${id_document || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.muted};">Fecha Nacimiento:</td><td>${birth_date || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.muted};">Sexo:</td><td>${gender || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.muted};">Nacionalidad:</td><td>${nationality || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.muted};">Dirección:</td><td>${address || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.muted};">Teléfono:</td><td>${phone || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.muted};">Email:</td><td><a href="mailto:${email}">${email}</a></td></tr>
         </table>
       </div>
 
-      <div style="background: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #166534; border-bottom: 1px solid #bbf7d0; padding-bottom: 10px;">🚴 Datos de Carrera</h3>
+      <div style="background: ${EMAIL_THEME.accentBg}; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: ${EMAIL_THEME.primary}; border-bottom: 1px solid ${EMAIL_THEME.accentBorder}; padding-bottom: 10px;">🚴 Datos de Carrera</h3>
         <table style="width: 100%; border-collapse: collapse;">
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #15803d; width: 40%;">Equipo/Patrocinador:</td><td>${team || '-'}</td></tr>
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #15803d;">N° Placa/Dorsal:</td><td>${plate_number || '-'}</td></tr>
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #15803d;">Talla Camiseta:</td><td>${jersey_size || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.primary}; width: 40%;">Equipo/Patrocinador:</td><td>${team || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.primary};">N° Placa/Dorsal:</td><td>${plate_number || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.primary};">Talla Camiseta:</td><td>${jersey_size || '-'}</td></tr>
         </table>
       </div>
 
-      <div style="background: #fef2f2; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #991b1b; border-bottom: 1px solid #fecaca; padding-bottom: 10px;">🚨 Emergencia</h3>
+      <div style="background: ${EMAIL_THEME.warningBg}; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: ${EMAIL_THEME.warningText}; border-bottom: 1px solid ${EMAIL_THEME.warningBorder}; padding-bottom: 10px;">🚨 Emergencia</h3>
         <table style="width: 100%; border-collapse: collapse;">
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #dc2626; width: 40%;">Contacto:</td><td>${emergency_contact_name || '-'}</td></tr>
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #dc2626;">Teléfono:</td><td>${emergency_contact_phone || '-'}</td></tr>
-          <tr><td style="padding: 5px 0; font-weight: bold; color: #dc2626;">Tipo de Sangre:</td><td>${blood_type || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.warningText}; width: 40%;">Contacto:</td><td>${emergency_contact_name || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.warningText};">Teléfono:</td><td>${emergency_contact_phone || '-'}</td></tr>
+          <tr><td style="padding: 5px 0; font-weight: bold; color: ${EMAIL_THEME.warningText};">Tipo de Sangre:</td><td>${blood_type || '-'}</td></tr>
         </table>
       </div>
 
-      <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #4b5563; border-bottom: 1px solid #d1d5db; padding-bottom: 10px;">📋 Otros</h3>
+      <div style="background: ${EMAIL_THEME.surfaceAlt}; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: ${EMAIL_THEME.text}; border-bottom: 1px solid ${EMAIL_THEME.border}; padding-bottom: 10px;">📋 Otros</h3>
         <p><strong>Autorización Imagen:</strong> ${image_auth ? '✅ SÍ' : '❌ NO'}</p>
         <p><strong>Redes Sociales:</strong> ${social_media || '-'}</p>
         ${message ? `<p><strong>Mensaje:</strong> ${message}</p>` : ''}
