@@ -131,6 +131,19 @@ class RouteAnimation {
     }
 
     getThemeTokens() {
+        const normalizeRgb = (value, fallback) => {
+            const raw = String(value || '').trim();
+            const matches = raw.match(/\d+(\.\d+)?/g);
+            if (matches && matches.length >= 3) {
+                return matches.slice(0, 3).join(', ');
+            }
+            const fallbackMatches = String(fallback || '').match(/\d+(\.\d+)?/g);
+            if (fallbackMatches && fallbackMatches.length >= 3) {
+                return fallbackMatches.slice(0, 3).join(', ');
+            }
+            return '255, 255, 255';
+        };
+
         if (typeof window === 'undefined') {
             return {
                 primary: '#1f4b9c',
@@ -138,23 +151,24 @@ class RouteAnimation {
                 accent: '#7fd3f4',
                 accentStrong: '#4fb7e0',
                 ink: '#0b1629',
-                surfaceRgb: '255 255 255',
-                primaryRgb: '31 75 156',
-                accentRgb: '127 211 244'
+                surfaceRgb: '255, 255, 255',
+                primaryRgb: '31, 75, 156',
+                accentRgb: '127, 211, 244'
             };
         }
 
         const styles = getComputedStyle(document.documentElement);
         const read = (name, fallback) => styles.getPropertyValue(name).trim() || fallback;
+        const readRgb = (name, fallback) => normalizeRgb(read(name, fallback), fallback);
         return {
             primary: read('--color-primary', '#1f4b9c'),
             secondary: read('--color-secondary', '#6ea4dd'),
             accent: read('--color-accent', '#7fd3f4'),
             accentStrong: read('--color-accent-strong', '#4fb7e0'),
             ink: read('--color-ink', '#0b1629'),
-            surfaceRgb: read('--color-surface-rgb', '255 255 255'),
-            primaryRgb: read('--color-primary-rgb', '31 75 156'),
-            accentRgb: read('--color-accent-rgb', '127 211 244')
+            surfaceRgb: readRgb('--color-surface-rgb', '255 255 255'),
+            primaryRgb: readRgb('--color-primary-rgb', '31 75 156'),
+            accentRgb: readRgb('--color-accent-rgb', '127 211 244')
         };
     }
 
