@@ -727,64 +727,58 @@
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         }
 
-        /* MOBILE FOOTER FIXES */
+        /* MOBILE FOOTER FIXES - RE-APPLIED WITH HIGH SPECIFICITY */
         @media (max-width: 768px) {
 
-            /* Hide the footer logo entirely to prevent fixed header overlap */
-            .site-footer__column--brand {
+            /* 1. Hide the footer logo column entirely on mobile */
+            footer.site-footer .site-footer__column--brand,
+            footer.site-footer .brand--footer {
                 display: none !important;
-            }
-
-            .site-footer__layout {
-                display: block !important;
-                padding: 0 !important;
-            }
-
-            .site-footer__column {
-                display: block !important;
-                width: 100% !important;
-                margin-bottom: 2rem !important;
-                text-align: center !important;
-            }
-
-            /* Contact links - centering without gaps */
-            .footer-links {
-                display: block !important;
-                padding: 0 !important;
+                visibility: hidden !important;
+                height: 0 !important;
                 margin: 0 !important;
-                list-style: none !important;
+                padding: 0 !important;
+                overflow: hidden !important;
+            }
+
+            /* 2. Force no character gaps and clean centering in contact links */
+            .footer-links a {
+                display: inline-flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+                /* Standardize font to avoid spacing issues */
+                font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+                /* Kill character gaps */
+                letter-spacing: normal !important;
+                word-spacing: normal !important;
+                text-transform: none !important;
+                font-size: 0.9rem !important;
+                line-height: 1.4 !important;
+                white-space: nowrap !important;
+                width: auto !important;
+                margin: 0 auto !important;
             }
 
             .footer-links li {
                 display: block !important;
-                margin-bottom: 0.85rem !important;
+                width: 100% !important;
                 text-align: center !important;
-            }
-
-            .footer-links a {
-                display: inline-flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                text-align: center !important;
-                font-size: 0.85rem !important;
-                letter-spacing: 0 !important;
-                word-spacing: 0 !important;
-                line-height: 1.4 !important;
-                text-decoration: none !important;
-                color: #0b1a31 !important;
-                /* Kill any justification style */
-                text-align-last: center !important;
+                margin-bottom: 1.2rem !important;
+                /* Explicit reset just in case */
+                letter-spacing: normal !important;
             }
 
             .footer-links img.emoji {
                 display: inline-block !important;
                 margin-right: 8px !important;
-                width: 1.2rem !important;
+                width: 1.2em !important;
                 height: auto !important;
                 flex-shrink: 0 !important;
             }
 
-            /* Social proof & legal */
+            /* 3. Social buttons - uniform and centered */
             .footer-social {
                 display: flex !important;
                 flex-direction: column !important;
@@ -794,14 +788,27 @@
             }
 
             .footer-social__link {
-                min-width: 200px !important;
+                min-width: 220px !important;
                 justify-content: center !important;
+            }
+
+            /* 4. Layout stack */
+            .site-footer__layout {
+                display: block !important;
+                padding: 0 1rem !important;
+            }
+
+            .site-footer__column {
+                display: block !important;
+                width: 100% !important;
+                margin-bottom: 2.5rem !important;
+                text-align: center !important;
             }
 
             .site-footer__legal {
                 text-align: center !important;
-                font-size: 0.75rem !important;
-                padding: 1rem !important;
+                padding: 1.5rem 1rem !important;
+                font-size: 0.8rem !important;
             }
         }
     </style>
