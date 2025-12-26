@@ -736,62 +736,85 @@
                 display: none !important;
             }
 
-            /* Fix contact info text wrapping - allow wrap but control it */
+            /* Fix contact info text wrapping - clean block layout */
             .footer-links a {
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                gap: 0.25rem !important;
+                display: block !important;
+                text-align: center !important;
                 font-size: 0.85rem !important;
-                line-height: 1.4 !important;
+                line-height: 1.5 !important;
                 word-break: break-word !important;
                 white-space: normal !important;
+                letter-spacing: normal !important;
+                word-spacing: normal !important;
+                text-decoration: none !important;
+                padding: 0.5rem 0 !important;
             }
 
-            /* Emoji flags inline */
+            /* Ensure emoji icons stay inline and naturally spaced */
             .footer-links img.emoji {
-                display: inline !important;
+                display: inline-block !important;
+                vertical-align: middle !important;
+                margin-right: 8px !important;
+                height: 1.2em !important;
+                width: auto !important;
             }
 
             /* Make footer columns stack properly */
             .site-footer__layout {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 2rem !important;
+                display: block !important;
             }
 
             .site-footer__column {
                 width: 100% !important;
                 text-align: center !important;
+                margin-bottom: 2.5rem !important;
             }
 
             .footer-links {
                 padding: 0 !important;
+                margin: 0 !important;
                 list-style: none !important;
-                align-items: center !important;
+                display: block !important;
             }
 
             .footer-links li {
-                margin-bottom: 1rem !important;
-                letter-spacing: 0 !important;
-                word-spacing: 0 !important;
+                margin: 0 0 0.5rem 0 !important;
+                display: block !important;
+                text-align: center !important;
             }
 
             /* Keep tagline visible but centered */
             .site-footer__tagline {
                 text-align: center !important;
-                font-size: 0.95rem !important;
+                font-size: 0.9rem !important;
+                margin-bottom: 0.5rem !important;
             }
 
-            /* Social links centered */
+            /* Social links centered and correctly spaced */
             .footer-social {
-                justify-content: center !important;
+                display: flex !important;
+                flex-direction: column !important;
                 align-items: center !important;
+                gap: 0.75rem !important;
+                padding: 0 !important;
             }
 
-            /* Footer label */
+            .footer-social li {
+                display: flex !important;
+                justify-content: center !important;
+                width: 100% !important;
+            }
+
+            .footer-social__link {
+                justify-content: center !important;
+                min-width: 180px !important;
+            }
+
+            /* Footer label centered */
             .footer-label {
                 text-align: center !important;
+                display: block !important;
+                width: 100% !important;
             }
         }
     </style>
