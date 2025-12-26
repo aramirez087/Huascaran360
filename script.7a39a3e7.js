@@ -19,6 +19,64 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Modern Header Scroll Effect
+    const header = document.querySelector('.top-bar');
+    const handleScroll = () => {
+        if (window.scrollY > 50) {
+            header?.classList.add('top-bar--scrolled');
+        } else {
+            header?.classList.remove('top-bar--scrolled');
+        }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // GSAP initialization
+    if (typeof gsap !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Entrance animations for all sections
+        const sections = document.querySelectorAll('section, .hero, .site-footer');
+        sections.forEach(section => {
+            gsap.from(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
+                },
+                opacity: 0,
+                y: 40,
+                duration: 1,
+                ease: 'power3.out'
+            });
+        });
+
+        // Staggered highlights
+        gsap.from('.highlights__grid > *', {
+            scrollTrigger: {
+                trigger: '.highlights__grid',
+                start: 'top 80%'
+            },
+            opacity: 0,
+            y: 30,
+            stagger: 0.1,
+            duration: 0.8,
+            ease: 'power2.out'
+        });
+
+        // Hero entrance
+        const tlHero = gsap.timeline();
+        tlHero.from('.hero__content > *', {
+            opacity: 0,
+            y: 30,
+            stagger: 0.15,
+            duration: 1.2,
+            ease: 'expo.out',
+            delay: 0.5
+        });
+    }
+
+
     const accordionItems = document.querySelectorAll('.accordion__item');
     accordionItems.forEach((item) => {
         const button = item.querySelector('button');

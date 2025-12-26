@@ -77,23 +77,30 @@
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="style.d8aa6868.css">
+    <link rel="stylesheet" href="style.v2.css">
+
+    <!-- GSAP Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <style>
         @media (max-width: 768px) {
             .brand {
                 gap: 0 !important;
             }
+
             .brand__icon {
                 width: 140px !important;
                 height: 70px !important;
                 padding: 0 !important;
             }
+
             .brand__text {
                 display: none !important;
             }
@@ -405,9 +412,128 @@
       ]
     }
     </script>
+    <style>
+        /* CRITICAL UI FIXES */
+        @media (min-width: 961px) {
+            .main-nav__toggle {
+                display: none !important;
+            }
+        }
+
+        .package__card {
+            background: #ffffff !important;
+            color: #0b1a31 !important;
+        }
+
+        .package__price {
+            color: #0b1a31 !important;
+        }
+
+        .package__earlybird,
+        .package__earlybird strong {
+            color: #1f4b9c !important;
+            /* Primary Blue */
+        }
+
+        /* PRICING CARD REDESIGN - DARK THEME - ID OVERRIDE */
+        #pricing-card-highlight {
+            background: linear-gradient(rgba(11, 26, 49, 0.85), rgba(11, 26, 49, 0.85)), url('images/pricing-card-bg.png?v=3') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        #pricing-card-highlight .pricing__highlight-label {
+            background: rgba(255, 255, 255, 0.15) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        }
+
+        #pricing-card-highlight .pricing__highlight-price {
+            color: #ffffff !important;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #pricing-card-highlight .pricing__highlight-regular {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        .pricing__highlight-info p {
+            color: #e2e8f0 !important;
+        }
+
+        .pricing__highlight-benefits {
+            color: #ffffff !important;
+            font-weight: 500 !important;
+        }
+
+        /* HERO SECTION REDESIGN - IMMERSIVE BACKGROUND */
+        .hero {
+            background: linear-gradient(to bottom, rgba(11, 26, 49, 0.6), rgba(11, 26, 49, 0.4)), url('images/hero-bg.png') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: scroll !important;
+            position: relative;
+            /* Ensure z-index works */
+        }
+
+        /* PREMIUM POLISH - TRANSPARENT HEADER & CONTRAST */
+        .main-header .main-nav {
+            background: transparent !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+        }
+
+        .main-nav__link {
+            color: #ffffff !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .main-nav__link:hover {
+            color: #cbd5e1 !important;
+            /* Light gray hover */
+        }
+
+        .hero h1,
+        .hero h2,
+        .hero__title {
+            color: #ffffff !important;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+        }
+
+        .hero p,
+        .hero__text {
+            color: #e2e8f0 !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Fix pill/metadata visibility if they exist */
+        .hero .pill,
+        .hero__meta span {
+            background: rgba(255, 255, 255, 0.15) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            backdrop-filter: blur(4px);
+        }
+
+        .package__disclaimer,
+        .package__disclaimer strong {
+            color: #64748b !important;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="mesh-background" aria-hidden="true">
+        <div class="mesh-gradient"></div>
+        <div class="mesh-blob mesh-blob--1"></div>
+        <div class="mesh-blob mesh-blob--2"></div>
+        <div class="mesh-blob mesh-blob--3"></div>
+    </div>
+
     <header class="top-bar" id="inicio">
         <div class="wrapper">
             <a class="brand" href="#inicio" aria-label="Huascarán 360 MTB">
@@ -443,43 +569,68 @@
     <main>
         <section class="hero">
             <div class="wrapper">
-                <div class="hero__main">
-                    <div class="hero__content">
-                        <p class="hero__badge">
-                            <svg class="hero__badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <circle cx="12" cy="12" r="10" />
-                                <polyline points="12 6 12 12 16 14" />
-                            </svg>
-                            12 - 16 mayo 2026 · Perú
-                        </p>
-                        <h1>Desafía tu cuerpo y mente en la Cordillera Blanca</h1>
-                        <p class="hero__lead">Descubre la magia de culturas ancestrales en la zona de Conchucos con
-                            Huascarán 360 MTB, la carrera que te lleva a través de paisajes espectaculares, lagunas e
-                            impresionantes glaciares con el nevado Huascarán a 6,757 m s. n. m.</p>
+                <div class="hero__content">
+                    <p class="hero__badge">
+                        <svg class="hero__badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        12 - 16 mayo 2026 · Perú
+                    </p>
+                    <h1>Desafía tu cuerpo y mente en la Cordillera Blanca</h1>
+                    <p class="hero__lead">Descubre la magia de culturas ancestrales en la zona de Conchucos con
+                        Huascarán 360 MTB, la carrera que te lleva a través de paisajes espectaculares, lagunas e
+                        impresionantes glaciares con el nevado Huascarán a 6,757 m s. n. m.</p>
 
-                        <div class="hero__actions">
-                            <a class="btn btn--primary btn--pulse" href="#inscripciones">
-                                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5">
-                                    <circle cx="12" cy="12" r="10" />
-                                    <path d="M12 6v6l4 2" />
-                                </svg>
-                                <span class="btn__content">
-                                    <span class="btn__text">Inscríbete en Etapa 2</span>
-                                    <small class="btn__subtext">USD 540 · Hasta 15 ene 2026</small>
-                                </span>
-                            </a>
-                            <a class="btn btn--ghost" href="#programa">
-                                <span>Ver programa completo</span>
-                                <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M5 12h14M12 5l7 7-7 7" />
-                                </svg>
-                            </a>
+                    <div class="hero__actions">
+                        <a class="btn btn--primary btn--pulse" href="#inscripciones">
+                            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M12 6v6l4 2" />
+                            </svg>
+                            <span class="btn__content">
+                                <span class="btn__text">Inscríbete en Etapa 2</span>
+                                <small class="btn__subtext">USD 540 · Hasta 15 ene 2026</small>
+                            </span>
+                        </a>
+                        <a class="btn btn--ghost" href="#programa">
+                            <span>Ver programa completo</span>
+                            <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="hero__social-proof" style="margin-top: 2.5rem;">
+                        <div class="hero__social-proof-item">
+                            <span class="hero__social-proof-icon">👥</span>
+                            <div>
+                                <strong>+500</strong>
+                                <span>Participantes desde 2019</span>
+                            </div>
+                        </div>
+                        <div class="hero__social-proof-item">
+                            <span class="hero__social-proof-icon">🌍</span>
+                            <div>
+                                <strong>15 países</strong>
+                                <span>Ciclistas de todo el mundo</span>
+                            </div>
+                        </div>
+                        <div class="hero__social-proof-item">
+                            <span class="hero__social-proof-icon">⭐</span>
+                            <div>
+                                <strong>4.9/5</strong>
+                                <span>Satisfacción promedio</span>
+                            </div>
                         </div>
                     </div>
-                    <figure class="hero__media" aria-label="Video oficial Huascarán 360 MTB">
+                </div>
+
+                <div class="hero__visual-column" style="display: flex; flex-direction: column; gap: 3rem;">
+                    <figure class="hero__media" aria-label="Video oficial Huascarán 360 MTB" style="margin: 0;">
                         <div class="media-frame media-frame--video" data-animate="fade">
                             <span class="media-frame__badge">Video oficial 2026</span>
                             <div class="video-embed" data-video-src="https://www.youtube.com/embed/wayDFeHqACs">
@@ -487,7 +638,7 @@
                                     src="https://www.youtube.com/embed/wayDFeHqACs?rel=0&modestbranding=1&showinfo=0"
                                     title="Huascarán 360 MTB · Video oficial" loading="lazy"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    allowfullscreen></iframe>
+                                    allowfullscreen style="aspect-ratio: 16/9;"></iframe>
                                 <button class="video-embed__play" type="button" data-video-trigger
                                     aria-label="Reproducir video oficial">
                                     <span class="video-embed__pulse"></span>
@@ -499,66 +650,42 @@
                             </div>
                         </div>
                     </figure>
-                </div>
 
-                <div class="hero__stats-grid">
-                    <div class="hero__stat-card">
-                        <div class="hero__stat-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 21h18M4 18h16M6 18V9l6-6 6 6v9" />
-                            </svg>
+                    <div class="hero__stats-grid">
+                        <div class="hero__stat-card">
+                            <div class="hero__stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 21h18M4 18h16M6 18V9l6-6 6 6v9" />
+                                </svg>
+                            </div>
+                            <div class="hero__stat-content">
+                                <strong>270 km</strong>
+                                <span>Distancia total</span>
+                            </div>
                         </div>
-                        <div class="hero__stat-content">
-                            <strong>270 km</strong>
-                            <span>Distancia total</span>
+                        <div class="hero__stat-card">
+                            <div class="hero__stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                                    <polyline points="17 6 23 6 23 12" />
+                                </svg>
+                            </div>
+                            <div class="hero__stat-content">
+                                <strong>6,200 m</strong>
+                                <span>Desnivel acumulado</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="hero__stat-card">
-                        <div class="hero__stat-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                                <polyline points="17 6 23 6 23 12" />
-                            </svg>
-                        </div>
-                        <div class="hero__stat-content">
-                            <strong>6,200 m</strong>
-                            <span>Desnivel acumulado</span>
-                        </div>
-                    </div>
-                    <div class="hero__stat-card">
-                        <div class="hero__stat-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                                <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
-                            </svg>
-                        </div>
-                        <div class="hero__stat-content">
-                            <strong>4,750 m</strong>
-                            <span>Altitud máxima</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="hero__social-proof">
-                    <div class="hero__social-proof-item">
-                        <span class="hero__social-proof-icon">👥</span>
-                        <div>
-                            <strong>+500</strong>
-                            <span>Participantes desde 2019</span>
-                        </div>
-                    </div>
-                    <div class="hero__social-proof-item">
-                        <span class="hero__social-proof-icon">🌍</span>
-                        <div>
-                            <strong>15 países</strong>
-                            <span>Ciclistas de todo el mundo</span>
-                        </div>
-                    </div>
-                    <div class="hero__social-proof-item">
-                        <span class="hero__social-proof-icon">⭐</span>
-                        <div>
-                            <strong>4.9/5</strong>
-                            <span>Satisfacción promedio</span>
+                        <div class="hero__stat-card">
+                            <div class="hero__stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                                </svg>
+                            </div>
+                            <div class="hero__stat-content">
+                                <strong>4,750 m</strong>
+                                <span>Altitud máxima</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -946,7 +1073,7 @@
                     <p><strong>Reserva con USD 100</strong> y completa el pago antes del 31 de marzo de 2026.</p>
                 </header>
 
-                <div class="pricing__highlight">
+                <div class="pricing__highlight" id="pricing-card-highlight">
                     <div class="pricing__highlight-badge">
                         <span class="pricing__highlight-icon">⚡</span>
                         <strong>Etapa 2 · Hasta 15 ene 2026</strong>
