@@ -730,67 +730,61 @@
         /* MOBILE FOOTER FIXES */
         @media (max-width: 768px) {
 
-            /* Hide footer logo on mobile to prevent overlap with fixed header */
-            .site-footer .brand--footer,
-            .site-footer__column--brand .brand {
+            /* Hide the footer logo entirely to prevent fixed header overlap */
+            .site-footer__column--brand {
                 display: none !important;
             }
 
-            /* Fix contact info text wrapping - clean block layout */
-            .footer-links a {
-                display: block !important;
-                text-align: center !important;
-                font-size: 0.85rem !important;
-                line-height: 1.5 !important;
-                word-break: break-word !important;
-                white-space: normal !important;
-                letter-spacing: normal !important;
-                word-spacing: normal !important;
-                text-decoration: none !important;
-                padding: 0.5rem 0 !important;
-            }
-
-            /* Ensure emoji icons stay inline and naturally spaced */
-            .footer-links img.emoji {
-                display: inline-block !important;
-                vertical-align: middle !important;
-                margin-right: 8px !important;
-                height: 1.2em !important;
-                width: auto !important;
-            }
-
-            /* Make footer columns stack properly */
             .site-footer__layout {
                 display: block !important;
+                padding: 0 !important;
             }
 
             .site-footer__column {
+                display: block !important;
                 width: 100% !important;
+                margin-bottom: 2rem !important;
                 text-align: center !important;
-                margin-bottom: 2.5rem !important;
             }
 
+            /* Contact links - centering without gaps */
             .footer-links {
+                display: block !important;
                 padding: 0 !important;
                 margin: 0 !important;
                 list-style: none !important;
-                display: block !important;
             }
 
             .footer-links li {
-                margin: 0 0 0.5rem 0 !important;
                 display: block !important;
+                margin-bottom: 0.85rem !important;
                 text-align: center !important;
             }
 
-            /* Keep tagline visible but centered */
-            .site-footer__tagline {
+            .footer-links a {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
                 text-align: center !important;
-                font-size: 0.9rem !important;
-                margin-bottom: 0.5rem !important;
+                font-size: 0.85rem !important;
+                letter-spacing: 0 !important;
+                word-spacing: 0 !important;
+                line-height: 1.4 !important;
+                text-decoration: none !important;
+                color: #0b1a31 !important;
+                /* Kill any justification style */
+                text-align-last: center !important;
             }
 
-            /* Social links centered and correctly spaced */
+            .footer-links img.emoji {
+                display: inline-block !important;
+                margin-right: 8px !important;
+                width: 1.2rem !important;
+                height: auto !important;
+                flex-shrink: 0 !important;
+            }
+
+            /* Social proof & legal */
             .footer-social {
                 display: flex !important;
                 flex-direction: column !important;
@@ -799,22 +793,15 @@
                 padding: 0 !important;
             }
 
-            .footer-social li {
-                display: flex !important;
-                justify-content: center !important;
-                width: 100% !important;
-            }
-
             .footer-social__link {
+                min-width: 200px !important;
                 justify-content: center !important;
-                min-width: 180px !important;
             }
 
-            /* Footer label centered */
-            .footer-label {
+            .site-footer__legal {
                 text-align: center !important;
-                display: block !important;
-                width: 100% !important;
+                font-size: 0.75rem !important;
+                padding: 1rem !important;
             }
         }
     </style>
