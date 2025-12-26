@@ -3,19 +3,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const navList = document.querySelector('.main-nav__list');
 
     if (navToggle && navList) {
-        navToggle.addEventListener('click', () => {
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             const expanded = navToggle.getAttribute('aria-expanded') === 'true';
             navToggle.setAttribute('aria-expanded', String(!expanded));
             navList.classList.toggle('is-open');
         });
+
 
         navList.querySelectorAll('a').forEach((link) => {
             link.addEventListener('click', () => {
                 if (navList.classList.contains('is-open')) {
                     navList.classList.remove('is-open');
                     navToggle.setAttribute('aria-expanded', 'false');
+
+                    // Fix mobile rendering issue after navigation
+                    // Delay to allow the navigation jump to complete, then trigger repaint
+                    setTimeout(() => {
+                        // Refresh GSAP ScrollTrigger if available
+                        if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) {
+                            ScrollTrigger.refresh();
+                        }
+                        // Force a repaint by triggering a minimal scroll
+                        window.dispatchEvent(new Event('resize'));
+                        window.dispatchEvent(new Event('scroll'));
+                    }, 100);
                 }
             });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (navList.classList.contains('is-open') &&
+                !navList.contains(e.target) &&
+                !navToggle.contains(e.target)) {
+                navList.classList.remove('is-open');
+                navToggle.setAttribute('aria-expanded', 'false');
+            }
         });
     }
 
