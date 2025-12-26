@@ -179,6 +179,13 @@ a {
     gap: 0.15rem;
 }
 
+@media (max-width: 768px) {
+    .brand__text {
+        display: none !important;
+        background: red !important;
+    }
+}
+
 .top-bar .brand__accent {
     font-size: 0.72rem;
     color: var(--color-text-soft);
@@ -210,10 +217,14 @@ a {
 }
 
 @media (max-width: 768px) {
+    .brand {
+        gap: 0 !important;
+    }
+
     .brand__icon {
-        width: 72px;
-        height: 48px;
-        padding: 0;
+        width: 140px !important;
+        height: 70px !important;
+        padding: 0 !important;
     }
 
     .brand__accent {
