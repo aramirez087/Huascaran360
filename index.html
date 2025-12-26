@@ -421,18 +421,48 @@
         }
 
         .package__card {
-            background: #ffffff !important;
-            color: #0b1a31 !important;
+            background: linear-gradient(135deg, #1f4b9c 0%, #0b1a31 100%) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 20px 40px rgba(11, 26, 49, 0.4) !important;
+        }
+
+        .package__card h3 {
+            color: #ffffff !important;
         }
 
         .package__price {
-            color: #0b1a31 !important;
+            color: #ffffff !important;
+        }
+
+        .package__price span {
+            color: rgba(255, 255, 255, 0.8) !important;
         }
 
         .package__earlybird,
         .package__earlybird strong {
+            color: #fbbf24 !important;
+            /* Accent Gold for emphasis */
+        }
+
+        .package__disclaimer,
+        .package__disclaimer strong {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        .package__note {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        .package__card .btn--secondary {
+            background: #ffffff !important;
             color: #1f4b9c !important;
-            /* Primary Blue */
+            border: none !important;
+        }
+
+        .package__card .btn--secondary:hover {
+            background: #f1f5f9 !important;
+            transform: translateY(-2px);
         }
 
         /* PRICING CARD REDESIGN - DARK THEME - ID OVERRIDE */
@@ -543,10 +573,12 @@
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
         }
 
-        .hero h1,
-        .hero h2,
+        .hero h1 {
+            color: #ffffff !important;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            font-weight: 800 !important;
+        }
 
-        .hero h1,
         .hero h2,
         .hero__title {
             color: #ffffff !important;
@@ -566,11 +598,6 @@
             color: #ffffff !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
             backdrop-filter: blur(4px);
-        }
-
-        .package__disclaimer,
-        .package__disclaimer strong {
-            color: #64748b !important;
         }
     </style>
 </head>
