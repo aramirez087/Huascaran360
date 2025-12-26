@@ -726,6 +726,62 @@
             backdrop-filter: blur(8px);
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         }
+
+        /* MOBILE FOOTER FIXES */
+        @media (max-width: 768px) {
+
+            /* Hide footer logo on mobile to prevent overlap with fixed header */
+            .site-footer .brand--footer,
+            .site-footer__column--brand .brand {
+                display: none !important;
+            }
+
+            /* Fix contact info text wrapping */
+            .footer-links a {
+                white-space: nowrap !important;
+                display: block !important;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 0.9rem !important;
+            }
+
+            /* Fix phone number spacing - remove letter-spacing */
+            .footer-links li {
+                letter-spacing: normal !important;
+                word-spacing: normal !important;
+            }
+
+            /* Make footer columns stack properly */
+            .site-footer__layout {
+                flex-direction: column !important;
+                gap: 2rem !important;
+            }
+
+            .site-footer__column {
+                width: 100% !important;
+                text-align: center !important;
+            }
+
+            .footer-links {
+                padding: 0 !important;
+                list-style: none !important;
+            }
+
+            .footer-links li {
+                margin-bottom: 0.75rem !important;
+            }
+
+            /* Keep tagline visible but centered */
+            .site-footer__tagline {
+                text-align: center !important;
+                font-size: 0.95rem !important;
+            }
+
+            /* Social links centered */
+            .footer-social {
+                justify-content: center !important;
+            }
+        }
     </style>
 </head>
 
