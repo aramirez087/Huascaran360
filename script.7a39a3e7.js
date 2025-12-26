@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
 
+
         navList.querySelectorAll('a').forEach((link) => {
             link.addEventListener('click', () => {
                 if (navList.classList.contains('is-open')) {
@@ -18,16 +19,41 @@ document.addEventListener('DOMContentLoaded', () => {
                     navToggle.setAttribute('aria-expanded', 'false');
 
                     // Fix mobile rendering issue after navigation
-                    // Delay to allow the navigation jump to complete, then trigger repaint
-                    setTimeout(() => {
-                        // Refresh GSAP ScrollTrigger if available
-                        if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) {
-                            ScrollTrigger.refresh();
-                        }
-                        // Force a repaint by triggering a minimal scroll
-                        window.dispatchEvent(new Event('resize'));
-                        window.dispatchEvent(new Event('scroll'));
-                    }, 100);
+                    // Use multiple techniques to force browser repaint
+                    requestAnimationFrame(() => {
+                        setTimeout(() => {
+                            // Refresh GSAP ScrollTrigger if available
+                            if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) {
+                                ScrollTrigger.refresh();
+                            }
+
+                            // Force visibility on all animated elements in viewport
+                            const animatedElements = document.querySelectorAll('[data-animate]');
+                            animatedElements.forEach(el => {
+                                const rect = el.getBoundingClientRect();
+                                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                                    el.classList.add('is-visible');
+                                }
+                            });
+
+                            // Force GPU layer refresh
+                            document.body.style.transform = 'translateZ(0)';
+                            requestAnimationFrame(() => {
+                                document.body.style.transform = '';
+                            });
+
+                            // Trigger events
+                            window.dispatchEvent(new Event('resize'));
+                            window.dispatchEvent(new Event('scroll'));
+
+                            // Force a tiny scroll to trigger browser repaint
+                            const currentScroll = window.scrollY;
+                            window.scrollTo(0, currentScroll + 1);
+                            requestAnimationFrame(() => {
+                                window.scrollTo(0, currentScroll);
+                            });
+                        }, 50);
+                    });
                 }
             });
         });
