@@ -4,6 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        (function () {
+            var path = window.location.pathname || '';
+            if (path === '/maintenance' || path === '/maintenance.html') {
+                return;
+            }
+            fetch('/api/maintenance', { cache: 'no-store' })
+                .then(function (res) { return res.ok ? res.json() : { maintenance: false }; })
+                .then(function (data) {
+                    if (data && data.maintenance) {
+                        window.location.replace('/maintenance');
+                    }
+                })
+                .catch(function () {});
+        })();
+    </script>
 
     <!-- Primary Meta Tags - Optimized for CTR -->
     <title>Huascarán 360 MTB 2026 | La Carrera de Montaña más Épica del Perú | 270km Cordillera Blanca</title>

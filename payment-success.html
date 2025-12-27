@@ -3,6 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function () {
+            var path = window.location.pathname || '';
+            if (path === '/maintenance' || path === '/maintenance.html') {
+                return;
+            }
+            fetch('/api/maintenance', { cache: 'no-store' })
+                .then(function (res) { return res.ok ? res.json() : { maintenance: false }; })
+                .then(function (data) {
+                    if (data && data.maintenance) {
+                        window.location.replace('/maintenance');
+                    }
+                })
+                .catch(function () {});
+        })();
+    </script>
     <title>Pago Exitoso - Huascaran 360 MTB</title>
     <style>
         :root {

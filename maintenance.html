@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Maintenance | Huascaran 360 MTB</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --bg-soft: #0b0b0b;
+            --panel: #101010;
+            --border: #232323;
+            --text: #f5f5f5;
+            --muted: #a3a3a3;
+            --accent: #3ecf8e;
+            --accent-glow: rgba(62, 207, 142, 0.22);
+            --shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+            font-family: "Geist", "Segoe UI", system-ui, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(900px circle at 12% 85%, rgba(62, 207, 142, 0.18), transparent 60%),
+                radial-gradient(1200px circle at 85% 10%, rgba(255, 255, 255, 0.08), transparent 60%),
+                var(--bg);
+            position: relative;
+            overflow: hidden;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 48px 48px;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+        main {
+            width: min(720px, 92vw);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 45%), var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: clamp(32px, 5vw, 56px);
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 1;
+            animation: rise 600ms ease both;
+        }
+        main::after {
+            content: "";
+            position: absolute;
+            inset: -20% 20% auto -10%;
+            height: 120px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 70%);
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 36px;
+        }
+        .logo {
+            width: 36px;
+            height: 36px;
+            background: var(--text);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.35));
+        }
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .status .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 16px var(--accent-glow);
+            animation: pulse 1.6s ease infinite;
+        }
+        h1 {
+            font-size: clamp(28px, 4vw, 44px);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+        .meta {
+            display: grid;
+            gap: 16px;
+            margin-top: 28px;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 14px;
+            color: var(--muted);
+        }
+        .row strong,
+        .row a {
+            color: var(--text);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .footnote {
+            margin-top: 28px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 12px var(--accent-glow);
+            }
+            50% {
+                transform: scale(1.25);
+                box-shadow: 0 0 24px var(--accent-glow);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 12px var(--accent-glow);
+            }
+        }
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @media (max-width: 640px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="header">
+            <div class="logo" aria-hidden="true"></div>
+            <div class="status"><span class="dot"></span>Maintenance mode</div>
+        </div>
+        <h1>We are doing scheduled maintenance.</h1>
+        <p>
+            Huascaran 360 MTB is temporarily offline while we improve the experience.
+            Please check back soon.
+        </p>
+        <div class="meta">
+            <div class="row">
+                <span>Status</span>
+                <strong>Scheduled maintenance</strong>
+            </div>
+            <div class="row">
+                <span>Contact</span>
+                <a href="mailto:huascaran360mtb@gmail.com">huascaran360mtb@gmail.com</a>
+            </div>
+        </div>
+        <p class="footnote">Thank you for your patience.</p>
+    </main>
+</body>
+</html>
