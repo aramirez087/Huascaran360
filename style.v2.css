@@ -6225,7 +6225,135 @@ section {
 .stage-explorer__shell {
     --stage-accent: var(--color-accent);
     --stage-accent-rgb: 215, 165, 82;
+    background:
+        radial-gradient(circle at 16% 14%, rgba(var(--stage-accent-rgb), 0.18), transparent 24%),
+        radial-gradient(circle at 100% 0%, rgba(var(--color-primary-rgb), 0.14), transparent 26%),
+        linear-gradient(145deg, rgba(6, 13, 20, 0.98) 0%, rgba(11, 24, 34, 0.96) 44%, rgba(7, 16, 24, 0.98) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 38px 82px rgba(0, 0, 0, 0.28);
+}
+
+.stage-explorer__shell::before {
+    background: radial-gradient(circle at center, rgba(var(--stage-accent-rgb), 0.18), transparent 60%);
+}
+
+.stage-explorer__shell::after {
+    color: rgba(var(--stage-accent-rgb), 0.12);
+}
+
+.stage-explorer__overview-item,
+.stage-explorer__summary-copy,
+.stage-explorer__detail,
+.stage-explorer__stat,
+.stage-explorer__map-tag,
+.stage-explorer__control,
+.stage-explorer__lightbox-close {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.stage-explorer__overview-item {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.035));
+}
+
+.stage-explorer__overview-item span,
+.stage-explorer__nav-kicker,
+.stage-explorer__nav-meta,
+.stage-explorer__detail span,
+.stage-explorer__stat-label {
+    color: rgba(237, 244, 247, 0.54);
+}
+
+.stage-explorer__nav-btn {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.03));
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.stage-explorer__nav-btn::after {
+    left: 1rem;
+    right: 1rem;
+    inset: auto 1rem 0.8rem 1rem;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(var(--stage-accent-rgb), 0.3), rgba(var(--stage-accent-rgb), 0.92));
+}
+
+.stage-explorer__nav-btn:hover,
+.stage-explorer__nav-btn:focus-visible {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.045));
+    border-color: rgba(var(--stage-accent-rgb), 0.32);
+    box-shadow: 0 22px 34px rgba(0, 0, 0, 0.2);
+}
+
+.stage-explorer__nav-btn.is-active {
+    border-color: rgba(var(--stage-accent-rgb), 0.42);
+    background:
+        linear-gradient(180deg, rgba(var(--stage-accent-rgb), 0.14), rgba(255, 255, 255, 0.045)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.025));
+    box-shadow: 0 24px 38px rgba(0, 0, 0, 0.24);
+}
+
+.stage-explorer__summary-copy {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.035));
+}
+
+.stage-explorer__poster {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.stage-explorer__poster-hint {
+    background: rgba(7, 16, 24, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stage-explorer__poster-tag {
+    background: rgba(var(--color-accent-rgb), 0.12);
+    color: var(--color-accent-strong);
+    box-shadow: inset 0 0 0 1px rgba(var(--color-accent-rgb), 0.16);
+}
+
+.stage-explorer__map-shell {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 28px 54px rgba(0, 0, 0, 0.22);
+}
+
+.stage-explorer__map .leaflet-control-attribution,
+.stage-explorer__map-tag,
+.stage-explorer__map-controls,
+.stage-explorer__control {
+    background: rgba(7, 16, 24, 0.74);
+}
+
+.stage-explorer__map-controls {
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 18px 30px rgba(0, 0, 0, 0.18);
+}
+
+.stage-explorer__control:hover,
+.stage-explorer__control:focus-visible {
+    border-color: rgba(var(--stage-accent-rgb), 0.36);
+    box-shadow: 0 18px 30px rgba(0, 0, 0, 0.22);
+}
+
+.stage-explorer__control--primary {
+    background: linear-gradient(135deg, var(--color-accent) 0%, #b9863c 100%);
+    color: #07131c;
+    box-shadow: 0 18px 30px rgba(var(--color-accent-rgb), 0.24);
+}
+
+.stage-explorer__control.active {
+    background: rgba(var(--color-accent-rgb), 0.16);
+    border-color: rgba(var(--stage-accent-rgb), 0.44);
+}
+
+.stage-explorer__progress-track {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.stage-explorer__progress-bar {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.42) 0%, rgba(var(--stage-accent-rgb), 0.98) 100%);
 }
 
 .pricing__highlight {

@@ -20,8 +20,8 @@ class StageExplorer {
                 imagePng: 'images/Etapas/Etapa1.png',
                 imageAlt: 'Afiche oficial de la Etapa 1 de Huascarán 360 MTB',
                 gpx: 'images/Etapas/H360_Etapa 1 (13 de mayo).gpx',
-                accent: '#38bdf8',
-                accentRgb: '56, 189, 248'
+                accent: '#d7a552',
+                accentRgb: '215, 165, 82'
             },
             {
                 number: '02',
@@ -40,8 +40,8 @@ class StageExplorer {
                 imagePng: 'images/Etapas/Etapa2.png',
                 imageAlt: 'Afiche oficial de la Etapa 2 de Huascarán 360 MTB',
                 gpx: 'images/Etapas/H360_Etapa 2 (14 de mayo).gpx',
-                accent: '#0ea5e9',
-                accentRgb: '14, 165, 233'
+                accent: '#e2b86c',
+                accentRgb: '226, 184, 108'
             },
             {
                 number: '03',
@@ -60,8 +60,8 @@ class StageExplorer {
                 imagePng: 'images/Etapas/Etapa3.png',
                 imageAlt: 'Afiche oficial de la Etapa 3 de Huascarán 360 MTB',
                 gpx: 'images/Etapas/H360_Etapa 3 (15 de mayo).gpx',
-                accent: '#14b8a6',
-                accentRgb: '20, 184, 166'
+                accent: '#8da97a',
+                accentRgb: '141, 169, 122'
             },
             {
                 number: '04',
@@ -80,8 +80,8 @@ class StageExplorer {
                 imagePng: 'images/Etapas/Etapa4.png',
                 imageAlt: 'Afiche oficial de la Etapa 4 de Huascarán 360 MTB',
                 gpx: 'images/Etapas/H360_Etapa 4 (16 de mayo).gpx',
-                accent: '#f97316',
-                accentRgb: '249, 115, 22'
+                accent: '#c98256',
+                accentRgb: '201, 130, 86'
             }
         ];
 
