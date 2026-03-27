@@ -1503,7 +1503,7 @@ main {
 .video-modal__backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(var(--color-ink-rgb), 0.72);
+    background: rgba(0, 0, 0, 0.96);
     backdrop-filter: blur(18px);
 }
 
@@ -1511,6 +1511,7 @@ main {
     position: relative;
     width: min(960px, 96vw);
     outline: none;
+    background: #000;
 }
 
 .video-modal__frame {
@@ -1518,15 +1519,17 @@ main {
     aspect-ratio: 16 / 9;
     border-radius: 26px;
     overflow: hidden;
-    background: var(--color-ink);
+    background: #000;
     box-shadow: 0 45px 90px rgba(var(--color-ink-rgb), 0.45);
     border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .video-modal__frame iframe {
+    display: block;
     width: 100%;
     height: 100%;
     border: none;
+    background: #000;
 }
 
 .video-modal__close {
