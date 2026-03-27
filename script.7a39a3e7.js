@@ -81,6 +81,37 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
+    const countdown = document.querySelector('[data-countdown]');
+    if (countdown) {
+        const target = countdown.getAttribute('data-countdown-target');
+        const targetTime = target ? new Date(target).getTime() : NaN;
+        const daysNode = countdown.querySelector('[data-countdown-days]');
+        const headlineNode = countdown.querySelector('[data-countdown-headline]');
+
+        const updateCountdown = () => {
+            if (!Number.isFinite(targetTime) || !daysNode || !headlineNode) return;
+
+            const diff = targetTime - Date.now();
+            const remainingDays = Math.max(0, Math.ceil(diff / 86400000));
+
+            if (diff <= 0) {
+                countdown.classList.add('is-live');
+                daysNode.textContent = '0';
+                headlineNode.textContent = 'La carrera ya comenzó.';
+                return;
+            }
+
+            countdown.classList.remove('is-live');
+            daysNode.textContent = String(remainingDays);
+            headlineNode.textContent = remainingDays === 1
+                ? 'Falta 1 día para la largada en Carhuaz.'
+                : `Faltan ${remainingDays} días para la largada en Carhuaz.`;
+        };
+
+        updateCountdown();
+        window.setInterval(updateCountdown, 3600000);
+    }
+
     // GSAP initialization
     if (typeof gsap !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
@@ -102,9 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Staggered highlights
-        gsap.from('.highlights__grid > *', {
+        gsap.from('.highlight-grid > *', {
             scrollTrigger: {
-                trigger: '.highlights__grid',
+                trigger: '.highlight-grid',
                 start: 'top 80%'
             },
             opacity: 0,

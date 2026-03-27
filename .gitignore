@@ -27,6 +27,7 @@ Thumbs.db
 
 # Testing
 .coverage
+.playwright-cli/
 
 # Build outputs (if any)
 dist/
