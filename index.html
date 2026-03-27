@@ -1299,71 +1299,300 @@
         </section>
 
         <section class="route" id="recorrido">
-            <div class="wrapper route__layout">
-                <div class="route__content">
-                    <p class="eyebrow">Recorrido 360°</p>
-                    <h2>Un looping completo al gigante de los Andes</h2>
-                    <p>Conecta la Cordillera Blanca y la Cordillera Negra en cuatro etapas con terrenos mixtos: single
-                        tracks, carreteras de montaña y descensos vertiginosos.</p>
-                    <ul class="route__list">
-                        <li>Etapas balanceadas: maratón XCM y dos con tramos técnicos de alta montaña.</li>
-                        <li>Zonas de asistencia oficiales cada 20 km con hidratación y alimentos calientes.</li>
-                        <li>Escenarios icónicos: lagunas de Llanganuco, Paso Portachuelo y el mirador de Pupash.</li>
-                    </ul>
-                    <a class="btn btn--ghost btn--small" href="#categorias">Revisa categorías y requisitos</a>
-                </div>
-                <div class="route__interactive">
-                    <div class="route__map-wrapper">
-                        <div class="route__map-container" id="routeMap"></div>
-                        <div class="route__map-overlay">
-                            <div class="route__stats-live" data-route-stats>
-                                <div class="route__stat-item">
-                                    <span class="route__stat-label">Distancia</span>
-                                    <span class="route__stat-value" data-route-distance>0 km</span>
+            <div class="wrapper route__stack">
+                <div class="route__layout">
+                    <div class="route__content">
+                        <p class="eyebrow">Recorrido 360°</p>
+                        <h2>Un looping completo al gigante de los Andes</h2>
+                        <p>Conecta la Cordillera Blanca y la Cordillera Negra en cuatro etapas con terrenos mixtos: single
+                            tracks, carreteras de montaña y descensos vertiginosos.</p>
+                        <ul class="route__list">
+                            <li>Etapas balanceadas: maratón XCM y dos con tramos técnicos de alta montaña.</li>
+                            <li>Zonas de asistencia oficiales cada 20 km con hidratación y alimentos calientes.</li>
+                            <li>Escenarios icónicos: lagunas de Llanganuco, Paso Portachuelo y el mirador de Pupash.</li>
+                        </ul>
+                        <div class="route__actions">
+                            <a class="btn btn--ghost btn--small" href="#categorias">Revisa categorías y requisitos</a>
+                            <a class="btn btn--primary btn--small" href="#etapas">Explora cada etapa</a>
+                        </div>
+                    </div>
+                    <div class="route__interactive">
+                        <div class="route__map-wrapper">
+                            <div class="route__map-container" id="routeMap"></div>
+                            <div class="route__map-overlay">
+                                <div class="route__stats-live" data-route-stats>
+                                    <div class="route__stat-item">
+                                        <span class="route__stat-label">Distancia</span>
+                                        <span class="route__stat-value" data-route-distance>0 km</span>
+                                    </div>
+                                    <div class="route__stat-item">
+                                        <span class="route__stat-label">Elevación</span>
+                                        <span class="route__stat-value" data-route-elevation>0 m</span>
+                                    </div>
+                                    <div class="route__stat-item">
+                                        <span class="route__stat-label">Progreso</span>
+                                        <span class="route__stat-value" data-route-progress>0%</span>
+                                    </div>
                                 </div>
-                                <div class="route__stat-item">
-                                    <span class="route__stat-label">Elevación</span>
-                                    <span class="route__stat-value" data-route-elevation>0 m</span>
-                                </div>
-                                <div class="route__stat-item">
-                                    <span class="route__stat-label">Progreso</span>
-                                    <span class="route__stat-value" data-route-progress>0%</span>
+                                <div class="route__controls">
+                                    <button class="route__control-btn" data-route-play aria-label="Reproducir animación">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                        </svg>
+                                    </button>
+                                    <button class="route__control-btn" data-route-pause style="display:none;"
+                                        aria-label="Pausar animación">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="6" y="4" width="4" height="16"></rect>
+                                            <rect x="14" y="4" width="4" height="16"></rect>
+                                        </svg>
+                                    </button>
+                                    <button class="route__control-btn" data-route-reset aria-label="Reiniciar">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                                            <path d="M21 3v5h-5"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="route__control-btn" data-route-3d aria-label="Vista 3D">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path
+                                                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                                            </path>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="route__controls">
-                                <button class="route__control-btn" data-route-play aria-label="Reproducir animación">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                    </svg>
-                                </button>
-                                <button class="route__control-btn" data-route-pause style="display:none;"
-                                    aria-label="Pausar animación">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="6" y="4" width="4" height="16"></rect>
-                                        <rect x="14" y="4" width="4" height="16"></rect>
-                                    </svg>
-                                </button>
-                                <button class="route__control-btn" data-route-reset aria-label="Reiniciar">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
-                                        <path d="M21 3v5h-5"></path>
-                                    </svg>
-                                </button>
-                                <button class="route__control-btn" data-route-3d aria-label="Vista 3D">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path
-                                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
-                                        </path>
-                                    </svg>
-                                </button>
+                        </div>
+                        <div class="route__elevation-profile" id="elevationProfile">
+                            <canvas id="elevationCanvas"></canvas>
+                            <div class="route__elevation-tooltip" data-elevation-tooltip style="display:none;">
+                                <span data-tooltip-elevation></span>
+                                <span data-tooltip-distance></span>
                             </div>
                         </div>
                     </div>
-                    <div class="route__elevation-profile" id="elevationProfile">
-                        <canvas id="elevationCanvas"></canvas>
-                        <div class="route__elevation-tooltip" data-elevation-tooltip style="display:none;">
-                            <span data-tooltip-elevation></span>
-                            <span data-tooltip-distance></span>
+                </div>
+
+                <div class="route__stage-block stage-explorer" id="etapas">
+                    <div class="stage-explorer__shell" data-stage-shell data-stage-number="01">
+                        <div class="stage-explorer__hero">
+                            <div class="stage-explorer__intro">
+                                <p class="eyebrow">Etapas en detalle</p>
+                                <h3>Explora las 4 etapas</h3>
+                                <p class="stage-explorer__lede">Afiche oficial y GPX animado en una sola vista, con lo
+                                    esencial de cada jornada.</p>
+                            </div>
+                            <div class="stage-explorer__overview">
+                                <div class="stage-explorer__overview-item">
+                                    <span>Formato</span>
+                                    <strong>4 días de carrera</strong>
+                                </div>
+                                <div class="stage-explorer__overview-item">
+                                    <span>Cumbre</span>
+                                    <strong>Portachuelo 4,750 m</strong>
+                                </div>
+                                <div class="stage-explorer__overview-item">
+                                    <span>GPX resumido</span>
+                                    <strong data-stage-optimization>Preparando vista previa interactiva...</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stage-explorer__nav" role="tablist" aria-label="Selecciona una etapa">
+                            <button class="stage-explorer__nav-btn is-active" type="button" data-stage-trigger
+                                data-stage-index="0" role="tab" aria-selected="true"
+                                aria-controls="stageExplorerPanel">
+                                <span class="stage-explorer__nav-kicker">Miércoles 13 mayo</span>
+                                <strong>Etapa 1</strong>
+                                <span class="stage-explorer__nav-route">Carhuaz &rarr; Purhuay</span>
+                                <span class="stage-explorer__nav-meta">60 km · 1,200 m+</span>
+                            </button>
+                            <button class="stage-explorer__nav-btn" type="button" data-stage-trigger
+                                data-stage-index="1" role="tab" aria-selected="false"
+                                aria-controls="stageExplorerPanel">
+                                <span class="stage-explorer__nav-kicker">Jueves 14 mayo</span>
+                                <strong>Etapa 2</strong>
+                                <span class="stage-explorer__nav-route">Portachuelo &rarr; Yanama</span>
+                                <span class="stage-explorer__nav-meta">60-75 km · 1,500 m+</span>
+                            </button>
+                            <button class="stage-explorer__nav-btn" type="button" data-stage-trigger
+                                data-stage-index="2" role="tab" aria-selected="false"
+                                aria-controls="stageExplorerPanel">
+                                <span class="stage-explorer__nav-kicker">Viernes 15 mayo</span>
+                                <strong>Etapa 3</strong>
+                                <span class="stage-explorer__nav-route">Yanama &rarr; Chacas</span>
+                                <span class="stage-explorer__nav-meta">55 km · 1,500 m+</span>
+                            </button>
+                            <button class="stage-explorer__nav-btn" type="button" data-stage-trigger
+                                data-stage-index="3" role="tab" aria-selected="false"
+                                aria-controls="stageExplorerPanel">
+                                <span class="stage-explorer__nav-kicker">Sábado 16 mayo</span>
+                                <strong>Etapa 4</strong>
+                                <span class="stage-explorer__nav-route">Chacas &rarr; Carhuaz</span>
+                                <span class="stage-explorer__nav-meta">70 km · 2,000 m+</span>
+                            </button>
+                        </div>
+                        <div class="stage-explorer__display" id="stageExplorerPanel" role="tabpanel">
+                            <article class="stage-explorer__panel">
+                                <div class="stage-explorer__summary">
+                                    <div class="stage-explorer__summary-copy">
+                                        <p class="stage-explorer__stage-day" data-stage-day>Miércoles 13 mayo</p>
+                                        <h3 data-stage-title>Carhuaz - Vista Alegre - Purhuay</h3>
+                                        <p data-stage-description>Inicio rápido entre Carhuaz, Vista Alegre y
+                                            Purhuay.</p>
+                                    </div>
+                                    <div class="stage-explorer__summary-stats">
+                                        <div class="stage-explorer__stat">
+                                            <span class="stage-explorer__stat-label">Distancia oficial</span>
+                                            <strong class="stage-explorer__stat-value" data-stage-distance>60 km</strong>
+                                        </div>
+                                        <div class="stage-explorer__stat">
+                                            <span class="stage-explorer__stat-label">Desnivel</span>
+                                            <strong class="stage-explorer__stat-value" data-stage-climb>1,200 m+</strong>
+                                        </div>
+                                        <div class="stage-explorer__stat">
+                                            <span class="stage-explorer__stat-label">Techo del track</span>
+                                            <strong class="stage-explorer__stat-value" data-stage-max-alt>--</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stage-explorer__visuals">
+                                    <figure class="stage-explorer__poster">
+                                        <button class="stage-explorer__poster-button" type="button"
+                                            data-stage-open-poster aria-label="Ver afiche ampliado de la etapa">
+                                            <picture>
+                                                <source type="image/webp" srcset="images/Etapas/Etapa1.webp"
+                                                    data-stage-image-webp>
+                                                <img src="images/Etapas/Etapa1.png"
+                                                    alt="Afiche oficial de la Etapa 1 de Huascarán 360 MTB"
+                                                    width="1080" height="1350" loading="lazy" decoding="async"
+                                                    data-stage-image>
+                                            </picture>
+                                            <span class="stage-explorer__poster-hint">Ampliar afiche</span>
+                                        </button>
+                                        <figcaption>
+                                            <span class="stage-explorer__poster-tag" data-stage-badge>Etapa de
+                                                apertura</span>
+                                            <strong data-stage-route>Carhuaz - Vista Alegre - Purhuay</strong>
+                                            <span data-stage-caption>Inicio rápido entre cordilleras.</span>
+                                        </figcaption>
+                                    </figure>
+                                    <div class="stage-explorer__map-card">
+                                        <div class="stage-explorer__map-shell">
+                                            <div class="stage-explorer__map" id="stageMap"></div>
+                                            <div class="stage-explorer__map-overlay">
+                                                <div class="stage-explorer__map-tag">
+                                                    <span class="stage-explorer__map-tag-label" data-stage-badge>Etapa de
+                                                        apertura</span>
+                                                    <strong data-stage-route>Carhuaz - Vista Alegre - Purhuay</strong>
+                                                </div>
+                                                <div class="stage-explorer__map-controls">
+                                                    <button class="stage-explorer__control" type="button" data-stage-prev
+                                                        aria-label="Ver etapa anterior">
+                                                        <svg viewBox="0 0 24 24" focusable="false">
+                                                            <path d="M15.5 4.5L8 12l7.5 7.5" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        </svg>
+                                                    </button>
+                                                    <button
+                                                        class="stage-explorer__control stage-explorer__control--primary"
+                                                        type="button" data-stage-play aria-label="Reproducir animación">
+                                                        <span
+                                                            class="stage-explorer__control-icon stage-explorer__control-icon--play"
+                                                            aria-hidden="true">
+                                                            <svg viewBox="0 0 24 24" focusable="false">
+                                                                <polygon points="7 4 19 12 7 20 7 4" fill="currentColor">
+                                                                </polygon>
+                                                            </svg>
+                                                        </span>
+                                                        <span
+                                                            class="stage-explorer__control-icon stage-explorer__control-icon--pause"
+                                                            aria-hidden="true">
+                                                            <svg viewBox="0 0 24 24" focusable="false">
+                                                                <rect x="6" y="4" width="4" height="16"
+                                                                    fill="currentColor"></rect>
+                                                                <rect x="14" y="4" width="4" height="16"
+                                                                    fill="currentColor"></rect>
+                                                            </svg>
+                                                        </span>
+                                                        <span data-stage-play-label>Animar</span>
+                                                    </button>
+                                                    <button class="stage-explorer__control" type="button" data-stage-next
+                                                        aria-label="Ver siguiente etapa">
+                                                        <svg viewBox="0 0 24 24" focusable="false">
+                                                            <path d="M8.5 4.5L16 12l-7.5 7.5" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        </svg>
+                                                    </button>
+                                                    <button class="stage-explorer__control" type="button"
+                                                        data-stage-layer aria-label="Cambiar a vista satélite">
+                                                        <svg viewBox="0 0 24 24" focusable="false">
+                                                            <path d="M3 7.5 12 3l9 4.5-9 4.5L3 7.5Z" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linejoin="round"></path>
+                                                            <path d="M3 12.5 12 17l9-4.5" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linejoin="round"></path>
+                                                            <path d="M3 17.5 12 22l9-4.5" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linejoin="round"></path>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="stage-explorer__details">
+                                            <div class="stage-explorer__detail">
+                                                <span>Salida</span>
+                                                <strong data-stage-start>Carhuaz</strong>
+                                            </div>
+                                            <div class="stage-explorer__detail">
+                                                <span>Llegada</span>
+                                                <strong data-stage-finish>Purhuay</strong>
+                                            </div>
+                                            <div class="stage-explorer__detail">
+                                                <span>Altitud actual</span>
+                                                <strong data-stage-altitude>0 m</strong>
+                                            </div>
+                                            <div class="stage-explorer__detail">
+                                                <span>Progreso</span>
+                                                <strong data-stage-progress>0%</strong>
+                                            </div>
+                                        </div>
+                                        <div class="stage-explorer__progress">
+                                            <span class="stage-explorer__progress-track">
+                                                <span class="stage-explorer__progress-bar"
+                                                    data-stage-progress-bar></span>
+                                            </span>
+                                            <span class="stage-explorer__progress-copy" data-stage-progress-copy>La
+                                                animación aparecerá aquí en cuanto el GPX esté listo.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="stage-explorer__lightbox" data-stage-lightbox hidden aria-hidden="true">
+                                <button class="stage-explorer__lightbox-backdrop" type="button"
+                                    data-stage-lightbox-close aria-label="Cerrar vista ampliada del afiche"></button>
+                                <div class="stage-explorer__lightbox-dialog" role="dialog" aria-modal="true"
+                                    aria-label="Afiche ampliado de la etapa">
+                                    <button class="stage-explorer__lightbox-close" type="button"
+                                        data-stage-lightbox-close aria-label="Cerrar afiche ampliado">
+                                        <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                                            <path d="M6 6 18 18M18 6 6 18" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round"></path>
+                                        </svg>
+                                    </button>
+                                    <picture class="stage-explorer__lightbox-picture">
+                                        <source type="image/webp" srcset="images/Etapas/Etapa1.webp"
+                                            data-stage-lightbox-image-webp>
+                                        <img src="images/Etapas/Etapa1.png"
+                                            alt="Afiche oficial ampliado de la Etapa 1 de Huascarán 360 MTB"
+                                            width="1080" height="1350" loading="lazy" decoding="async"
+                                            data-stage-lightbox-image>
+                                    </picture>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1933,6 +2162,7 @@
         // Using Vercel serverless functions at /api/register
     </script>
     <script src="route-animation.c5d29c5e.js"></script>
+    <script src="stage-explorer.js"></script>
     <script src="script.7a39a3e7.js"></script>
 </body>
 
