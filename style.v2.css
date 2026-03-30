@@ -3568,13 +3568,20 @@ body.stage-lightbox-open {
     transition: transform var(--transition);
 }
 
-.stage-explorer__nav-btn:hover,
-.stage-explorer__nav-btn:focus-visible {
-    transform: translateY(-6px);
-    border-color: rgba(var(--stage-accent-rgb), 0.5);
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 22px 36px rgba(var(--stage-accent-rgb), 0.16);
-    outline: none;
+@media (hover: hover) {
+    .stage-explorer__nav-btn:hover,
+    .stage-explorer__nav-btn:focus-visible {
+        transform: translateY(-6px);
+        border-color: rgba(var(--stage-accent-rgb), 0.5);
+        background: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 22px 36px rgba(var(--stage-accent-rgb), 0.16);
+        outline: none;
+    }
+
+    .stage-explorer__nav-btn:hover::after,
+    .stage-explorer__nav-btn:focus-visible::after {
+        transform: scaleX(1);
+    }
 }
 
 .stage-explorer__nav-btn.is-active {
@@ -3584,9 +3591,7 @@ body.stage-lightbox-open {
     box-shadow: 0 24px 38px rgba(var(--stage-accent-rgb), 0.24);
 }
 
-.stage-explorer__nav-btn.is-active::after,
-.stage-explorer__nav-btn:hover::after,
-.stage-explorer__nav-btn:focus-visible::after {
+.stage-explorer__nav-btn.is-active::after {
     transform: scaleX(1);
 }
 
@@ -6281,11 +6286,13 @@ section {
     background: linear-gradient(90deg, rgba(var(--stage-accent-rgb), 0.3), rgba(var(--stage-accent-rgb), 0.92));
 }
 
-.stage-explorer__nav-btn:hover,
-.stage-explorer__nav-btn:focus-visible {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.045));
-    border-color: rgba(var(--stage-accent-rgb), 0.32);
-    box-shadow: 0 22px 34px rgba(0, 0, 0, 0.2);
+@media (hover: hover) {
+    .stage-explorer__nav-btn:hover,
+    .stage-explorer__nav-btn:focus-visible {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.045));
+        border-color: rgba(var(--stage-accent-rgb), 0.32);
+        box-shadow: 0 22px 34px rgba(0, 0, 0, 0.2);
+    }
 }
 
 .stage-explorer__nav-btn.is-active {

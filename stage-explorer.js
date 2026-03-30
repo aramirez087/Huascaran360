@@ -435,10 +435,11 @@ class StageExplorer {
             trigger.setAttribute('aria-selected', isActive ? 'true' : 'false');
 
             if (isActive && navIsScrollable) {
-                trigger.scrollIntoView({
-                    behavior: 'smooth',
-                    inline: 'center',
-                    block: 'nearest'
+                const nav = this.refs.nav;
+                const scrollLeft = trigger.offsetLeft - nav.offsetLeft - (nav.clientWidth / 2) + (trigger.clientWidth / 2);
+                nav.scrollTo({
+                    left: scrollLeft,
+                    behavior: 'smooth'
                 });
             }
         });
