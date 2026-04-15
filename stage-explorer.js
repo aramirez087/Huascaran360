@@ -118,7 +118,8 @@ class StageExplorer {
             lightbox: root.querySelector('[data-stage-lightbox]'),
             lightboxImageSource: root.querySelector('[data-stage-lightbox-image-webp]'),
             lightboxImage: root.querySelector('[data-stage-lightbox-image]'),
-            lightboxCloseButtons: Array.from(root.querySelectorAll('[data-stage-lightbox-close]'))
+            lightboxCloseButtons: Array.from(root.querySelectorAll('[data-stage-lightbox-close]')),
+            gpxDownload: root.querySelector('[data-stage-gpx-download]')
         };
 
         this.numberFormatter = new Intl.NumberFormat('es-PE');
@@ -477,6 +478,11 @@ class StageExplorer {
         this.refs.finish.textContent = stage.finish;
         if (this.refs.terrain) {
             this.refs.terrain.textContent = stage.terrain;
+        }
+        if (this.refs.gpxDownload) {
+            this.refs.gpxDownload.href = encodeURI(stage.gpx);
+            this.refs.gpxDownload.setAttribute('download', `H360_Etapa${stage.number}.gpx`);
+            this.refs.gpxDownload.setAttribute('aria-label', `Descargar archivo GPX de la Etapa ${stage.number}`);
         }
         this.refs.maxAlt.textContent = '--';
         this.refs.altitude.textContent = '0 m';

@@ -3667,6 +3667,43 @@ body.stage-lightbox-open {
     font-size: 0.86rem;
 }
 
+.stage-explorer__gpx-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    justify-self: start;
+    margin-top: 0.6rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: var(--radius-pill);
+    background: rgba(var(--stage-accent-rgb), 0.18);
+    color: rgba(var(--stage-accent-rgb), 0.98);
+    border: 1px solid rgba(var(--stage-accent-rgb), 0.42);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.stage-explorer__gpx-download svg {
+    width: 16px;
+    height: 16px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .stage-explorer__gpx-download:hover {
+        background: rgba(var(--stage-accent-rgb), 0.32);
+        border-color: rgba(var(--stage-accent-rgb), 0.7);
+        transform: translateY(-1px);
+    }
+}
+
+.stage-explorer__gpx-download:focus-visible {
+    outline: 2px solid rgba(var(--stage-accent-rgb), 0.9);
+    outline-offset: 3px;
+}
+
 .stage-explorer__summary-stats {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
