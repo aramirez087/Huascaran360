@@ -3667,6 +3667,24 @@ body.stage-lightbox-open {
     font-size: 0.86rem;
 }
 
+.stage-explorer__swipe-hint {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.stage-explorer__swipe-hint svg {
+    width: 14px;
+    height: 14px;
+}
+
 .stage-explorer__gpx-download {
     display: inline-flex;
     align-items: center;
@@ -4249,18 +4267,37 @@ body.stage-lightbox-open {
     }
 
     .stage-explorer__nav {
-        grid-auto-flow: column;
-        grid-auto-columns: minmax(220px, 74vw);
-        overflow-x: auto;
-        padding-bottom: 0.2rem;
-        margin: 0 -0.2rem;
-        padding-inline: 0.2rem;
-        scroll-snap-type: x proximity;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.4rem;
     }
 
     .stage-explorer__nav-btn {
-        min-height: 7rem;
-        scroll-snap-align: start;
+        min-height: 0;
+        padding: 0.55rem 0.4rem;
+        border-radius: 14px;
+        gap: 0.12rem;
+        text-align: center;
+        justify-items: center;
+        align-content: center;
+    }
+
+    .stage-explorer__nav-btn::after {
+        inset: auto 0.5rem 0.35rem;
+        height: 2px;
+    }
+
+    .stage-explorer__nav-btn strong {
+        font-size: 0.86rem;
+    }
+
+    .stage-explorer__nav-kicker {
+        font-size: 0.56rem;
+        letter-spacing: 0.06em;
+    }
+
+    .stage-explorer__nav-route,
+    .stage-explorer__nav-meta {
+        display: none;
     }
 
     .stage-explorer__nav-btn,
@@ -4268,6 +4305,14 @@ body.stage-lightbox-open {
     .stage-explorer__nav-btn:hover,
     .stage-explorer__nav-btn:focus-visible {
         transform: none;
+    }
+
+    .stage-explorer__visuals {
+        touch-action: pan-y;
+    }
+
+    .stage-explorer__swipe-hint {
+        display: flex;
     }
 
     .stage-explorer__summary-stats,

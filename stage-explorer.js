@@ -245,6 +245,36 @@ class StageExplorer {
                 this.activateStage(this.activeIndex - 1, { autoplay: true });
             }
         });
+
+        this.bindSwipe();
+    }
+
+    bindSwipe() {
+        const target = this.root.querySelector('.stage-explorer__visuals');
+        if (!target) return;
+
+        let startX = 0;
+        let startY = 0;
+        let tracking = false;
+
+        target.addEventListener('touchstart', (event) => {
+            if (event.touches.length !== 1) return;
+            const touch = event.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+            tracking = true;
+        }, { passive: true });
+
+        target.addEventListener('touchend', (event) => {
+            if (!tracking) return;
+            tracking = false;
+            const touch = event.changedTouches[0];
+            const dx = touch.clientX - startX;
+            const dy = touch.clientY - startY;
+            if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+            const direction = dx < 0 ? 1 : -1;
+            this.activateStage(this.activeIndex + direction, { autoplay: true });
+        }, { passive: true });
     }
 
     mountLightbox() {
