@@ -472,17 +472,18 @@
                         impresionantes glaciares con el nevado Huascarán a 6,757 m s. n. m.</p>
 
                     <div class="hero__actions">
-                        <a class="btn btn--primary btn--pulse" href="#inscripciones">
+                        <button class="btn btn--primary" disabled style="opacity: 0.7; cursor: not-allowed;">
                             <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.5">
                                 <circle cx="12" cy="12" r="10" />
-                                <path d="M12 6v6l4 2" />
+                                <line x1="18" y1="6" x2="6" y2="18" />
+                                <line x1="6" y1="6" x2="18" y2="18" />
                             </svg>
                             <span class="btn__content">
-                                <span class="btn__text">Inscríbete ahora</span>
-                                <small class="btn__subtext">USD 600 · Tarifa Regular</small>
+                                <span class="btn__text">Inscripciones Cerradas</span>
+                                <small class="btn__subtext">Cupos agotados</small>
                             </span>
-                        </a>
+                        </button>
                         <a class="btn btn--ghost" href="#programa">
                             <span>Ver programa completo</span>
                             <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1220,11 +1221,11 @@
             <div class="wrapper">
                 <header class="section-heading section-heading--center">
                     <p class="eyebrow">Inscripciones 2026</p>
-                    <h2>Asegura tu lugar en la aventura</h2>
-                    <p><strong>Reserva con USD 100</strong> y completa el pago antes del 31 de marzo de 2026.</p>
+                    <h2>Inscripciones Cerradas</h2>
+                    <p><strong>Los cupos para la edición 2026 se han agotado.</strong> Gracias a todos los que aseguraron su lugar.</p>
                 </header>
 
-                <div class="pricing__highlight" id="pricing-card-highlight">
+                <div class="pricing__highlight" id="pricing-card-highlight" style="display: none;">
                     <div class="pricing__highlight-badge">
                         <span class="pricing__highlight-icon">⚡</span>
                         <strong>Tarifa Regular · Hasta 30 abril 2026</strong>
@@ -1245,7 +1246,7 @@
                     </a>
                 </div>
 
-                <div class="table-wrapper" role="region" aria-labelledby="tabla-precios" tabindex="0">
+                <div class="table-wrapper" role="region" aria-labelledby="tabla-precios" tabindex="0" style="display: none;">
                     <table id="tabla-precios">
                         <caption class="sr-only">Tabla de precios por etapas de inscripción</caption>
                         <thead>
@@ -1283,9 +1284,8 @@
                     </table>
                 </div>
                 <div class="pricing__cta" id="pagos">
-                    <p class="note">Completa el formulario de inscripción a continuación. Te contactaremos con las
-                        instrucciones de pago.</p>
-                    <a class="btn btn--primary btn--large" href="#contacto">Ir al formulario de inscripción</a>
+                    <p class="note">Si tienes consultas adicionales, no dudes en comunicarte con nuestro equipo.</p>
+                    <a class="btn btn--primary btn--large" href="#contacto">Contáctanos</a>
                 </div>
             </div>
         </section>
@@ -1306,7 +1306,7 @@
                         <li>Conecta con la montaña, la cultura y tu fuerza interior en cada etapa.</li>
                         <li>Inscríbete y forma parte de la leyenda Huascarán 360 MTB.</li>
                     </ul>
-                    <p class="why-join__note">Reserva hoy con USD 100 · Cupos limitados por categoría</p>
+                    <p class="why-join__note">Cupos limitados por categoría · Inscripciones cerradas para 2026</p>
                 </div>
             </div>
         </section>
@@ -1333,9 +1333,8 @@
                 <aside class="package__card">
                     <h3>Tarifa Oficial 2026</h3>
                     <p class="package__price">USD 600 <span>por participante</span></p>
-                    <p class="package__disclaimer"><strong>Reserva con USD 100</strong> y completa tu pago en cuotas
-                        hasta el 30 de abril.</p>
-                    <a class="btn btn--secondary" href="#contacto">Reserva</a>
+                    <p class="package__disclaimer"><strong>Inscripciones Cerradas.</strong> Los cupos se han agotado para la edición 2026.</p>
+                    <button class="btn btn--secondary" disabled style="opacity: 0.7; cursor: not-allowed;">Agotado</button>
                     <p class="package__note">Incluye premiación para los 5 primeros lugares de cada categoría.</p>
                 </aside>
             </div>
@@ -1432,12 +1431,15 @@
         <section class="cta-final" id="contacto">
             <div class="wrapper cta-final__layout">
                 <div>
-                    <p class="eyebrow">¿Listo para la aventura?</p>
-                    <h2>Reserva tu cupo con nosotros</h2>
-                    <p>Escríbenos para recibir el dossier oficial, planes de entrenamiento y recomendaciones de
-                        aclimatación.</p>
+                    <p class="eyebrow">¿Tienes dudas?</p>
+                    <h2>Contáctanos</h2>
+                    <p>Las inscripciones para la edición 2026 se encuentran cerradas, pero puedes contactarnos para recibir el dossier oficial, planes de entrenamiento y más información sobre futuras ediciones.</p>
+                    <div style="margin-top: 2rem;">
+                        <p style="margin-bottom: 0.5rem;"><strong>WhatsApp:</strong> <a href="https://wa.me/51947051016" style="color: inherit; text-decoration: underline;">+51 947 051 016</a></p>
+                        <p><strong>Email:</strong> <a href="mailto:huascaran360mtb@gmail.com" style="color: inherit; text-decoration: underline;">huascaran360mtb@gmail.com</a></p>
+                    </div>
                 </div>
-                <form class="cta-final__form registration-form wizard-form" id="contactForm">
+                <form class="cta-final__form registration-form wizard-form" id="contactForm" style="display: none;">
                     <!-- Wizard Progress Indicator -->
                     <div class="wizard-progress">
                         <div class="wizard-progress__step is-active" data-step="1">
@@ -1737,9 +1739,9 @@
         <div class="wrapper sticky-cta__content">
             <div class="sticky-cta__text">
                 <strong>Huascarán 360 MTB 2026</strong>
-                <span>Tarifa Regular: USD 600</span>
+                <span>Inscripciones Cerradas</span>
             </div>
-            <a class="btn btn--primary btn--compact" href="#inscripciones">Reserva ahora</a>
+            <button class="btn btn--primary btn--compact" disabled style="opacity: 0.7; cursor: not-allowed;">Agotado</button>
         </div>
     </div>
 
