@@ -96,8 +96,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (diff <= 0) {
                 countdown.classList.add('is-live');
-                daysNode.textContent = '0';
-                headlineNode.textContent = 'La carrera ya comenzó.';
+                daysNode.textContent = '2027';
+                const daysLabel = countdown.querySelector('.hero__countdown-number span');
+                if (daysLabel) daysLabel.textContent = 'Edición';
+                
+                const kickerNode = countdown.querySelector('.hero__countdown-kicker');
+                if (kickerNode) kickerNode.textContent = 'Próxima Edición';
+                
+                headlineNode.textContent = '¡Prepárate para la edición 2027!';
+                
+                const smallNode = countdown.querySelector('.hero__countdown-copy small');
+                if (smallNode) smallNode.textContent = 'Próximamente más detalles sobre las fechas de largada y apertura de inscripciones.';
                 return;
             }
 
