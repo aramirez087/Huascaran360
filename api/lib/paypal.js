@@ -83,7 +83,7 @@ export async function createPayPalInvoice(registrationData) {
       invoice_number: invoiceNumber,
       invoice_date: new Date().toISOString().split('T')[0],
       currency_code: 'USD',
-      note: `Inscripcion Huascaran 360 MTB 2026 - ${priceTypeLabel}`,
+      note: `Inscripcion Huascaran 360 MTB 2027 - ${priceTypeLabel}`,
       payment_term: { term_type: 'DUE_ON_RECEIPT' },
     },
     invoicer: {
@@ -107,8 +107,8 @@ export async function createPayPalInvoice(registrationData) {
     ],
     items: [
       {
-        name: 'Inscripcion Huascaran 360 MTB 2026',
-        description: `Mountain bike race - May 12-16, 2026\nCategory: ${cleanCategory}\nIncludes: Accommodation, meals, medical assistance, luggage transport`,
+        name: 'Inscripcion Huascaran 360 MTB 2027',
+        description: `Mountain bike race - May 11-15, 2027\nCategory: ${cleanCategory}\nIncludes: Accommodation, meals, medical assistance, luggage transport`,
         quantity: '1',
         unit_amount: {
           currency_code: 'USD',
@@ -164,7 +164,7 @@ export async function sendPayPalInvoice(invoiceId) {
     body: JSON.stringify({
       send_to_invoicer: false,
       send_to_recipient: true,
-      subject: 'Huascaran 360 MTB 2026 Invoice',
+      subject: 'Huascaran 360 MTB 2027 Invoice',
       note: 'Thank you for your registration. Please complete the payment to confirm your inscription.',
     }),
   });

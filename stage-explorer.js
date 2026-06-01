@@ -5,7 +5,7 @@ class StageExplorer {
         this.stages = [
             {
                 number: '01',
-                day: 'Miércoles 13 mayo',
+                day: 'Miércoles 12 mayo',
                 title: 'Carhuaz - Purhuay',
                 route: 'Carhuaz - Purhuay',
                 start: 'Carhuaz',
@@ -25,7 +25,7 @@ class StageExplorer {
             },
             {
                 number: '02',
-                day: 'Jueves 14 mayo',
+                day: 'Jueves 13 mayo',
                 title: 'Portachuelo - Yanama',
                 route: 'Portachuelo - Yanama',
                 start: 'Portachuelo',
@@ -45,7 +45,7 @@ class StageExplorer {
             },
             {
                 number: '03',
-                day: 'Viernes 15 mayo',
+                day: 'Viernes 14 mayo',
                 title: 'Yanama - Chacas',
                 route: 'Yanama - Chacas',
                 start: 'Yanama',
@@ -65,7 +65,7 @@ class StageExplorer {
             },
             {
                 number: '04',
-                day: 'Sábado 16 mayo',
+                day: 'Sábado 15 mayo',
                 title: 'Chacas - Olímpica - Carhuaz',
                 route: 'Chacas - Olímpica - Carhuaz',
                 start: 'Chacas',
