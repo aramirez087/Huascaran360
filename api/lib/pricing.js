@@ -14,38 +14,38 @@ export function calculatePrice(earlyBirdSlotsAvailable) {
 
   // Pricing deadlines
   const nov30_2025 = new Date('2025-11-30T23:59:59');
-  const jan15_2026 = new Date('2026-01-15T23:59:59');
-  const apr30_2026 = new Date('2026-04-30T23:59:59');
+  const jan15_2027 = new Date('2027-01-15T23:59:59');
+  const apr30_2027 = new Date('2027-04-30T23:59:59');
 
   // Check if registration period has ended
-  if (now > apr30_2026) {
+  if (now > apr30_2027) {
     return {
       error: true,
-      message: 'El período de inscripciones ha finalizado (después del 30 de abril de 2026)',
+      message: 'El período de inscripciones ha finalizado (después del 30 de abril de 2027)',
     };
   }
 
-  // Early Bird: $450 (until Nov 30, 2025 and if slots available)
+  // Early Bird: $600 (until Nov 30, 2025 and if slots available)
   if (now <= nov30_2025 && earlyBirdSlotsAvailable > 0) {
     return {
-      price: 450,
+      price: 600,
       priceType: 'early_bird',
       error: false,
     };
   }
 
-  // Stage 2: $540 (until Jan 15, 2026)
-  if (now <= jan15_2026) {
+  // Stage 2: $720 (until Jan 15, 2027)
+  if (now <= jan15_2027) {
     return {
-      price: 540,
+      price: 720,
       priceType: 'stage_2',
       error: false,
     };
   }
 
-  // Regular: $600 (until Apr 30, 2026)
+  // Regular: $800 (until Apr 30, 2026)
   return {
-    price: 600,
+    price: 800,
     priceType: 'regular',
     error: false,
   };
