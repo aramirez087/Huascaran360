@@ -180,10 +180,11 @@
               "name": "Tarifa Regular",
               "price": "800",
               "priceCurrency": "USD",
-              "availability": "https://schema.org/InStock",
+              "availability": "https://schema.org/PreOrder",
               "validFrom": "2027-01-16",
               "url": "https://huascaran360mtb.com/#inscripciones",
-              "priceValidUntil": "2027-04-30"
+              "priceValidUntil": "2027-04-30",
+              "description": "Inscripciones 2027 próximamente."
             },
             {
               "@type": "Offer",
@@ -411,7 +412,6 @@
       ]
     }
     </script>
-    </style>
 </head>
 
 <body>
@@ -472,7 +472,7 @@
                         impresionantes glaciares con el nevado Huascarán a 6,757 m s. n. m.</p>
 
                     <div class="hero__actions">
-                        <button class="btn btn--primary" disabled style="opacity: 0.7; cursor: not-allowed;">
+                        <button class="btn btn--primary" disabled>
                             <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.5">
                                 <circle cx="12" cy="12" r="10" />
@@ -1320,7 +1320,7 @@
                     <h3>Tarifa Oficial 2027</h3>
                     <p class="package__price">USD 800 <span>por participante</span></p>
                     <p class="package__disclaimer"><strong>Inscripciones 2027.</strong> Pronto estarán disponibles.</p>
-                    <button class="btn btn--secondary" disabled style="opacity: 0.7; cursor: not-allowed;">Pronto</button>
+                    <button class="btn btn--secondary" disabled>Pronto</button>
                     <p class="package__note">Incluye premiación para los 5 primeros lugares de cada categoría.</p>
                 </aside>
             </div>
@@ -1419,224 +1419,19 @@
                     <p class="eyebrow">¿Tienes dudas?</p>
                     <h2>Contáctanos</h2>
                     <p>Las inscripciones para la edición 2027 pronto se habilitarán, pero puedes contactarnos para recibir el dossier oficial, planes de entrenamiento y más información sobre futuras ediciones.</p>
-                    <div style="margin-top: 2rem;">
-                        <p style="margin-bottom: 0.5rem;"><strong>WhatsApp:</strong> <a href="https://wa.me/51947051016" style="color: inherit; text-decoration: underline;">+51 947 051 016</a></p>
-                        <p><strong>Email:</strong> <a href="mailto:huascaran360mtb@gmail.com" style="color: inherit; text-decoration: underline;">huascaran360mtb@gmail.com</a></p>
-                    </div>
+                    <ul class="contact-list">
+                        <li><strong>WhatsApp:</strong> <a class="link-underline" href="https://wa.me/51947051016">+51 947 051 016</a></li>
+                        <li><strong>Email:</strong> <a class="link-underline" href="mailto:huascaran360mtb@gmail.com">huascaran360mtb@gmail.com</a></li>
+                    </ul>
                 </div>
-                <form class="cta-final__form registration-form wizard-form" id="contactForm" style="display: none;">
-                    <!-- Wizard Progress Indicator -->
-                    <div class="wizard-progress">
-                        <div class="wizard-progress__step is-active" data-step="1">
-                            <span class="wizard-progress__number">1</span>
-                            <span class="wizard-progress__label">Datos Personales</span>
-                        </div>
-                        <div class="wizard-progress__step" data-step="2">
-                            <span class="wizard-progress__number">2</span>
-                            <span class="wizard-progress__label">Carrera</span>
-                        </div>
-                        <div class="wizard-progress__step" data-step="3">
-                            <span class="wizard-progress__number">3</span>
-                            <span class="wizard-progress__label">Emergencia</span>
-                        </div>
-                        <div class="wizard-progress__step" data-step="4">
-                            <span class="wizard-progress__number">4</span>
-                            <span class="wizard-progress__label">Info Adicional</span>
-                        </div>
-                        <div class="wizard-progress__step" data-step="5">
-                            <span class="wizard-progress__number">5</span>
-                            <span class="wizard-progress__label">Pago</span>
-                        </div>
-                    </div>
-
-                    <!-- Step 1: Personal Data -->
-                    <div class="wizard-step is-active" data-wizard-step="1">
-                        <fieldset class="form-section">
-                            <legend>📝 Datos Personales</legend>
-                            <div class="form-grid">
-                                <label class="form-field"><span class="form-label">Nombre completo *</span><input
-                                        type="text" name="nombre" placeholder="Tu nombre y apellido" required></label>
-                                <label class="form-field"><span class="form-label">Cédula o pasaporte *</span><input
-                                        type="text" name="id_document" placeholder="Número de identificación"
-                                        required></label>
-                                <label class="form-field"><span class="form-label">Fecha de nacimiento *</span><input
-                                        type="date" name="fecha_nacimiento" required></label>
-                                <label class="form-field"><span class="form-label">Sexo *</span><select name="sexo"
-                                        required>
-                                        <option value="">Selecciona</option>
-                                        <option value="masculino">Masculino</option>
-                                        <option value="femenino">Femenino</option>
-                                        <option value="otro">Otro</option>
-                                    </select></label>
-                                <label class="form-field"><span class="form-label">Nacionalidad *</span><input
-                                        type="text" name="nacionalidad" placeholder="Tu país" required></label>
-                                <label class="form-field form-field--full"><span class="form-label">Dirección de
-                                        residencia</span><input type="text" name="direccion"
-                                        placeholder="Ciudad, País"></label>
-                                <label class="form-field"><span class="form-label">Teléfono de contacto *</span><input
-                                        type="tel" name="telefono" placeholder="+51 974 840 988" required></label>
-                                <label class="form-field"><span class="form-label">Correo electrónico *</span><input
-                                        type="email" name="email" placeholder="tucorreo@ejemplo.com" required></label>
-                            </div>
-                        </fieldset>
-                        <div class="wizard-nav">
-                            <span></span>
-                            <button type="button" class="btn btn--primary wizard-nav__next" data-wizard-next>
-                                Siguiente <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <path d="M5 12h14m-7-7l7 7-7 7" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Step 2: Race Data -->
-                    <div class="wizard-step" data-wizard-step="2">
-                        <fieldset class="form-section">
-                            <legend>🚴 Datos de Carrera</legend>
-                            <div class="form-grid">
-                                <label class="form-field"><span class="form-label">Equipo o patrocinador</span><input
-                                        type="text" name="equipo" placeholder="Si aplica"></label>
-                                <label class="form-field"><span class="form-label">Número de placa/dorsal</span><input
-                                        type="text" name="numero_placa" placeholder="Día de revisión técnica"></label>
-                                <label class="form-field"><span class="form-label">Talla de camiseta *</span><select
-                                        name="talla_camiseta" required>
-                                        <option value="">Selecciona</option>
-                                        <option value="XS">XS</option>
-                                        <option value="S">S</option>
-                                        <option value="M">M</option>
-                                        <option value="L">L</option>
-                                        <option value="XL">XL</option>
-                                        <option value="XXL">XXL</option>
-                                    </select></label>
-                                <label class="form-field"><span class="form-label">Tipo de sangre *</span><select
-                                        name="tipo_sangre" required>
-                                        <option value="">Selecciona</option>
-                                        <option value="A+">A+</option>
-                                        <option value="A-">A-</option>
-                                        <option value="B+">B+</option>
-                                        <option value="B-">B-</option>
-                                        <option value="AB+">AB+</option>
-                                        <option value="AB-">AB-</option>
-                                        <option value="O+">O+</option>
-                                        <option value="O-">O-</option>
-                                    </select></label>
-                            </div>
-                        </fieldset>
-                        <div class="wizard-nav">
-                            <button type="button" class="btn btn--ghost wizard-nav__prev" data-wizard-prev>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M19 12H5m7-7l-7 7 7 7" />
-                                </svg> Anterior
-                            </button>
-                            <button type="button" class="btn btn--primary wizard-nav__next" data-wizard-next>
-                                Siguiente <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <path d="M5 12h14m-7-7l7 7-7 7" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Step 3: Emergency Contact -->
-                    <div class="wizard-step" data-wizard-step="3">
-                        <fieldset class="form-section">
-                            <legend>🚨 Contacto de Emergencia</legend>
-                            <div class="form-grid">
-                                <label class="form-field"><span class="form-label">Nombre del contacto *</span><input
-                                        type="text" name="contacto_emergencia" placeholder="Nombre completo"
-                                        required></label>
-                                <label class="form-field"><span class="form-label">Teléfono de emergencia *</span><input
-                                        type="tel" name="telefono_emergencia" placeholder="+51 999 999 999"
-                                        required></label>
-                            </div>
-                        </fieldset>
-                        <div class="wizard-nav">
-                            <button type="button" class="btn btn--ghost wizard-nav__prev" data-wizard-prev>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M19 12H5m7-7l-7 7 7 7" />
-                                </svg> Anterior
-                            </button>
-                            <button type="button" class="btn btn--primary wizard-nav__next" data-wizard-next>
-                                Siguiente <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <path d="M5 12h14m-7-7l7 7-7 7" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Step 4: Additional Info -->
-                    <div class="wizard-step" data-wizard-step="4">
-                        <fieldset class="form-section">
-                            <legend>📋 Información Adicional</legend>
-                            <div class="form-grid">
-                                <label class="form-field form-field--checkbox"><input type="checkbox"
-                                        name="autorizacion_imagen" value="true"><span>Autorizo el uso de mi imagen para
-                                        fotos y videos del evento</span></label>
-                                <label class="form-field form-field--full"><span class="form-label">Redes
-                                        sociales</span><input type="text" name="redes_sociales"
-                                        placeholder="@usuario_instagram (para etiquetarte en publicaciones)"></label>
-                                <label class="form-field form-field--full"><span class="form-label">Mensaje
-                                        adicional</span><textarea name="mensaje" rows="3"
-                                        placeholder="Requerimientos especiales, preguntas, etc."></textarea></label>
-                            </div>
-                        </fieldset>
-                        <div class="wizard-nav">
-                            <button type="button" class="btn btn--ghost wizard-nav__prev" data-wizard-prev>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M19 12H5m7-7l-7 7 7 7" />
-                                </svg> Anterior
-                            </button>
-                            <button type="button" class="btn btn--primary wizard-nav__next" data-wizard-next>
-                                Siguiente <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <path d="M5 12h14m-7-7l7 7-7 7" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Step 5: Payment Proof -->
-                    <div class="wizard-step" data-wizard-step="5">
-                        <fieldset class="form-section">
-                            <legend>💳 Comprobante de Pago</legend>
-                            <div class="form-grid">
-                                <div class="form-field form-field--full">
-                                    <p class="form-instructions"
-                                        style="margin-bottom: 1rem; color: var(--color-gray-600);">
-                                        Por favor sube una foto o captura de pantalla de tu comprobante de pago.
-                                    </p>
-                                    <label class="form-label">Imagen del comprobante (opcional)</label>
-                                    <input type="file" name="comprobante_pago" accept="image/*">
-                                    <small
-                                        style="display: block; margin-top: 0.5rem; color: var(--color-gray-500);">Formatos
-                                        aceptados: JPG/JPEG, PNG, WEBP. Máx 4MB.</small>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <div class="wizard-nav">
-                            <button type="button" class="btn btn--ghost wizard-nav__prev" data-wizard-prev>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M19 12H5m7-7l-7 7 7 7" />
-                                </svg> Anterior
-                            </button>
-                            <button class="btn btn--primary btn--large" type="submit">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-                                </svg>
-                                Enviar datos
-                            </button>
-                        </div>
-                    </div>
-
-                    <p class="form-message" style="display:none; margin-top: 1rem;"></p>
-                </form>
+                <aside class="cta-final__notice" aria-label="Aviso de inscripciones">
+                    <span class="cta-final__notice-badge">Pronto</span>
+                    <h3>Inscripciones 2027</h3>
+                    <p>Estamos preparando el proceso de inscripción para la edición 2027. Déjanos tus datos por WhatsApp o email y te avisaremos en cuanto se abran los cupos.</p>
+                    <a class="btn btn--secondary" href="https://wa.me/51947051016?text=Hola%2C%20quiero%20que%20me%20avisen%20cuando%20se%20abran%20las%20inscripciones%20de%20Huascar%C3%A1n%20360%20MTB%202027">
+                        Avísame cuando abran
+                    </a>
+                </aside>
             </div>
         </section>
     </main>
@@ -1726,7 +1521,7 @@
                 <strong>Huascarán 360 MTB 2027</strong>
                 <span>Inscripciones Pronto</span>
             </div>
-            <button class="btn btn--primary btn--compact" disabled style="opacity: 0.7; cursor: not-allowed;">Pronto</button>
+            <button class="btn btn--primary btn--compact" disabled>Pronto</button>
         </div>
     </div>
 

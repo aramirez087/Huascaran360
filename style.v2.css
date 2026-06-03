@@ -37,8 +37,8 @@
     --color-accent-rgb: 127, 211, 244;
     --color-ink-rgb: 11, 26, 49;
     --color-surface-rgb: 255, 255, 255;
-    --font-heading: 'Outfit', 'Segoe UI', sans-serif;
-    --font-body: 'Inter', system-ui, sans-serif;
+    --font-heading: 'Bricolage Grotesque', 'Segoe UI', sans-serif;
+    --font-body: 'Manrope', system-ui, sans-serif;
     --max-width: 1200px;
     --transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
     --radius-sm: 8px;
@@ -99,14 +99,14 @@ a {
 }
 
 section {
-    padding: 10rem 0;
+    padding: 6rem 0;
     position: relative;
     z-index: 1;
 }
 
 @media (max-width: 768px) {
     section {
-        padding: 6rem 0;
+        padding: 4rem 0;
     }
 }
 
@@ -614,6 +614,16 @@ main {
 .btn--small {
     padding: 0.7rem 1.5rem;
     font-size: 0.92rem;
+}
+
+.btn--disabled,
+.btn[disabled],
+.btn[aria-disabled="true"] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+    transform: none;
 }
 
 /* Hero Stats Grid */
@@ -2790,6 +2800,69 @@ tbody tr:last-child th {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 3rem;
     align-items: start;
+}
+
+.cta-final__notice {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 22px;
+    padding: 2.5rem;
+    box-shadow: 0 25px 45px rgba(var(--color-ink-rgb), 0.08);
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+}
+
+.cta-final__notice h3 {
+    font-size: 1.5rem;
+    color: var(--color-ink);
+    margin: 0;
+}
+
+.cta-final__notice p {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.cta-final__notice-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    align-self: start;
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent-soft);
+    color: var(--color-accent-strong);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: grid;
+    gap: 0.5rem;
+}
+
+.contact-list li {
+    margin: 0;
+}
+
+.link-underline {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color var(--transition);
+}
+
+.link-underline:hover,
+.link-underline:focus-visible {
+    color: var(--color-primary);
 }
 
 .cta-final__form {
