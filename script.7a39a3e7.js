@@ -259,13 +259,27 @@ document.addEventListener('DOMContentLoaded', () => {
             lastFocusedTrigger = null;
         };
 
+        const playLiteEmbed = (container) => {
+            const iframeContainer = container.querySelector('.video-embed__iframe');
+            const poster = container.querySelector('.video-embed__poster');
+            const src = container.getAttribute('data-video-src');
+            if (!iframeContainer || !src) return;
+            iframeContainer.innerHTML = `<iframe src="${buildVideoSrc(src)}" title="${container.getAttribute('data-video-title') || 'Video'}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>`;
+            iframeContainer.hidden = false;
+            if (poster) poster.style.display = 'none';
+        };
+
         triggers.forEach((trigger) => {
             trigger.addEventListener('click', (event) => {
                 const container = trigger.closest('[data-video-src]');
                 const src = container?.getAttribute('data-video-src');
                 if (!src) return;
                 event.preventDefault();
-                openModal(src, trigger);
+                if (container.classList.contains('video-embed--lite')) {
+                    playLiteEmbed(container);
+                } else {
+                    openModal(src, trigger);
+                }
             });
         });
 
