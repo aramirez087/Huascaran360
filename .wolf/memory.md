@@ -17,3 +17,4 @@
 | 12:53 | Switched storage to Google Sheets; contact API appends Registrations columns | api/lib/sheets.js, api/contact.js, package.json | mapping unit-tested | ~0 |
 | 13:44 | Opened Early Bird $600 + restored wizard registration form | index.html, script, style, pricing.js | form+CTAs live | ~0 |
 | 18:12 | Reverted Sheets store; keep Supabase + open Early Bird UI | api/contact.js, db.js, package.json | sheets removed | ~0 |
+| 06:38 | Video 89tFP-X2EwY; ruta invertida copy; premiación top 3 por categoría | index.html | updated | ~0 |

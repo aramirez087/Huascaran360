@@ -26,3 +26,5 @@
 
 - [2026-07-13] Reverted Google Sheets storage experiment; continue using Supabase (`DATABASE_URL` + `api/lib/db.js`).
 - [2026-07-13] Inscripciones 2027 opened: Early Bird USD 600, cupos limitados. Wizard form restored on the site.
+
+- [2026-07-15] Official video: youtube 89tFP-X2EwY. Route inverted for 2027 (opposite sense vs first edition). Podium: top 3 per category (not 5).
