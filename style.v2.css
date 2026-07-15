@@ -7169,30 +7169,40 @@ tbody strong {
    ============================================================ */
 
 .hero__tagline {
-    margin: 0 0 1.75rem;
-    padding: 0.9rem 1.35rem;
-    border-left: 4px solid var(--color-primary);
-    background: linear-gradient(90deg, rgba(var(--color-primary-rgb), 0.14) 0%, rgba(var(--color-primary-rgb), 0.04) 100%);
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    font-size: clamp(0.98rem, 1.55vw, 1.1rem);
-    line-height: 1.5;
-    color: var(--color-ink);
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    font-size: clamp(0.98rem, 1.45vw, 1.08rem);
+    line-height: 1.45;
+    color: rgba(237, 244, 247, 0.88);
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.5rem;
-    box-shadow: 0 4px 18px rgba(var(--color-primary-rgb), 0.08);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
 }
 
 .hero__tagline-dates {
+    display: block;
     font-weight: 700;
-    color: var(--color-ink);
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.hero__tagline-route {
+    display: block;
+    font-weight: 800;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
 }
 
 .hero__tagline-philosophy {
+    display: block;
     font-weight: 700;
-    color: var(--color-primary);
     font-style: italic;
+    color: rgba(237, 244, 247, 0.78);
 }
 
 /* Base manifesto styles (refined in later cascade) */
@@ -7313,12 +7323,6 @@ tbody strong {
 }
 
 @media (max-width: 600px) {
-    .hero__tagline {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.15rem;
-    }
-
     .schedule__manifesto {
         padding: 1.6rem 1.25rem;
     }
