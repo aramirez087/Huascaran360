@@ -508,7 +508,7 @@ main {
     font-size: 0.82rem;
     letter-spacing: 0.12em;
     font-weight: 800;
-    color: var(--color-accent);
+    color: #fff;
 }
 
 .hero__actions {
@@ -6072,12 +6072,12 @@ section {
 }
 
 .hero__badge-date {
-    color: rgba(255, 255, 255, 0.88);
+    color: rgba(255, 255, 255, 0.78);
 }
 
 .hero__badge-route {
-    color: var(--color-accent);
-    text-shadow: 0 0 18px rgba(var(--color-accent-rgb), 0.45);
+    color: #fff;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
 }
 
 .hero__actions {
