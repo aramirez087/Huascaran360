@@ -86,13 +86,13 @@
 
 ## api/lib/
 
-- `db.js` — Get current early bird slots available (~1163 tok)
+- `db.js` — Supabase/Postgres helpers (contacts, registrations, early bird) (~1163 tok)
 - `email.js` — Send email notification about new registration (~3803 tok)
-- `migration.sql` — Run this migration in Supabase SQL Editor (~274 tok)
+- `migration.sql` — Supabase contacts migration (~274 tok)
 - `paypal-checkout.js` — Get PayPal OAuth access token (~1540 tok)
 - `paypal.js` — Remove non-ASCII characters from a string (~1715 tok)
-- `pricing.js` — Calculate registration price based on current date and early bird availability (~539 tok)
-- `schema.sql` — Database schema (~834 tok)
+- `pricing.js` — Calculate registration price (Early Bird $600 / stage 2 / regular) (~539 tok)
+- `schema.sql` — Database schema for Supabase (~834 tok)
 
 ## api/webhooks/
 

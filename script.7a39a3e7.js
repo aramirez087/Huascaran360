@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headlineNode.textContent = '¡Prepárate para la edición 2027!';
                 
                 const smallNode = countdown.querySelector('.hero__countdown-copy small');
-                if (smallNode) smallNode.textContent = 'Próximamente más detalles sobre las fechas de largada y apertura de inscripciones.';
+                if (smallNode) smallNode.textContent = 'Inscripciones abiertas · Early Bird USD 600 · Cupos limitados.';
                 return;
             }
 
@@ -781,6 +781,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     telefono: formData.get('telefono'),
                     email: formData.get('email'),
                     // Race Data
+                    categoria: formData.get('categoria') || '',
                     equipo: formData.get('equipo') || '',
                     numero_placa: formData.get('numero_placa') || '',
                     talla_camiseta: formData.get('talla_camiseta'),

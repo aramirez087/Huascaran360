@@ -6,18 +6,23 @@
 
 ## User Preferences
 
-<!-- How the user likes things done. Code style, tools, patterns, communication. -->
+- Keep Supabase/Postgres as registration store (do not write the public form directly to Google Sheets).
+- Google Spreadsheet may exist for ops, but the app path is `/api/contact` → Supabase `contacts` table.
 
 ## Key Learnings
 
 - **Project:** huascaran360mtb
 - **Description:** Huascarán 360 MTB - Mountain Bike Race Registration System
+- Active public form posts to `/api/contact` (full rider fields + optional payment proof) → `createContact` in Supabase. `/api/register` is the older simpler PayPal/invoice path.
+- Contacts table has no `category` column; form `categoria` is prefixed into `message` (`Categoría: …`).
+- PayPal invoicing is currently disabled in `/api/register`; payment is manual / optional comprobante via email.
+- Inscripciones 2027: Early Bird USD 600, cupos limitados; regular USD 800. Wizard `#contactForm` → POST `/api/contact`.
 
 ## Do-Not-Repeat
 
-<!-- Mistakes made and corrected. Each entry prevents the same mistake recurring. -->
-<!-- Format: [YYYY-MM-DD] Description of what went wrong and what to do instead. -->
+- [2026-07-13] Do not replace Supabase with direct Google Sheets writes unless the user explicitly re-requests it after saying they want Supabase.
 
 ## Decision Log
 
-<!-- Significant technical decisions with rationale. Why X was chosen over Y. -->
+- [2026-07-13] Reverted Google Sheets storage experiment; continue using Supabase (`DATABASE_URL` + `api/lib/db.js`).
+- [2026-07-13] Inscripciones 2027 opened: Early Bird USD 600, cupos limitados. Wizard form restored on the site.

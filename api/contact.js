@@ -35,6 +35,13 @@ export default async function handler(req, res) {
 
         // Map frontend field names to database columns
         // Note: comprobante is NOT saved to database, only sent via email
+        // Category is stored in message (contacts table has no category column)
+        const categoria = body.categoria || body.Category || body.category || '';
+        const messageParts = [
+            categoria ? `Categoría: ${categoria}` : null,
+            body.mensaje || null,
+        ].filter(Boolean);
+
         const contactData = {
             name: body.nombre,
             id_document: body.id_document || null,
@@ -52,7 +59,7 @@ export default async function handler(req, res) {
             blood_type: body.tipo_sangre || null,
             image_auth: body.autorizacion_imagen || false,
             social_media: body.redes_sociales || null,
-            message: body.mensaje || null,
+            message: messageParts.length ? messageParts.join('\n') : null,
             payment_proof_submitted: !!body.comprobante
         };
 
@@ -85,7 +92,7 @@ export default async function handler(req, res) {
 
         return res.status(200).json({
             success: true,
-            message: 'InscripciA3n recibida correctamente',
+            message: 'Inscripción recibida correctamente',
             id: contact.id
         });
 
@@ -93,7 +100,7 @@ export default async function handler(req, res) {
         console.error('[Contact API] Unexpected error:', error);
         return res.status(500).json({
             success: false,
-            error: 'Error al procesar la inscripciA3n',
+            error: 'Error al procesar la inscripción',
             details: error.message
         });
     }

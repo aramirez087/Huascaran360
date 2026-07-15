@@ -5105,19 +5105,24 @@ body.stage-lightbox-open {
     transition: width 0.5s ease;
 }
 
+/* 5-step wizard progress fill */
 .wizard-form[data-wizard-progress="1"] .wizard-progress::after {
     width: 0%;
 }
 
 .wizard-form[data-wizard-progress="2"] .wizard-progress::after {
-    width: 33.33%;
+    width: 25%;
 }
 
 .wizard-form[data-wizard-progress="3"] .wizard-progress::after {
-    width: 66.66%;
+    width: 50%;
 }
 
 .wizard-form[data-wizard-progress="4"] .wizard-progress::after {
+    width: 75%;
+}
+
+.wizard-form[data-wizard-progress="5"] .wizard-progress::after {
     width: 100%;
 }
 
@@ -7395,17 +7400,33 @@ tbody strong {
 
 .sticky-cta__btn {
     flex: 0 0 auto;
-    background: rgba(var(--color-surface-rgb), 0.18);
-    color: var(--color-text-inverse);
-    border: 1px solid rgba(var(--color-surface-rgb), 0.28);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-accent, #f5c518);
+    color: var(--color-text, #0b1629);
+    border: 1px solid transparent;
     border-radius: 999px;
     padding: 0.45rem 0.95rem;
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.04em;
-    cursor: not-allowed;
-    opacity: 0.95;
+    cursor: pointer;
+    opacity: 1;
     text-transform: uppercase;
+    text-decoration: none;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.sticky-cta__btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
+
+.sticky-cta__btn:disabled,
+button.sticky-cta__btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
 @media (max-width: 640px) {
