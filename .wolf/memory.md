@@ -18,3 +18,4 @@
 | 13:44 | Opened Early Bird $600 + restored wizard registration form | index.html, script, style, pricing.js | form+CTAs live | ~0 |
 | 18:12 | Reverted Sheets store; keep Supabase + open Early Bird UI | api/contact.js, db.js, package.json | sheets removed | ~0 |
 | 06:38 | Video 89tFP-X2EwY; ruta invertida copy; premiación top 3 por categoría | index.html | updated | ~0 |
+| 11:22 | Big “Invertimos la ruta” headline in schedule manifesto | index.html, style.v2.css | done | ~0 |
