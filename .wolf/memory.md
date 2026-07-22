@@ -19,3 +19,9 @@
 | 18:12 | Reverted Sheets store; keep Supabase + open Early Bird UI | api/contact.js, db.js, package.json | sheets removed | ~0 |
 | 06:38 | Video 89tFP-X2EwY; ruta invertida copy; premiación top 3 por categoría | index.html | updated | ~0 |
 | 11:22 | Big “Invertimos la ruta” headline in schedule manifesto | index.html, style.v2.css | done | ~0 |
+
+## Session: 2026-07-22 16:40
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 16:42 | Hide registration form (coming soon) | index.html, script.7a39a3e7.js, .wolf/cerebrum.md | Form replaced with notice; CTAs disabled | ~8k |

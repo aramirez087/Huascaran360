@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headlineNode.textContent = '¡Prepárate para la edición 2027!';
                 
                 const smallNode = countdown.querySelector('.hero__countdown-copy small');
-                if (smallNode) smallNode.textContent = 'Inscripciones abiertas · Early Bird USD 600 · Cupos limitados.';
+                if (smallNode) smallNode.textContent = 'Próximamente más detalles sobre las fechas de largada y apertura de inscripciones.';
                 return;
             }
 
