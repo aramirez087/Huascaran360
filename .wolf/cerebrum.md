@@ -16,7 +16,7 @@
 - Active public form posts to `/api/contact` (full rider fields + optional payment proof) → `createContact` in Supabase. `/api/register` is the older simpler PayPal/invoice path.
 - Contacts table has no `category` column; form `categoria` is prefixed into `message` (`Categoría: …`).
 - PayPal invoicing is currently disabled in `/api/register`; payment is manual / optional comprobante via email.
-- Inscripciones 2027: **cerradas / próximamente** (no se aceptan registros aún). Early Bird USD 600 y regular USD 800 están listos en copy/precios pero el formulario wizard está oculto; CTA hero/sticky/package deshabilitados. Cuando se reabran: restaurar wizard `#contactForm` → POST `/api/contact` (ver commit que abrió Early Bird).
+- Inscripciones 2027: **abiertas en copy/CTAs** (Early Bird USD 600), pero **formulario wizard `#contactForm` sigue oculto** — inscripción vía email (`mailto` / #contacto). Cuando habiliten el form online: restaurar wizard → POST `/api/contact` (ver commit que abrió Early Bird).
 
 ## Do-Not-Repeat
 
@@ -27,5 +27,6 @@
 - [2026-07-13] Reverted Google Sheets storage experiment; continue using Supabase (`DATABASE_URL` + `api/lib/db.js`).
 - [2026-07-13] Inscripciones 2027 opened: Early Bird USD 600, cupos limitados. Wizard form restored on the site.
 - [2026-07-22] Inscripciones 2027 closed again (coming soon): form hidden, CTAs disabled — not taking registrations yet.
+- [2026-07-22] Messaging flipped to “Inscripciones abiertas” + Early Bird, form still disabled; contact via email only.
 
 - [2026-07-15] Official video: youtube 89tFP-X2EwY. Route inverted for 2027 (opposite sense vs first edition). Podium: top 3 per category (not 5).

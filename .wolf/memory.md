@@ -25,3 +25,14 @@
 | Time | Action | File(s) | Outcome | ~Tokens |
 |------|--------|---------|---------|--------|
 | 16:42 | Hide registration form (coming soon) | index.html, script.7a39a3e7.js, .wolf/cerebrum.md | Form replaced with notice; CTAs disabled | ~8k |
+
+## Session: 2026-07-26 19:39
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+
+## Session: 2026-07-26 19:39
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| 17:05 | Messaging: inscripciones abiertas, form still hidden | index.html, script.7a39a3e7.js, .wolf/cerebrum.md | CTAs open + email; no wizard | ~6k |
