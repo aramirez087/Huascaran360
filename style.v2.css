@@ -7969,6 +7969,18 @@ section {
     transform: translateX(2px);
 }
 
+.site-footer .footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.site-footer .footer-contact__meta {
+    color: var(--color-text-soft);
+    font-size: 0.8rem;
+    line-height: 1.3;
+}
+
 .site-footer .footer-social {
     list-style: none;
     padding: 0;
