@@ -1,5 +1,5 @@
 {
-  "name": "Huascarán 360 MTB 2026",
+  "name": "Huascarán 360 MTB 2027",
   "short_name": "Huascarán 360",
   "description": "La carrera de ciclismo de montaña más épica de Perú. 270 km rodeando el nevado Huascarán en la Cordillera Blanca.",
   "start_url": "/",
@@ -36,7 +36,7 @@
       "src": "/images/huascaran-360-06.webp",
       "sizes": "1200x800",
       "type": "image/webp",
-      "label": "Paso Portachuelo de Llanganuco"
+      "label": "Vista de 360° sobre la Cordillera Blanca"
     }
   ]
 }
