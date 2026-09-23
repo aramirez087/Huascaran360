@@ -29,6 +29,9 @@ Thumbs.db
 .coverage
 .playwright-cli/
 
+# OpenWolf design QC artifacts
+.wolf/designqc-captures/
+
 # Build outputs (if any)
 dist/
 build/

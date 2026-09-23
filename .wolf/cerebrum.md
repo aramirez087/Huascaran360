@@ -2,7 +2,7 @@
 
 > OpenWolf's learning memory. Updated automatically as the AI learns from interactions.
 > Do not edit manually unless correcting an error.
-> Last updated: 2026-05-01
+> Last updated: 2026-09-23
 
 ## User Preferences
 
@@ -19,7 +19,7 @@
 - Inscripciones 2027: **abiertas en copy/CTAs** (Early Bird USD 600), pero **formulario wizard `#contactForm` sigue oculto** — inscripción vía email (`mailto` / #contacto). Cuando habiliten el form online: restaurar wizard → POST `/api/contact` (ver commit que abrió Early Bird).
 
 - **Map/GPX direction (2027):** All site GPX tracks were recorded in the first-edition sense; on 2026-09-23 the trkpt order was reversed in place for the inverted 2027 route: `huascaran-lite.gpx` (route map, now Carhuaz→Yungay) + the 4 stage files. Stage GPX references in `stage-explorer.js` were swapped S2↔S4 so each map matches its 2027 corridor (S2 uses reversed old-Etapa4 track Carhuaz→Chacas; S4 uses reversed old-Etapa2 track Yanama→Portachuelo). GPX `<name>` tags updated to match. If the user supplies official 2027 track recordings, just replace the files (no code change needed).
-- `huascaran.gpx` / `huascaran-optimized.gpx` are unreferenced source files and still keep the old direction — only `huascaran-lite.gpx` is fetched by the site.
+- `huascaran.gpx` / `huascaran-optimized.gpx` are unreferenced source files (only `huascaran-lite.gpx` is fetched by the site); they were reversed along with the site files, so all repo GPX tracks share the 2027 direction.
 
 ## Do-Not-Repeat
 
