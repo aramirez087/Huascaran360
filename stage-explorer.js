@@ -39,7 +39,7 @@ class StageExplorer {
                 imageWebp: 'images/Etapas/Etapa2.webp',
                 imagePng: 'images/Etapas/Etapa2.png',
                 imageAlt: 'Afiche oficial de la Etapa 2 de Huascarán 360 MTB',
-                gpx: 'images/Etapas/H360_Etapa 2 (14 de mayo).gpx',
+                gpx: 'images/Etapas/H360_Etapa 4 (16 de mayo).gpx',
                 accent: '#e2b86c',
                 accentRgb: '226, 184, 108'
             },
@@ -79,7 +79,7 @@ class StageExplorer {
                 imageWebp: 'images/Etapas/Etapa4.webp',
                 imagePng: 'images/Etapas/Etapa4.png',
                 imageAlt: 'Afiche oficial de la Etapa 4 de Huascarán 360 MTB',
-                gpx: 'images/Etapas/H360_Etapa 4 (16 de mayo).gpx',
+                gpx: 'images/Etapas/H360_Etapa 2 (14 de mayo).gpx',
                 accent: '#c98256',
                 accentRgb: '201, 130, 86'
             }

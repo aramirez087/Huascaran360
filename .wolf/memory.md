@@ -36,3 +36,5 @@
 | Time | Action | File(s) | Outcome | ~Tokens |
 |------|--------|---------|---------|--------|
 | 17:05 | Messaging: inscripciones abiertas, form still hidden | index.html, script.7a39a3e7.js, .wolf/cerebrum.md | CTAs open + email; no wizard | ~6k |
+| 15:28 | designqc: captured 6 screenshots (325KB, ~15000 tok) | / | ready for eval | ~0 |
+| 15:58 | Reversed 2027 route direction in all GPX tracks (huascaran-lite.gpx 5821 pts → Carhuaz→Yungay; 4 stage GPXs reversed; S2↔S4 gpx refs swapped in stage-explorer.js; GPX names updated) | huascaran-lite.gpx, images/Etapas/*.gpx, stage-explorer.js | Route + stage maps verified via headless screenshots: S/F markers, profile, per-stage direction correct | ~9k |

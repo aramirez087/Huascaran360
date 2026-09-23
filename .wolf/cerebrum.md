@@ -18,6 +18,9 @@
 - PayPal invoicing is currently disabled in `/api/register`; payment is manual / optional comprobante via email.
 - Inscripciones 2027: **abiertas en copy/CTAs** (Early Bird USD 600), pero **formulario wizard `#contactForm` sigue oculto** — inscripción vía email (`mailto` / #contacto). Cuando habiliten el form online: restaurar wizard → POST `/api/contact` (ver commit que abrió Early Bird).
 
+- **Map/GPX direction (2027):** All site GPX tracks were recorded in the first-edition sense; on 2026-09-23 the trkpt order was reversed in place for the inverted 2027 route: `huascaran-lite.gpx` (route map, now Carhuaz→Yungay) + the 4 stage files. Stage GPX references in `stage-explorer.js` were swapped S2↔S4 so each map matches its 2027 corridor (S2 uses reversed old-Etapa4 track Carhuaz→Chacas; S4 uses reversed old-Etapa2 track Yanama→Portachuelo). GPX `<name>` tags updated to match. If the user supplies official 2027 track recordings, just replace the files (no code change needed).
+- `huascaran.gpx` / `huascaran-optimized.gpx` are unreferenced source files and still keep the old direction — only `huascaran-lite.gpx` is fetched by the site.
+
 ## Do-Not-Repeat
 
 - [2026-07-13] Do not replace Supabase with direct Google Sheets writes unless the user explicitly re-requests it after saying they want Supabase.
@@ -30,3 +33,4 @@
 - [2026-07-22] Messaging flipped to “Inscripciones abiertas” + Early Bird, form still disabled; contact via email only.
 
 - [2026-07-15] Official video: youtube 89tFP-X2EwY. Route inverted for 2027 (opposite sense vs first edition). Podium: top 3 per category (not 5).
+- [2026-09-23] Inverted-route map update shipped: GPX tracks reversed (Carhuaz→Yungay); stage S2↔S4 GPX refs swapped to match 2027 corridors.

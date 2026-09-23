@@ -1,4 +1,17 @@
 {
   "version": 1,
-  "bugs": []
+  "bugs": [
+    {
+      "id": "bug-001",
+      "timestamp": "2026-09-23T15:58:00-06:00",
+      "error_message": "El mapa de la página muestra la ruta en el sentido de la primera edición (Yungay→Carhuaz), pero la edición 2027 corre en sentido contrario (Carhuaz→Yungay)",
+      "file": "huascaran-lite.gpx, images/Etapas/*.gpx, stage-explorer.js",
+      "root_cause": "Los tracks GPX del sitio seguían grabados en el sentido 2026; solo el copy se había actualizado a la ruta invertida de 2027",
+      "fix": "Invertido el orden de trkpt en huascaran-lite.gpx (5821 pts, ahora Carhuaz→Yungay) y en los 4 GPX de etapas; swapeadas las referencias S2↔S4 en stage-explorer.js para que cada mapa coincida con su corredor 2027; actualizadas las etiquetas <name> GPX. Verificado visualmente (screenshot headless): marcadores S/F, perfil de elevación y dirección por etapa correctos",
+      "tags": ["route", "gpx", "map", "leaflet", "direction", "2027"],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-09-23T15:58:00-06:00"
+    }
+  ]
 }
